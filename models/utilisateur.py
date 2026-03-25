@@ -1,3 +1,5 @@
+import bcrypt
+
 class Utilisateur:
     """Représente un utilisateur (Entité)"""
     def __init__(self, id, nom, prenom, email, mdp, telephone, role):
@@ -25,3 +27,19 @@ class UtilisateurRepository:
 
         cur.close()
         return utilisateurs
+
+    def verifieMdp(self, mdp_propose, mdp_hache_db):
+        # On compare le mot de passe tapé avec celui de la base
+        return bcrypt.checkpw(mdp_propose.encode('utf-8'), mdp_hache_db.encode('utf-8'))
+
+    def createUtilisateur(self, nom, prenom, email, mdp_clair, telephone, role):
+        # 1. On transforme le texte en "sel" (salt) et on hache
+        sel = bcrypt.gensalt()
+        mdp_hache = bcrypt.hashpw(mdp_clair.encode('utf-8'), sel)
+
+        # 2. On enregistre en base (le mdp_hache est une chaîne d'octets)
+        cur = self.db.cursor()
+        cur.execute("INSERT INTO utilisateur (nom, prenom, email, mdp, telephone, role) VALUES (%s, %s, %s, %s, %s, %s)", (nom, prenom, email, mdp_hache.decode('utf-8'), telephone, role))
+        self.db.commit()
+        cur.close()
+
