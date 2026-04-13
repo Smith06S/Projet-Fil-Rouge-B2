@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template
+from database import Database
 
 app = Flask(__name__)
+db_manager = Database()
 
 @app.route('/connexion', methods=['GET', 'POST'])
 def connexion():
@@ -8,7 +10,7 @@ def connexion():
         username = request.form.get('username')
         password = request.form.get('password')
         print(f"Username: {username}, Password: {password}")  # Prints to terminal
-    return render_template('connexion.html')
+	return render_template('connexion.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
