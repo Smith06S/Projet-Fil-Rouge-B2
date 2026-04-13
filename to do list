@@ -1,0 +1,19 @@
+TO DO LIST
+
+backend:
+    inscription
+    connection
+    prendre toutes agences
+    prendre tous biens
+    sisteme de message (not today)
+    sistem de filtre
+    searchbar
+
+
+
+frontend:
+    - carta in div and popup on right with all biens 
+
+
+
+pip install flask
