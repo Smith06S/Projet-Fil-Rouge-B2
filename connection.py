@@ -9,8 +9,8 @@ def connexion():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        print(f"Username: {username}, Password: {password}")  # Prints to terminal
-	return render_template('connexion.html')
+        print(f"Username: {username}, Password: {password}")
+    return render_template('connexion.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
@@ -22,4 +22,11 @@ if bcrypt.checkpw(password, hashed):
     print("It Matches!")
 else:
     print("It Does not Match :(")
+'''
+
+'''
+SELECT * FROM utilisateur;
+
+INSERT INTO utilisateur (email, nom, prenom, mdp, telephone, role)
+VALUES ('sara@gmail.com', 'sara', 'smith', 'sara1234', '0632104556', 'client');
 '''
