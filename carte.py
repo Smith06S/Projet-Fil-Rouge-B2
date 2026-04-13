@@ -54,7 +54,7 @@ folium.GeoJson(
 paris_coords = [48.8566, 2.3522]  # latitude et longitude de Paris
 
 icon = folium.CustomIcon(
-    "pin_rouge.png",  # chemin vers ton image
+    "images/pin_rouge.png",  # chemin vers ton image
     icon_size=(50, 50)  # taille du pin
 )
 
