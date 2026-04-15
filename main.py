@@ -101,7 +101,7 @@ def bien_detail(id):
     try:
         conn = db_manager.get_connection()
         repo = BienRepository(conn)
-        bien = repo.find_bien(id)
+        bien = repo.getProduit(id)
         conn.close()
         if bien:
             return render_template('detailBien.html', bien=bien[0])
