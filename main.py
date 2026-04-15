@@ -104,7 +104,7 @@ def bien_detail(id):
         bien = repo.getProduit(id)
         conn.close()
         if bien:
-            return render_template('detailBien.html', bien=bien[0])
+            return render_template('detailBien.html', bien=bien)
         else:
             return "Bien non trouvé", 404
     except Exception as e:
