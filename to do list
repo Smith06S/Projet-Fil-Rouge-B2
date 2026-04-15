@@ -4,15 +4,15 @@ backend:
     inscription /
     connection /
     prendre toutes agences /
-    prendre tous biens 
+    prendre tous biens /
     un prodotto con id /
     creare prodotto /
     modificare prodotto
     suprimer prodotto
-    sisteme de message (not today)
+    sisteme de message
     sistem de filtre
     searchbar
-    carta
+    carta map
     profilo
     profilo modifiche
 
@@ -20,7 +20,3 @@ backend:
 
 frontend:
     - carta in div and popup on right with all biens per la carta
-
-
-
-pip install flask

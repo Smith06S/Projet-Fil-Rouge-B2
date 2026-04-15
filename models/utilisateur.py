@@ -50,6 +50,17 @@ class UtilisateurRepository:
         self.db.commit()
         cur.close()
 
+    def find_profil(self, id):
+        cur = self.db.cursor()
+        cur.execute("SELECT nom, prenom, email, mdp, telephone, role FROM utilisateur WHERE id_utilisateur = %s", (id,))
+        row = cur.fetchone()
+        cur.close()
+        if row:
+            return Utilisateur(*row)
+        else:
+            return None
+
+
 
 
 
