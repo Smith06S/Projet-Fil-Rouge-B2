@@ -4,16 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>YMMO - Utilisateurs</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #eee;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Liste des Agences</h1>
     {% for u in utilisateurs %}
     <div>
-        <p>{{ u.id_agence }}</p>
-        <p>{{ u.nom_agence }}</p>
-        <p>{{ u.ville }}</p>
-        <p>{{ u.code_postal }}</p>
+        <p>{{ u.id }}</p>
+        <p>{{ u.nom }}</p>
+        <p>{{ u.prenom }}</p>
+        <p>{{ u.email }}</p>
+        <p>{{ u.telephone }}</p>
+        <p>{{ u.role }}</p>
     </div>
     {% endfor %}
     </div>
