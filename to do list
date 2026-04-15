@@ -5,14 +5,21 @@ backend:
     connection /
     prendre toutes agences /
     prendre tous biens /
+    un prodotto con id /
+    creare prodotto
+    modificare prodotto
+    suprimer prodotto
     sisteme de message (not today)
     sistem de filtre
     searchbar
+    carta
+    profilo
+    profilo modifiche
 
 
 
 frontend:
-    - carta in div and popup on right with all biens 
+    - carta in div and popup on right with all biens per la carta
 
 
 

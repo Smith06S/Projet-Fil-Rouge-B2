@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The input element</h1>
+
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
+
+<form method="POST" action="/mise_en_vente">
+  <label for="ville">Ville:</label>
+  <input type="text" id="ville" name="ville" required><br><br>
+  <label for="adresse">Adresse:</label>
+  <input type="text" id="adresse" name="adresse" required><br><br>
+  <label for="description">Description:</label>
+  <input type="text" id="description" name="description" required><br><br>
+  <label for="nbrPieces">Nombre de pièces:</label>
+  <input type="number" id="nbrPieces" name="nbrPieces" required><br><br>
+  <label for="surface">Surface:</label>
+  <input type="number" id="surface" name="surface" required><br><br>
+  <label for="typeBien">Type de bien:</label>
+  <select id="typeBien" name="typeBien" required>
+    <option value="location">Location</option>
+    <option value="vente">Vente</option>
+  </select><br><br>
+  <label for="exposition">Exposition:</label>
+  <input type="text" id="exposition" name="exposition" required><br><br>
+  <label for="etatLogement">État logement:</label>
+  <input type="text" id="etatLogement" name="etatLogement" required><br><br>
+  <label for="energieChauffage">Énergie chauffage:</label>
+  <input type="text" id="energieChauffage" name="energieChauffage" required><br><br>
+  <label for="typeEauChaude">Type eau chaude:</label>
+  <input type="text" id="typeEauChaude" name="typeEauChaude" required><br><br>
+  <label for="typeChauffage">Type chauffage:</label>
+  <input type="text" id="typeChauffage" name="typeChauffage" required><br><br>
+  <label for="moyenEauChaude">Moyen eau chaude:</label>
+  <input type="text" id="moyenEauChaude" name="moyenEauChaude" required><br><br>
+  <label for="etage">Étage:</label>
+  <input type="text" id="etage" name="etage" required><br><br>
+  <label for="vue">Vue:</label>
+  <input type="text" id="vue" name="vue" required><br><br>
+  <label for="prix">Prix:</label>
+  <input type="number" id="prix" name="prix" required><br><br>
+  <label for="statut">Statut:</label>
+  <input type="text" id="statut" name="statut" required><br><br>
+  <label for="agence">ID Agence:</label>
+  <input type="number" id="agence" name="agence" required><br><br>
+  <input type="submit" value="Mettre en vente">
+</form>
+
+
+</body>
+</html>

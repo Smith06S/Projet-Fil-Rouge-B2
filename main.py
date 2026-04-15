@@ -110,6 +110,39 @@ def bien_detail(id):
             return "Bien non trouvé", 404
     except Exception as e:
         return f"Erreur de base de données : {e}"
+    
+
+
+@app.route('/mise_en_vente', methods=['GET', 'POST'])
+def mise_en_vente():
+    message = None
+    if request.method == 'POST':
+        ville = request.form.get('ville')
+        adresse = request.form.get('adresse')
+        description = request.form.get('description')
+        nbrPieces = request.form.get('nbrPieces')
+        surface = request.form.get('surface')
+        typeBien = request.form.get('typeBien')
+        exposition = request.form.get('exposition')
+        etatLogement = request.form.get('etatLogement')
+        energieChauffage = request.form.get('energieChauffage')
+        typeEauChaude = request.form.get('typeEauChaude')
+        typeChauffage = request.form.get('typeChauffage')
+        moyenEauChaude = request.form.get('moyenEauChaude')
+        etage = request.form.get('etage')
+        vue = request.form.get('vue')
+        prix = request.form.get('prix')
+        statut = request.form.get('statut')
+        agence = request.form.get('agence')
+        conn = db_manager.get_connection()
+        repo = BienRepository(conn)
+        try:
+            repo.createBien(ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, agence)
+            message = "Mise en vente réussie !"
+        except Exception as e:
+            message = f"Erreur lors de la mise en vente : {e}"
+        conn.close()
+    return render_template('miseEnVente.html', message=message)
 
 
 if __name__ == '__main__':
