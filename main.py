@@ -81,6 +81,20 @@ def agence():
         return render_template('agences.html', agences=mes_agence)
     except Exception as e:
         return f"Erreur de base de données : {e}"
+    
+@app.route('/bien')
+def bien():
+    try:
+        conn = db_manager.get_connection()
+        repo = BienRepository(conn)
+
+        # On récupère la liste d'objets
+        mes_biens = repo.find_all()
+
+        conn.close()
+        return render_template('listeBien.html', agences=mes_biens)
+    except Exception as e:
+        return f"Erreur de base de données : {e}"
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

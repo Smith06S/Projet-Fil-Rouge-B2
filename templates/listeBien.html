@@ -28,12 +28,13 @@
     <h1>Liste des Biens</h1>
     {% for b in biens %}
     <div>
-        <p>{{ u.id }}</p>
-        <p>{{ u.nom }}</p>
-        <p>{{ u.prenom }}</p>
-        <p>{{ u.email }}</p>
-        <p>{{ u.telephone }}</p>
-        <p>{{ u.role }}</p>
+        <p>{{ b.id_bien }}</p>
+        <p>{{ b.ville }}</p>
+        <p>{{ b.adresse }}</p>
+        <p>{{ b.description }}</p>
+        <p>{{ b.nbr_pieces }}</p>
+        <p>{{ b.surface }}</p>
+        <p>{{ b.type_bien }}</p>
     </div>
     {% endfor %}
     </div>
