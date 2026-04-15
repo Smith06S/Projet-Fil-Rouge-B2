@@ -92,7 +92,7 @@ def bien():
         mes_biens = repo.find_all()
 
         conn.close()
-        return render_template('listeBien.html', agences=mes_biens)
+        return render_template('listeBien.html', biens=mes_biens)
     except Exception as e:
         return f"Erreur de base de données : {e}"
 
