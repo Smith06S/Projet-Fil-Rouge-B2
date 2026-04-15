@@ -10,13 +10,12 @@
     <h1>Liste des Agences</h1>
     {% for a in agences %}
     <div>
-        <p>{{ a.id_agence }}</p>
-        <p>{{ a.nom_agence }}</p>
-        <p>{{ a.ville }}</p>
-        <p>{{ a.code_postal }}</p>
+        <p>ID : {{ a.id }}</p>
+        <p>Nom : {{ a.nom }}</p>
+        <p>Ville : {{ a.ville }}</p>
+        <p>Code postal : {{ a.code_postal }}</p>
     </div>
     {% endfor %}
-    </div>
 </body>
 
 </html>
