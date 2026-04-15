@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>YMMO - Utilisateurs</title>
+</head>
+
+<body>
+    <h1>Liste des Agences</h1>
+    {% for u in utilisateurs %}
+    <div>
+        <p>{{ u.id_agence }}</p>
+        <p>{{ u.nom_agence }}</p>
+        <p>{{ u.ville }}</p>
+        <p>{{ u.code_postal }}</p>
+    </div>
+    {% endfor %}
+    </div>
+</body>
+
+</html>

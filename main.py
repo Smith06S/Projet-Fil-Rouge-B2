@@ -20,7 +20,7 @@ db_manager = Database()
 def index():
     try:
         conn = db_manager.get_connection()
-        repo = AgenceRepository(conn)
+        repo = UtilisateurRepository(conn)
 
         # On récupère la liste d'objets
         mes_utilisateurs = repo.find_all()
@@ -67,6 +67,20 @@ def inscription():
             message = f"Erreur lors de l'inscription : {e}"
         conn.close()
     return render_template('inscription.html', message=message)
+
+@app.route('/agence')
+def agence():
+    try:
+        conn = db_manager.get_connection()
+        repo = AgenceRepository(conn)
+
+        # On récupère la liste d'objets
+        mes_agence = repo.find_all()
+
+        conn.close()
+        return render_template('agence.html', agences=mes_agence)
+    except Exception as e:
+        return f"Erreur de base de données : {e}"
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
