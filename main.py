@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session, redirect
 from database import Database
 from models.utilisateur import UtilisateurRepository
 from models.agence import AgenceRepository
@@ -14,6 +14,7 @@ from models.transaction import TransactionRepository
 from models.utilisateur import UtilisateurRepository
 
 app = Flask(__name__)
+app.secret_key = 'votre_cle_secrete'  # À personnaliser
 db_manager = Database()
 
 @app.route('/')
@@ -32,6 +33,7 @@ def index():
 
     
 
+
 @app.route('/connexion', methods=['GET', 'POST'])
 def connexion():
     message = None
@@ -41,11 +43,24 @@ def connexion():
         conn = db_manager.get_connection()
         repo = UtilisateurRepository(conn)
         if repo.verifieMdp(password, email):
-            message = "Connexion réussie !"
+            utilisateur = repo.get_by_email(email)
+            session['user_id'] = utilisateur.id
+            conn.close()
+            return redirect('/profil')
         else:
             message = "Email ou mot de passe incorrect."
         conn.close()
     return render_template('connexion.html', message=message)
+@app.route('/profil')
+def profil():
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect('/connexion')
+    conn = db_manager.get_connection()
+    repo = UtilisateurRepository(conn)
+    utilisateur = repo.get_by_id(user_id)
+    conn.close()
+    return render_template('profil.html', utilisateur=utilisateur)
 
 
 @app.route('/inscription', methods=['GET', 'POST'])
@@ -143,6 +158,7 @@ def mise_en_vente():
             message = f"Erreur lors de la mise en vente : {e}"
         conn.close()
     return render_template('miseEnVente.html', message=message)
+
 
 @app.route('/profil')
 def profil():

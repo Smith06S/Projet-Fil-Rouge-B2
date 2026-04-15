@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta charset="UTF-8">
+    <title>Profil utilisateur</title>
+</head>
+<body>
+    <h1>Profil de {{ utilisateur.prenom }} {{ utilisateur.nom }}</h1>
+    <ul>
+        <li>Email : {{ utilisateur.email }}</li>
+        <li>Téléphone : {{ utilisateur.telephone }}</li>
+        <li>Rôle : {{ utilisateur.role }}</li>
+    </ul>
+</body>
+</html><!DOCTYPE html>
+<html>
 
 <head>
     <meta charset="UTF-8">

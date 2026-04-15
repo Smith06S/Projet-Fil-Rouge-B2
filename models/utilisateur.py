@@ -12,6 +12,24 @@ class Utilisateur:
         self.role = role
 
 class UtilisateurRepository:
+    def get_by_email(self, email):
+        cur = self.db.cursor()
+        cur.execute("SELECT id_utilisateur, nom, prenom, email, mdp, telephone, role FROM utilisateur WHERE email = %s", (email,))
+        row = cur.fetchone()
+        cur.close()
+        if row:
+            return Utilisateur(*row)
+        return None
+
+    def get_by_id(self, user_id):
+        cur = self.db.cursor()
+        cur.execute("SELECT id_utilisateur, nom, prenom, email, mdp, telephone, role FROM utilisateur WHERE id_utilisateur = %s", (user_id,))
+        row = cur.fetchone()
+        cur.close()
+        if row:
+            return Utilisateur(*row)
+        return None
+
     """Gère la communication avec la table 'utilisateur'"""
     def __init__(self, db_connexion):
         self.db = db_connexion
@@ -59,7 +77,6 @@ class UtilisateurRepository:
             return Utilisateur(*row)
         else:
             return None
-
 
 
 

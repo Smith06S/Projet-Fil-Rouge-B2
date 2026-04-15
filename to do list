@@ -15,7 +15,8 @@ backend:
     carta map
     profilo
     profilo modifiche
-
+    prendere le foto dalla tabella photo
+    aggiungere le coordinate delle case e delle agenzie
 
 
 frontend:
