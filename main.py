@@ -160,19 +160,5 @@ def mise_en_vente():
     return render_template('miseEnVente.html', message=message)
 
 
-@app.route('/profil')
-def profil():
-    try:
-        conn = db_manager.get_connection()
-        repo = UtilisateurRepository(conn)
-
-        # On récupère la liste d'objets
-        utilisateur = repo.find_profil(id)
-
-        conn.close()
-        return render_template('profil.html', utilisateur=utilisateur)
-    except Exception as e:
-        return f"Erreur de base de données : {e}"
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
