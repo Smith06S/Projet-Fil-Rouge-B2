@@ -50,7 +50,7 @@ class BienRepository:
     def createBien(self, ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_agence):
         cur = self.db.cursor()
         # On met id_statistique à NULL par défaut (ou adapte selon ton modèle)
-        cur.execute("INSERT INTO bien (ville, adresse, description, nbr_pieces, surface, type_bien, exposition, etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_statistique, id_agence) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 1NULL, %s)", (ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_agence))
+        cur.execute("INSERT INTO bien (ville, adresse, description, nbr_pieces, surface, type_bien, exposition, etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_statistique, id_agence) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL, %s)", (ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_agence))
         self.db.commit()
         cur.close()
 
