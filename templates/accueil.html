@@ -26,14 +26,14 @@
 
 <body>
     <h1>Liste des Agences</h1>
-    {% for u in utilisateurs %}
+    {% for a in agences %}
     <div>
-        <p>{{ u.id }}</p>
-        <p>{{ u.nom }}</p>
-        <p>{{ u.prenom }}</p>
-        <p>{{ u.email }}</p>
-        <p>{{ u.telephone }}</p>
-        <p>{{ u.role }}</p>
+        <p>{{ a.id }}</p>
+        <p>{{ a.nom }}</p>
+        <p>{{ a.prenom }}</p>
+        <p>{{ a.email }}</p>
+        <p>{{ a.telephone }}</p>
+        <p>{{ a.role }}</p>
     </div>
     {% endfor %}
     </div>
