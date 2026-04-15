@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>YMMO - Biens</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Liste des Biens</h1>
+    {% for b in biens %}
+    <div>
+        <p>{{ b.id_bien }}</p>
+        <p>{{ b.ville }}</p>
+        <p>{{ b.adresse }}</p>
+        <p>{{ b.description }}</p>
+        <p>{{ b.nbr_pieces }}</p>
+        <p>{{ b.surface }}</p>
+        <p>{{ b.type_bien }}</p>
+        <p>{{ b.exposition }}</p>
+        <p>{{ b.etat_logement }}</p>
+        <p>{{ b.energie_chauffage }}</p>
+        <p>{{ b.type_eau_chaude }}</p>
+        <p>{{ b.type_chauffage }}</p>
+        <p>{{ b.moyen_eau_chaude }}</p>
+        <p>{{ b.etage }}</p>
+        <p>{{ b.vue }}</p>
+        <p>{{ b.prix }}</p>
+        <p>{{ b.statut }}</p>
+        <p>{{ b.id_statistique }}</p>
+        <p>{{ b.id_agence }}</p>
+    </div>
+    {% endfor %}
+    </div>
+</body>
+
+</html>

@@ -96,5 +96,20 @@ def bien():
     except Exception as e:
         return f"Erreur de base de données : {e}"
 
+@app.route('/bien/<int:id>')
+def bien_detail(id):
+    try:
+        conn = db_manager.get_connection()
+        repo = BienRepository(conn)
+        bien = repo.find_bien(id)
+        conn.close()
+        if bien:
+            return render_template('detailBien.html', bien=bien[0])
+        else:
+            return "Bien non trouvé", 404
+    except Exception as e:
+        return f"Erreur de base de données : {e}"
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
