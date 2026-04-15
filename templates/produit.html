@@ -25,30 +25,27 @@
 </head>
 
 <body>
-    <h1>Liste des Biens</h1>
-    {% for b in biens %}
+    <h1>Détail du Bien</h1>
     <div>
-        <p>{{ b.id_bien }}</p>
-        <p>{{ b.ville }}</p>
-        <p>{{ b.adresse }}</p>
-        <p>{{ b.description }}</p>
-        <p>{{ b.nbr_pieces }}</p>
-        <p>{{ b.surface }}</p>
-        <p>{{ b.type_bien }}</p>
-        <p>{{ b.exposition }}</p>
-        <p>{{ b.etat_logement }}</p>
-        <p>{{ b.energie_chauffage }}</p>
-        <p>{{ b.type_eau_chaude }}</p>
-        <p>{{ b.type_chauffage }}</p>
-        <p>{{ b.moyen_eau_chaude }}</p>
-        <p>{{ b.etage }}</p>
-        <p>{{ b.vue }}</p>
-        <p>{{ b.prix }}</p>
-        <p>{{ b.statut }}</p>
-        <p>{{ b.id_statistique }}</p>
-        <p>{{ b.id_agence }}</p>
-    </div>
-    {% endfor %}
+        <p>ID : {{ bien.id }}</p>
+        <p>Ville : {{ bien.ville }}</p>
+        <p>Adresse : {{ bien.adresse }}</p>
+        <p>Description : {{ bien.description }}</p>
+        <p>Nombre de pièces : {{ bien.nbr_pieces }}</p>
+        <p>Surface : {{ bien.surface }}</p>
+        <p>Type de bien : {{ bien.type_bien }}</p>
+        <p>Exposition : {{ bien.exposition }}</p>
+        <p>État logement : {{ bien.etat_logement }}</p>
+        <p>Énergie chauffage : {{ bien.energie_chauffage }}</p>
+        <p>Type eau chaude : {{ bien.type_eau_chaude }}</p>
+        <p>Type chauffage : {{ bien.type_chauffage }}</p>
+        <p>Moyen eau chaude : {{ bien.moyen_eau_chaude }}</p>
+        <p>Étage : {{ bien.etage }}</p>
+        <p>Vue : {{ bien.vue }}</p>
+        <p>Prix : {{ bien.prix }}</p>
+        <p>Statut : {{ bien.statut }}</p>
+        <p>ID Statistique : {{ bien.id_statistique }}</p>
+        <p>ID Agence : {{ bien.id_agence }}</p>
     </div>
 </body>
 

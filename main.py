@@ -96,6 +96,7 @@ def bien():
     except Exception as e:
         return f"Erreur de base de données : {e}"
 
+
 @app.route('/bien/<int:id>')
 def bien_detail(id):
     try:
@@ -104,7 +105,7 @@ def bien_detail(id):
         bien = repo.getProduit(id)
         conn.close()
         if bien:
-            return render_template('detailBien.html', bien=bien)
+            return render_template('produit.html', bien=bien)
         else:
             return "Bien non trouvé", 404
     except Exception as e:
