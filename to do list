@@ -4,9 +4,9 @@ backend:
     inscription /
     connection /
     prendre toutes agences /
-    prendre tous biens /
+    prendre tous biens 
     un prodotto con id /
-    creare prodotto
+    creare prodotto /
     modificare prodotto
     suprimer prodotto
     sisteme de message (not today)
