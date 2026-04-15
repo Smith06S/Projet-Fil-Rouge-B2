@@ -78,7 +78,7 @@ def agence():
         mes_agence = repo.find_all()
 
         conn.close()
-        return render_template('agence.html', agences=mes_agence)
+        return render_template('agences.html', agences=mes_agence)
     except Exception as e:
         return f"Erreur de base de données : {e}"
 
