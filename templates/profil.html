@@ -10,43 +10,7 @@
         <li>Email : {{ utilisateur.email }}</li>
         <li>Téléphone : {{ utilisateur.telephone }}</li>
         <li>Rôle : {{ utilisateur.role }}</li>
+        <li>{{ utilisateur.nom }}</li>
+        <li>{{ utilisateur.prenom }}</li>
     </ul>
 </body>
-</html><!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <title>YMMO - Profil</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 90%;
-            margin: 20px auto;
-        }
-
-        th,
-        td {
-            border: 1px solid #333;
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #eee;
-        }
-    </style>
-</head>
-
-<body>
-    <div>
-        <p>{{ utilisateur.nom }}</p>
-        <p>{{ utilisateur.prenom }}</p>
-        <p>{{ utilisateur.email }}</p>
-        <p>{{ utilisateur.telephone }}</p>
-        <p>{{ utilisateur.role }}</p>
-    </div>
-    </div>
-</body>
-
-</html>
