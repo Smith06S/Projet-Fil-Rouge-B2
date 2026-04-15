@@ -4,16 +4,33 @@
 
 <h1>The input element</h1>
 
-<form action="/action_page.php">
+
+
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
+
+<form method="POST" action="/inscription">
   <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname"><br><br>
+  <input type="text" id="fname" name="fname" required><br><br>
   <label for="lname">Last name:</label>
-  <input type="text" id="lname" name="lname"><br><br>
-  <input type="submit" value="Submit">
+  <input type="text" id="lname" name="lname" required><br><br>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required><br><br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required><br><br>
+  <label for="phone">Phone:</label>
+  <input type="text" id="phone" name="phone" required><br><br>
+  <label for="role">Role:</label>
+  <select id="role" name="role" required>
+    <option value="client">Client</option>
+    <option value="commercial">Commercial</option>
+    <option value="admin">Admin</option>
+  </select><br><br>
+  <input type="submit" value="S'inscrire">
 </form>
 
-<p>Click the "Submit" button and the form-data will be sent to a page on the 
-server called "action_page.php".</p>
+
 
 </body>
 </html>

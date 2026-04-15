@@ -7,9 +7,9 @@ db_manager = Database()
 @app.route('/connexion', methods=['GET', 'POST'])
 def connexion():
     if request.method == 'POST':
-        username = request.form.get('username')
+        email = request.form.get('email')
         password = request.form.get('password')
-        print(f"Username: {username}, Password: {password}")
+        print(f"Username: {email}, Password: {password}")
     return render_template('connexion.html')
 
 if __name__ == '__main__':
