@@ -28,14 +28,14 @@
     <h1>Liste des Biens</h1>
     {% for b in biens %}
     <div>
-        <p>{{ b.id_bien }}</p>
+        <p>{{ b.id }}</p>
         <p>{{ b.ville }}</p>
         <p>{{ b.adresse }}</p>
         <p>{{ b.description }}</p>
         <p>{{ b.nbr_pieces }}</p>
         <p>{{ b.surface }}</p>
         <p>{{ b.type_bien }}</p>
-        <a href="/bien/{{ b.id_bien }}">En savoir plus</a>
+        <a href="/bien/{{ b.id }}">En savoir plus</a>
     </div>
     {% endfor %}
     </div>
