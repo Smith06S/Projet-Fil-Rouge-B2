@@ -21,3 +21,15 @@ backend:
 
 frontend:
     - carta in div and popup on right with all biens per la carta
+
+
+admin puo creare dei clienti o dei commerciali
+cliente solo quello
+commerciale idem
+
+commerciale creare, sopprimere i biens della sua azienda
+admin sopprimere, creare beni di tutti
+
+commerciale modificare azienda sua
+admin sopprimere, creare, modificare tutte aziende
+
