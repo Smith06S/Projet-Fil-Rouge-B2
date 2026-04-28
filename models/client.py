@@ -30,3 +30,13 @@ class ClientRepository:
         result = cur.fetchone()
         cur.close()
         return result is not None
+    
+    def get_Client(self, id):
+        cur = self.db.cursor()
+        cur.execute("SELECT id_client, type_client, budget_max, id_agence, id_utilisateur, nom, prenom, email, mdp, telephone, role FROM client JOIN utilisateur ON client.id_utilisateur = utilisateur.id_utilisateur WHERE id_user = %s", (id,))
+        row = cur.fetchone()
+        cur.close()
+        if row:
+            return Utilisateur(*row)
+        else:
+            return None

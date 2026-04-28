@@ -39,6 +39,16 @@ class CommercialRepository:
         result = cur.fetchone()
         cur.close()
         return result is not None
+    
+    def get_Commercial(self, id):
+        cur = self.db.cursor()
+        cur.execute("SELECT id_commercial, date_embauche, matricule, id_agence, id_utilisateur, nom, prenom, email, mdp, telephone, role FROM commercial JOIN utilisateur ON commercial.id_utilisateur = utilisateur.id_utilisateur WHERE id_user = %s", (id,))
+        row = cur.fetchone()
+        cur.close()
+        if row:
+            return Utilisateur(*row)
+        else:
+            return None
 
 
     
