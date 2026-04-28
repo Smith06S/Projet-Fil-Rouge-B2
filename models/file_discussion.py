@@ -19,3 +19,16 @@ class FileDiscussionRepository:
 
         cur.close()
         return file_discussions
+
+    def create_file_discussion(self, nom_discussione, date_creation):
+        cur = self.db.cursor()
+        cur.execute("INSERT INTO file_discussion (nom_discussione, date_creation) VALUES (%s, %s)", (nom_discussione, date_creation))
+        self.db.commit()
+        cur.close()
+
+    def delete_file_discussion(self, id_file_discussion):
+        cur = self.db.cursor()
+        cur.execute("DELETE FROM file_discussion WHERE id_file_discussion = %s", (id_file_discussion,))
+        self.db.commit()
+        cur.close()
+    

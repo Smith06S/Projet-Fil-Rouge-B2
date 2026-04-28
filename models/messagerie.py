@@ -22,3 +22,9 @@ class MessagerieRepository:
 
         cur.close()
         return messageries
+    
+    def edit_message(self, id_messagerie, message, date_heure):        
+        cur = self.db.cursor()
+        cur.execute("UPDATE bien SET message = %s, date_heure = %s WHERE id_messagerie = %s;" , (id_messagerie, message, date_heure))
+        self.db.commit()
+        cur.close()
