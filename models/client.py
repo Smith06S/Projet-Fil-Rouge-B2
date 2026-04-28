@@ -40,3 +40,15 @@ class ClientRepository:
             return Utilisateur(*row)
         else:
             return None
+        
+    def delete_Client(self, id_user):
+        cur = self.db.cursor() 
+        cur.execute("DELETE FROM client WHERE id_utilisateur = %s", (id_user,))
+        self.db.commit()
+        cur.close()
+
+    def modify_Client(self, nom, prenom, email, mdp, telephone, type_client, budget_max, id_user):
+        cur = self.db.cursor()
+        cur.execute("UPDATE bien SET nom = %s, prenom = %s, email = %s, mdp = %s, telephone = %s, type_client = %s, budget_max = %s WHERE id_utilisateur = %s;" , (nom, prenom, email, mdp, telephone, type_client, budget_max, id_user))
+        self.db.commit()
+        cur.close()

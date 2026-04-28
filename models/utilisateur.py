@@ -87,4 +87,9 @@ class UtilisateurRepository:
         return result is not None
 
 
+    def delete_User(self, id_user):
+        cur = self.db.cursor() 
+        cur.execute("DELETE FROM utilisateur WHERE id_utilisateur = %s", (id_user,))
+        self.db.commit()
+        cur.close()
 

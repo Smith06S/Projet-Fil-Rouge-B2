@@ -50,6 +50,17 @@ class CommercialRepository:
         else:
             return None
 
+    def delete_Commercial(self, id_user):
+        cur = self.db.cursor() 
+        cur.execute("DELETE FROM commercial WHERE id_utilisateur = %s", (id_user,))
+        self.db.commit()
+        cur.close()
+
+    def modify_Commercial(self, nom, prenom, email, mdp, telephone, date_embauche, matricule, id_user):
+        cur = self.db.cursor()
+        cur.execute("UPDATE bien SET nom = %s, prenom = %s, email = %s, mdp = %s, telephone = %s, date_embauche = %s, matricule = %s WHERE id_utilisateur = %s;" , (nom, prenom, email, mdp, telephone, date_embauche, matricule, id_user))
+        self.db.commit()
+        cur.close()
 
     
     

@@ -36,7 +36,6 @@ class BienRepository:
         cur.close()
         return biens
     
-
     def getProduit(self, id):
         cur = self.db.cursor()
         cur.execute("SELECT id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, exposition, etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_statistique, id_agence FROM bien WHERE id_bien = %s", (id,))

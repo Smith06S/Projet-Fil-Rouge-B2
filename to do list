@@ -7,15 +7,15 @@ backend:
     prendre tous biens /
     un prodotto con id /
     creare prodotto /
-    modificare prodotto
-    suprimer prodotto
+    modificare prodotto/
+    suprimer prodotto/
     sisteme de message
     sistem de filtre
     searchbar
     carta map
     profilo /
-    profilo modifiche
-    prendere le foto dalla tabella photo
+    profilo modifiche /
+    prendere le foto dalla tabella photo /
     aggiungere le coordinate delle case e delle agenzie
 
 
