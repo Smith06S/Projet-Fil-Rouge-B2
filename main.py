@@ -17,17 +17,17 @@ app = Flask(__name__)
 app.secret_key = 'votre_cle_secrete'  # À personnaliser
 db_manager = Database()
 
-@app.route('/')
-def index():
+
+@app.route('/accueil')
+def accueil():
     try:
+        from models.carte import generer_carte_biens
+        generer_carte_biens()
         conn = db_manager.get_connection()
-        repo = UtilisateurRepository(conn)
-
-        # On récupère la liste d'objets
-        mes_utilisateurs = repo.find_all()
-
+        repo = AgenceRepository(conn)
+        mes_agence = repo.find_all()
         conn.close()
-        return render_template('utilisateur.html', utilisateurs=mes_utilisateurs)
+        return render_template('accueil.html', agences=mes_agence)
     except Exception as e:
         return f"Erreur de base de données : {e}"
 

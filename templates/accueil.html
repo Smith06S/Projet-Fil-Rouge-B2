@@ -25,6 +25,11 @@
 </head>
 
 <body>
+    <h1>Carte des biens</h1>
+    <section id="map-section">
+        {% include 'carte_dyn.html' %}
+    </section>
+
     <h1>Liste des Agences</h1>
     {% for a in agences %}
     <div>
@@ -36,7 +41,6 @@
         <p>{{ a.role }}</p>
     </div>
     {% endfor %}
-    </div>
 </body>
 
 </html>
