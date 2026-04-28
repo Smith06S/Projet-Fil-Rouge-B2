@@ -10,9 +10,9 @@ class FavorisRepository:
     def __init__(self, db_connexion):
         self.db = db_connexion
 
-    def find_all(self):
+    def find_all_by_user(self, id_client):
         cur = self.db.cursor()
-        cur.execute("SELECT id_favoris, id_bien, id_client FROM favoris")
+        cur.execute("SELECT id_favoris, id_bien, id_client FROM favoris WHERE id_client = %s", (id_client,))
         rows = cur.fetchall()
 
         favoris = [Favoris(r[0], r[1], r[2]) for r in rows]

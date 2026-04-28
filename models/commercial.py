@@ -35,7 +35,7 @@ class CommercialRepository:
     
     def is_Commercial(self, id_user):
         cur = self.db.cursor()
-        cur.execute("SELECT 1 FROM commercial WHERE id_utilisateur = %s", (id_user,))
+        cur.execute("SELECT 1 FROM commercial WHERE id_utilisateur = %s AND role = commercial", (id_user,))
         result = cur.fetchone()
         cur.close()
         return result is not None

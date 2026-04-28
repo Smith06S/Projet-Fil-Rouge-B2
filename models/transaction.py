@@ -12,12 +12,12 @@ class TransactionRepository:
     def __init__(self, db_connexion):
         self.db = db_connexion
 
-    def find_all(self):
+    def find_all(self, id_client):
         cur = self.db.cursor()
-        cur.execute("SELECT id_transaction, date_vente, prix_final, id_bien, id_commercial FROM transaction")
+        cur.execute("SELECT id_transaction, date_vente, prix_final, id_bien, id_commercial, id_client FROM transaction WHERE id_client = %s", (id_client,))
         rows = cur.fetchall()
 
-        transactions = [Transaction(r[0], r[1], r[2], r[3], r[4], r[5], r[6]) for r in rows]
+        transactions = [Transaction(r[0], r[1], r[2], r[3], r[4], r[5]) for r in rows]
 
         cur.close()
         return transactions

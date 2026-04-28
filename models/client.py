@@ -26,7 +26,7 @@ class ClientRepository:
     
     def is_Client(self, id_user):
         cur = self.db.cursor()
-        cur.execute("SELECT 1 FROM client WHERE id_utilisateur = %s", (id_user,))
+        cur.execute("SELECT 1 FROM client WHERE id_utilisateur = %s AND role = client", (id_user,))
         result = cur.fetchone()
         cur.close()
         return result is not None

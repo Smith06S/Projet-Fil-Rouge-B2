@@ -77,7 +77,14 @@ class UtilisateurRepository:
             return Utilisateur(*row)
         else:
             return None
+        
 
+    def is_Admin(self, id_user):
+        cur = self.db.cursor()
+        cur.execute("SELECT 1 FROM client WHERE id_utilisateur = %s AND role = admin", (id_user,))
+        result = cur.fetchone()
+        cur.close()
+        return result is not None
 
 
 
