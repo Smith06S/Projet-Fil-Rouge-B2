@@ -23,3 +23,10 @@ class ClientRepository:
 
         cur.close()
         return clients
+    
+    def is_Client(self, id_user):
+        cur = self.db.cursor()
+        cur.execute("SELECT 1 FROM client WHERE id_utilisateur = %s", (id_user,))
+        result = cur.fetchone()
+        cur.close()
+        return result is not None

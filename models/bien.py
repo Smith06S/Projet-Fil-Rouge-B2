@@ -49,9 +49,18 @@ class BienRepository:
         
     def createBien(self, ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_agence):
         cur = self.db.cursor()
-        # On met id_statistique à NULL par défaut (ou adapte selon ton modèle)
         cur.execute("INSERT INTO bien (ville, adresse, description, nbr_pieces, surface, type_bien, exposition, etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_statistique, id_agence) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL, %s)", (ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_agence))
         self.db.commit()
         cur.close()
 
+    def modifyBien(self, id_bien, ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_agence):
+        cur = self.db.cursor()
+        cur.execute("UPDATE bien SET ville = %s, adresse = %s, description = %s, nbr_pieces = %s, surface = %s, type_bien = %s, exposition = %s, etat_logement = %s, energie_chauffage = %s, type_eau_chaude = %s, type_chauffage = %s, moyen_eau_chaude = %s, etage = %s, vue = %s, prix = %s, statut = %s, id_statistique = %s, id_agence = %s WHERE id_bien = %s;" , (ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_agence))
+        self.db.commit()
+        cur.close()
 
+    def deleteBien(self, id_bien):
+        cur = self.db.cursor()
+        cur.execute("DELETE FROM bien WHERE id_bien = %s", (id_bien,))
+        self.db.commit()
+        cur.close()

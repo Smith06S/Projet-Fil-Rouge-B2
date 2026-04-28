@@ -23,3 +23,23 @@ class CommercialRepository:
 
         cur.close()
         return commercials
+    
+    def get_idAgence(self, id_utilisateur):
+        cur = self.db.cursor()
+        cur.execute("SELECT id_agence FROM commercial WHERE id_utilisateur = %s", (id_utilisateur,))
+        row = cur.fetchone()
+        cur.close()
+        if row:
+            return row[0]
+        return None
+    
+    def is_Commercial(self, id_user):
+        cur = self.db.cursor()
+        cur.execute("SELECT 1 FROM commercial WHERE id_utilisateur = %s", (id_user,))
+        result = cur.fetchone()
+        cur.close()
+        return result is not None
+
+
+    
+    

@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect, render_template_string
 from database import Database
 from models.utilisateur import UtilisateurRepository
 from models.agence import AgenceRepository
@@ -158,7 +158,6 @@ def mise_en_vente():
             message = f"Erreur lors de la mise en vente : {e}"
         conn.close()
     return render_template('miseEnVente.html', message=message)
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
