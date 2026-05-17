@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template, session, redirect, url_for, flash
 from database import Database
+
+# Imports de tous les Repositories (Modèles)
 from models.utilisateur import UtilisateurRepository
 from models.agence import AgenceRepository
 from models.bien import BienRepository
@@ -7,14 +9,15 @@ from models.client import ClientRepository
 from models.commercial import CommercialRepository
 from models.favoris import FavorisRepository
 from models.messagerie import MessagerieRepository
+from models.file_discussion import FileDiscussionRepository
 from models.photo import PhotoRepository
 from models.piece import PieceRepository
 from models.statistique import StatistiqueRepository
 from models.transaction import TransactionRepository
-from helpers.auth_helper import role_required  # Import du décorateur de sécurité
+from helpers.auth_helper import role_required
 
 app = Flask(__name__)
-app.secret_key = 'votre_cle_secrete_ymmo'  # À personnaliser / sécuriser
+app.secret_key = 'votre_cle_secrete_ymmo'
 db_manager = Database()
 
 
@@ -45,15 +48,12 @@ def connexion():
         user_repo = UtilisateurRepository(conn)
         commercial_repo = CommercialRepository(conn)
         
-        # 1. Vérification des identifiants hachés
         if user_repo.verifieMdp(password, email):
             utilisateur = user_repo.get_by_email(email)
             
-            # 2. Gestion de Session étendue (Stockage des rôles et agences)
             session['user_id'] = utilisateur.id
             session['role'] = utilisateur.role
             
-            # Si l'utilisateur est un commercial, on stocke son id_agence en session
             if utilisateur.role == 'commercial':
                 session['id_agence'] = commercial_repo.get_idAgence(utilisateur.id)
             else:
@@ -71,7 +71,6 @@ def connexion():
 
 @app.route('/deconnexion')
 def deconnexion():
-    # Nettoyage complet de la session de l'utilisateur
     session.clear()
     flash("Vous avez été déconnecté.", "info")
     return redirect(url_for('connexion'))
@@ -116,6 +115,7 @@ def inscription():
     return render_template('inscription.html', message=message)
 
 
+@app.route('/agence')
 @app.route('/agences')
 def agence():
     try:
@@ -131,9 +131,18 @@ def agence():
 @app.route('/bien')
 def bien():
     try:
+        ville = request.args.get('ville')
+        prix_max = request.args.get('prix_max', type=float)
+        type_bien = request.args.get('type_bien')
+        
         conn = db_manager.get_connection()
         repo = BienRepository(conn)
-        mes_biens = repo.find_all()
+        
+        if not ville and not prix_max and not type_bien:
+            mes_biens = repo.find_all()
+        else:
+            mes_biens = repo.find_by_filter(ville, prix_max, type_bien)
+            
         conn.close()
         return render_template('listeBien.html', biens=mes_biens)
     except Exception as e:
@@ -144,18 +153,32 @@ def bien():
 def bien_detail(id):
     try:
         conn = db_manager.get_connection()
-        repo = BienRepository(conn)
-        bien = repo.getProduit(id)
-        conn.close()
-        if bien:
-            return render_template('produit.html', bien=bien)
-        else:
+        
+        bien_repo = BienRepository(conn)
+        bien = bien_repo.getProduit(id)
+        
+        if not bien:
+            conn.close()
             return "Bien non trouvé", 404
+            
+        piece_repo = PieceRepository(conn)
+        mes_pieces = piece_repo.find_by_bien(id)
+        
+        stats_repo = StatistiqueRepository(conn)
+        toutes_les_stats = stats_repo.find_all()
+        
+        stats_associees = None
+        for s in toutes_les_stats:
+            if s.zone_geographique.lower() == bien.ville.lower():
+                stats_associees = s
+                break
+                
+        conn.close()
+        return render_template('produit.html', bien=bien, pieces=mes_pieces, statistiques=stats_associees)
     except Exception as e:
         return f"Erreur de base de données : {e}"
 
 
-# Sécurisation réglementaire : seuls les admins et commerciaux peuvent mettre en vente
 @app.route('/mise_en_vente', methods=['GET', 'POST'])
 @role_required(['admin', 'commercial'])
 def mise_en_vente():
@@ -193,6 +216,109 @@ def mise_en_vente():
         conn.close()
         
     return render_template('miseEnVente.html', message=message)
+
+
+@app.route('/bien/<int:id>/supprimer', methods=['POST'])
+@role_required(['admin', 'commercial'])
+def supprimer_bien(id):
+    try:
+        conn = db_manager.get_connection()
+        repo = BienRepository(conn)
+        
+        bien_a_supprimer = repo.getProduit(id)
+        if not bien_a_supprimer:
+            conn.close()
+            flash("Bien introuvable.", "error")
+            return redirect(url_for('bien'))
+            
+        if session.get('role') == 'commercial' and session.get('id_agence') != bien_a_supprimer.id_agence:
+            conn.close()
+            flash("Action refusée : Ce bien n'appartient pas à la liste de votre agence.", "error")
+            return redirect(url_for('bien'))
+
+        repo.deleteBien(id)
+        conn.close()
+        
+        flash("Le bien a été supprimé avec succès.", "success")
+        return redirect(url_for('bien'))
+    except Exception as e:
+        return f"Erreur lors de la suppression : {e}"
+
+
+@app.route('/messagerie')
+def messagerie_boite():
+    user_id = session.get('user_id')
+    if not user_id:
+        flash("Veuillez vous connecter pour voir vos messages.", "error")
+        return redirect(url_for('connexion'))
+        
+    file_id = request.args.get('file_id', type=int)
+    
+    conn = db_manager.get_connection()
+    file_repo = FileDiscussionRepository(conn)
+    msg_repo = MessagerieRepository(conn)
+    
+    discussions = file_repo.find_all()
+    
+    active_file = None
+    messages = []
+    if file_id:
+        for f in discussions:
+            if f.id_file_discussion == file_id:
+                active_file = f
+                break
+        messages = msg_repo.find_all(file_id)
+        
+    conn.close()
+    return render_template('messagerie.html', discussions=discussions, active_file=active_file, messages=messages)
+
+
+@app.route('/messagerie/creer')
+def messagerie_creer():
+    user_id = session.get('user_id')
+    id_bien = request.args.get('id_bien', type=int)
+    
+    if not user_id:
+        flash("Vous devez être connecté pour ouvrir un tchat agence.", "error")
+        return redirect(url_for('connexion'))
+        
+    conn = db_manager.get_connection()
+    file_repo = FileDiscussionRepository(conn)
+    bien_repo = BienRepository(conn)
+    
+    bien = bien_repo.getProduit(id_bien)
+    nom_discussion = f"Discussion Projet - Bien #{id_bien} ({bien.ville if bien else ''})"
+    
+    file_repo.create_file_discussion(nom_discussion, "NOW()")
+    
+    toutes_les_files = file_repo.find_all()
+    dernier_id = toutes_les_files[-1].id_file_discussion if toutes_les_files else None
+    
+    conn.close()
+    flash("Nouvelle conversation initiée !", "success")
+    return redirect(f"/messagerie?file_id={dernier_id}")
+
+
+@app.route('/messagerie/envoyer', methods=['POST'])
+def messagerie_envoyer():
+    user_id = session.get('user_id')
+    role = session.get('role')
+    id_file = request.form.get('id_file_discussion', type=int)
+    contenu = request.form.get('contenu_message')
+    
+    if not user_id:
+        return "Non autorisé", 401
+        
+    conn = db_manager.get_connection()
+    msg_repo = MessagerieRepository(conn)
+    
+    id_commercial = user_id if role == 'commercial' else None
+    id_client = user_id if role == 'client' else None
+    
+    msg_repo.create_message(contenu, id_commercial, id_client, id_file)
+    conn.close()
+    
+    return redirect(f"/messagerie?file_id={id_file}")
 
 
 if __name__ == '__main__':
