@@ -1,12 +1,10 @@
 class Messagerie:
-    """Représente une messagerie (Entité)"""
-    def __init__(self, id_message, message, date_heure, id_commercial, id_client, id_file_discussion):
+    def __init__(self, id_message, message, date_heure, id_commercial, id_client):
         self.id_messagerie = id_message
         self.message = message
         self.date_heure = date_heure
         self.id_commercial = id_commercial
         self.id_client = id_client
-        self.id_file_discussion = id_file_discussion
 
 class MessagerieRepository:
     def __init__(self, db_connexion):
