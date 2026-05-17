@@ -93,6 +93,8 @@ def profil():
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
     message = None
+    conn = db_manager.get_connection()
+    
     if request.method == 'POST':
         fname = request.form.get('fname')
         lname = request.form.get('lname')
@@ -100,19 +102,48 @@ def inscription():
         password = request.form.get('password')
         phone = request.form.get('phone')
         role = request.form.get('role')
+        id_agence = request.form.get('id_agence')
         
-        conn = db_manager.get_connection()
-        repo = UtilisateurRepository(conn)
+        user_repo = UtilisateurRepository(conn)
+        
         try:
-            repo.createUtilisateur(fname, lname, email, password, phone, role)
+            user_repo.createUtilisateur(fname, lname, email, password, phone, role)
+            
+            nouvel_user = user_repo.get_by_email(email)
+            
+            if role == 'commercial':
+                import random
+                matricule_genere = f"MAT-{random.randint(1000, 9999)}"
+                
+                cur = conn.cursor()
+                cur.execute("""
+                    INSERT INTO commercial (date_embauche, matricule, id_agence, id_utilisateur)
+                    VALUES (NOW(), %s, %s, %s)
+                """, (matricule_genere, id_agence, nouvel_user.id))
+                conn.commit()
+                cur.close()
+                
+            elif role == 'client':
+                cur = conn.cursor()
+                cur.execute("""
+                    INSERT INTO client (type_client, budget_max, id_agence, id_utilisateur)
+                    VALUES ('Particulier', 0, NULL, %s)
+                """, (nouvel_user.id,))
+                conn.commit()
+                cur.close()
+
             flash("Inscription réussie ! Vous pouvez maintenant vous connecter.", "success")
             conn.close()
             return redirect(url_for('connexion'))
+            
         except Exception as e:
             message = f"Erreur lors de l'inscription : {e}"
-        conn.close()
-        
-    return render_template('inscription.html', message=message)
+    
+    agence_repo = AgenceRepository(conn)
+    toutes_les_agences = agence_repo.find_all()
+    conn.close()
+    
+    return render_template('inscription.html', message=message, agences_dispo=toutes_les_agences)
 
 
 @app.route('/agence')
