@@ -1,53 +1,66 @@
 {% extends 'base.html' %}
-{% block title %}YMMO - Messagerie Immobilière{% endblock %}
+{% block title %}YMMO - Messagerie Interne{% endblock %}
 
 {% block content %}
-<h1>Boîte de Réception Interne</h1>
+<h1>Messagerie Privée Agence</h1>
 
-<div style="display: flex; gap: 20px; min-height: 500px;">
+<div style="display: flex; gap: 20px; height: 600px; margin-top: 20px;">
 
-    <div style="width: 30%; border-right: 1px solid #ddd; padding-right: 15px;">
-        <h3>Vos Conversations</h3>
-        {% for file in discussions %}
-        <a href="/messagerie?file_id={{ file.id_file_discussion }}"
-            class="discussion-link {% if active_file and active_file.id_file_discussion == file.id_file_discussion %}discussion-active{% else %}discussion-inactive{% endif %}">
-            <strong>📁 {{ file.nom_discussione }}</strong><br>
-            <small>Créé le : {{ file.date_creation }}</small>
+    <div
+        style="flex: 1; background: #fff; border: 1px solid #ddd; border-radius: 6px; overflow-y: auto; padding: 10px;">
+        <h3 style="border-bottom: 2px solid #f4f6f9; padding-bottom: 10px; margin-top:5px;">Conversations en cours</h3>
+        {% for d in discussions %}
+        <a href="/messagerie?file_id={{ d.id_file_discussion }}"
+            class="discussion-link {% if active_file and active_file.id_file_discussion == d.id_file_discussion %}discussion-active{% else %}discussion-inactive{% endif %}">
+            <strong style="font-size:0.95em; display:block;">{{ d.nom_discussione }}</strong>
+            <span style="font-size: 0.75em; color: #7f8c8d;">Créé le {{ d.date_creation }}</span>
         </a>
         {% else %}
-        <p>Aucune conversation en cours.</p>
+        <p style="font-style: italic; text-align: center; color: #95a5a6; padding-top: 20px;">Aucun fil de discussion
+            trouvé.</p>
         {% endfor %}
     </div>
 
-    <div style="width: 70%; display: flex; flex-direction: column; justify-content: space-between; padding-left: 15px;">
+    <div
+        style="flex: 2.5; background: #fff; border: 1px solid #ddd; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between; padding: 15px;">
         {% if active_file %}
-        <div>
-            <h3>Fil : {{ active_file.nom_discussione }}</h3>
-            <div
-                style="border: 1px solid #ddd; height: 350px; overflow-y: scroll; padding: 15px; background: #fafafa; border-radius: 4px;">
-                {% for msg in messages %}
-                <div
-                    class="message-bubble {% if msg.id_commercial and session.get('role') == 'commercial' %}msg-commercial{% else %}msg-client{% endif %}">
-                    <p style="margin: 0;">{{ msg.message }}</p>
-                    <small style="color: #6c757d;">{{ msg.date_heure }}</small>
-                </div>
-                {% endfor %}
-            </div>
+        <div style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">
+            <h3 style="margin: 0; color: #2980b9;">{{ active_file.nom_discussione }}</h3>
         </div>
 
-        <form method="POST" action="/messagerie/envoyer" style="margin-top: 15px;">
-            <input type="hidden" name="id_file_discussion" value="{{ active_file.id_file_discussion }}">
-            <div style="display: flex; gap: 10px;">
-                <input type="text" name="contenu_message" placeholder="Tapez votre message ici..." required
-                    style="flex: 1; padding: 10px;">
-                <button type="submit" class="btn">Envoyer</button>
+        <div
+            style="flex-grow: 1; overflow-y: auto; padding-right: 10px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px;">
+            {% for m in messages %}
+            <div
+                class="message-bubble {% if (session.get('role') == 'commercial' and m.id_commercial) or (session.get('role') == 'client' and m.id_client) %}msg-me{% else %}msg-other{% endif %}">
+                <p style="margin: 0; font-size: 0.95em;">{{ m.message }}</p>
+                <span style="display: block; font-size: 0.7em; text-align: right; margin-top: 5px; opacity: 0.8;">
+                    {{ m.date_heure }}
+                </span>
             </div>
+            {% else %}
+            <p style="text-align: center; color: #95a5a6; font-style: italic; margin-top: 50px;">Aucun message dans
+                cette discussion. Ouvrez le dialogue !</p>
+            {% endfor %}
+        </div>
+
+        <form method="POST" action="/messagerie/envoyer"
+            style="display: flex; gap: 10px; border-top: 1px solid #eee; padding-top: 15px;">
+            <input type="hidden" name="id_file_discussion" value="{{ active_file.id_file_discussion }}">
+            <input type="text" name="contenu_message" placeholder="Écrivez votre message ici..." required
+                style="flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; outline: none;">
+            <input type="submit" value="Envoyer ✉️">
         </form>
+
         {% else %}
-        <div style="text-align: center; color: #777; margin-top: 100px;">
-            <h3>Sélectionnez un fil de discussion à gauche pour afficher et envoyer des messages.</h3>
+        <div
+            style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; color: #95a5a6;">
+            <span style="font-size: 4em;">💬</span>
+            <p style="font-size: 1.2em; margin-top: 10px;">Sélectionnez un fil de discussion à gauche pour afficher les
+                messages.</p>
         </div>
         {% endif %}
     </div>
+
 </div>
 {% endblock %}
