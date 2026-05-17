@@ -1,57 +1,61 @@
 {% extends 'base.html' %}
-{% block title %}YMMO - Liste des Biens{% endblock %}
+{% block title %}YMMO - Recherche Immobilière{% endblock %}
 
 {% block content %}
-<h1>Rechercher un bien immobilier</h1>
+<h1>Recherche de Biens Immobiliers</h1>
 
-<section style="background: #ecf0f1; padding: 20px; border-radius: 6px; margin-bottom: 30px;">
-    <form method="GET" action="{{ url_for('bien') }}" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
-        <div>
-            <label for="ville" style="display:block; font-weight:bold; margin-bottom:5px;">Ville :</label>
-            <input type="text" id="ville" name="ville" value="{{ request.args.get('ville', '') }}" placeholder="Ex: Paris">
+<form method="GET" action="/bien" style="background: #eee; padding: 15px; border-radius: 4px; margin-bottom: 30px;">
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 150px;">
+            <label>Ville :</label>
+            <input type="text" name="ville" value="{{ request.args.get('ville', '') }}" placeholder="Ex: Aix-en-Provence">
         </div>
-        <div>
-            <label for="prix_max" style="display:block; font-weight:bold; margin-bottom:5px;">Prix maximum (€) :</label>
-            <input type="number" id="prix_max" name="prix_max" value="{{ request.args.get('prix_max', '') }}" placeholder="Ex: 300000">
+        <div style="flex: 1; min-width: 150px;">
+            <label>Prix Max :</label>
+            <input type="number" name="prix_max" value="{{ request.args.get('prix_max', '') }}" placeholder="Budget max">
         </div>
-        <div>
-            <label for="type_bien" style="display:block; font-weight:bold; margin-bottom:5px;">Type d'offre :</label>
-            <select id="type_bien" name="type_bien">
+        <div style="flex: 1; min-width: 150px;">
+            <label>Type :</label>
+            <select name="type_bien">
                 <option value="">Tous les types</option>
-                <option value="vente" {% if request.args.get('type_bien') == 'vente' %}selected{% endif %}>Achat (Vente)</option>
-                <option value="location" {% if request.args.get('type_bien') == 'location' %}selected{% endif %}>Location</option>
+                <option value="Appartement" {% if request.args.get('type_bien') == 'Appartement' %}selected{% endif %}>Appartement</option>
+                <option value="Maison" {% if request.args.get('type_bien') == 'Maison' %}selected{% endif %}>Maison</option>
+                <option value="Bureau" {% if request.args.get('type_bien') == 'Bureau' %}selected{% endif %}>Bureau</option>
             </select>
         </div>
-        <input type="submit" value="Filtrer les résultats">
-        <a href="{{ url_for('bien') }}" style="padding: 10px; color: #7f8c8d; text-decoration: none;">Réinitialiser</a>
-    </form>
-</section>
+        <div style="flex: 1; min-width: 150px;">
+            <label>Trier par :</label>
+            <select name="tri">
+                <option value="prix_asc" {% if request.args.get('tri') == 'prix_asc' %}selected{% endif %}>Prix : du - cher au + cher</option>
+                <option value="prix_desc" {% if request.args.get('tri') == 'prix_desc' %}selected{% endif %}>Prix : du + cher au - cher</option>
+                <option value="surface_desc" {% if request.args.get('tri') == 'surface_desc' %}selected{% endif %}>Surface décroissante</option>
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn" style="margin-top: 15px;">Appliquer les filtres</button>
+</form>
 
-<h2>Biens disponibles ({{ biens|length }})</h2>
-<section style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+<div class="grid">
     {% for b in biens %}
-        <article style="border: 1px solid #ddd; border-radius: 6px; padding: 15px; background: #fff; display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-                <h3 style="margin-top:0; color:#2c3e50;">{{ b.type_bien|capitalize }} - {{ b.ville }}</h3>
-                <p style="color: #7f8c8d; font-size: 0.9em;">📍 {{ b.adresse }}</p>
-                <p><strong>{{ b.prix }} €</strong></p>
-                <p style="font-size: 0.94em; color: #555;">{{ b.description[:120] }}...</p>
-                <p style="font-size: 0.85em; background: #eee; display:inline-block; padding: 3px 8px; border-radius:3px;">
-                    {{ b.surface }} m² | {{ b.nbr_pieces }} pièce(s)
-                </p>
-            </div>
-            <div style="margin-top: 15px; display:flex; justify-content: space-between; align-items: center;">
-                <a href="/bien/{{ b.id }}" style="color:#3498db; font-weight:bold; text-decoration:none;">En savoir plus &rarr;</a>
-                
-                {% if session.get('role') in ['admin', 'commercial'] %}
-                    <form action="/bien/{{ b.id }}/supprimer" method="POST" onsubmit="return confirm('Voulez-vous vraiment retirer ce bien de la vente ?');" style="margin:0;">
-                        <input type="submit" value="Supprimer" style="background-color:#e74c3c; padding: 5px 10px; font-size:0.85em;">
-                    </form>
-                {% endif %}
-            </div>
-        </article>
+    <div class="card">
+        <h3>{{ b.type_bien }} - {{ b.ville }}</h3>
+        <p><strong>Adresse :</strong> {{ b.adresse }}</p>
+        <p><strong>Prix :</strong> {{ b.prix }} €</p>
+        <p><strong>Surface :</strong> {{ b.surface }} m² ({{ b.nbr_pieces }} pièces)</p>
+        <p><em>{{ b.description[:100] }}...</em></p>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <a href="/bien/{{ b.id }}" class="btn">Détails & Pièces</a>
+            
+            {% if session.get('role') in ['admin', 'commercial'] %}
+                <form method="POST" action="/bien/{{ b.id }}/supprimer" onsubmit="return confirm('Confirmer la suppression ?');">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
     {% else %}
-        <p>Aucun bien ne correspond à vos critères de recherche.</p>
-    {% endfor % biographical %}
-</section>
+    <p>Aucun bien ne correspond à vos critères de recherche.</p>
+    {% endfor %}
+</div>
 {% endblock %}
