@@ -1,7 +1,7 @@
 class Messagerie:
     """Représente une messagerie (Entité)"""
-    def __init__(self, id_messagerie, message, date_heure, id_commercial, id_client, id_file_discussion):
-        self.id_messagerie = id_messagerie
+    def __init__(self, id_message, message, date_heure, id_commercial, id_client, id_file_discussion):
+        self.id_messagerie = id_message
         self.message = message
         self.date_heure = date_heure
         self.id_commercial = id_commercial
@@ -15,7 +15,7 @@ class MessagerieRepository:
     def find_all(self, id_file_discussion):
         cur = self.db.cursor()
         cur.execute("""
-            SELECT id_messagerie, message, date_heure, id_commercial, id_client 
+            SELECT id_message, message, date_heure, id_commercial, id_client 
             FROM message 
             WHERE id_file_discussion = %s
         """, (id_file_discussion,))
