@@ -65,3 +65,43 @@
             </div>
             <div>
                 <label style="display:block; font-weight:bold; margin-bottom:5px;">Type de Chauffage :</label>
+                <input type="text" name="typeChauffage" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+            </div>
+            <div>
+                <label style="display:block; font-weight:bold; margin-bottom:5px;">Production Eau Chaude :</label>
+                <input type="text" name="typeEauChaude" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+            </div>
+            <div>
+                <label style="display:block; font-weight:bold; margin-bottom:5px;">Moyen d'eau chaude :</label>
+                <input type="text" name="moyenEauChaude" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+            </div>
+            <div>
+                <label style="display:block; font-weight:bold; margin-bottom:5px;">Étage (ex: 3ème ou RDC) :</label>
+                <input type="text" name="etage" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+            </div>
+            <div>
+                <label style="display:block; font-weight:bold; margin-bottom:5px;">Vue (ex: Dégagée, Vis-à-vis) :</label>
+                <input type="text" name="vue" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+            </div>
+        </div>
+
+        <h3 style="color:#3498db; border-bottom: 1px solid #eee; padding-bottom: 5px;">3. Tarification & Administration</h3>
+        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+            <div style="flex: 2;">
+                <label style="display:block; font-weight:bold; margin-bottom:5px;">Prix final attendu (€) :</label>
+                <input type="number" name="prix" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px; font-size:1.1em; font-weight:bold;">
+            </div>
+            <div style="flex: 1;">
+                <label style="display:block; font-weight:bold; margin-bottom:5px;">Statut de l'offre :</label>
+                <input type="text" name="statut" value="Disponible" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+            </div>
+            <div style="flex: 1;">
+                <label style="display:block; font-weight:bold; margin-bottom:5px;">ID Agence en charge :</label>
+                <input type="number" name="agence" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+            </div>
+        </div>
+
+        <input type="submit" value="Enregistrer et publier l'annonce 📢" style="width: 100%; background-color: #3498db; color: white; border: none; padding: 14px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1.05em;">
+    </form>
+</section>
+{% endblock %}
