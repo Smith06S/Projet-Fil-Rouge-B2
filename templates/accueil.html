@@ -1,53 +1,34 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% block title %}YMMO - Accueil & Carte des Biens{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>YMMO - Utilisateurs</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 90%;
-            margin: 20px auto;
-        }
+{% block content %}
+<section id="accueil-carte" style="text-align: center; margin-bottom: 40px;">
+    <h1 style="color: #2c3e50; font-size: 2.2em; margin-bottom: 5px;">Bienvenue sur la plateforme YMMO</h1>
+    <p style="color: #7f8c8d; margin-bottom: 25px;">Consultez la répartition géographique de nos offres et de nos structures à travers la France.</p>
 
-        th,
-        td {
-            border: 1px solid #333;
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #eee;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>Carte des biens</h1>
-    <!-- Section sémantique pour l'accueil -->
-    <section id="accueil-carte" style="margin: 20px 0; text-align: center;">
-        <h2>Localisation de nos biens</h2>
-
-        <!-- Conteneur spécifique pour le rendu de la carte -->
-        <div class="map-container"
-            style="width: 90%; height: 500px; margin: 0 auto; border: 2px solid #333; border-radius: 8px; overflow: hidden;">
-            {% include 'carte_dyn.html' %}
-        </div>
-    </section>
-
-    <h1>Liste des Agences</h1>
-    {% for a in agences %}
-    <div>
-        <p>{{ a.id }}</p>
-        <p>{{ a.nom }}</p>
-        <p>{{ a.prenom }}</p>
-        <p>{{ a.email }}</p>
-        <p>{{ a.telephone }}</p>
-        <p>{{ a.role }}</p>
+    <h2>📍 Localisation en temps réel de nos biens</h2>
+    <div class="map-container" style="width: 100%; height: 500px; margin: 0 auto; border: 2px solid #2c3e50; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        {% include 'carte_dyn.html' %}
     </div>
-    {% endfor %}
-</body>
+</section>
 
-</html>
+<hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
+
+<section id="accueil-agences">
+    <h2 style="color: #2c3e50; margin-bottom: 20px;">🏢 Les Agences de notre Réseau</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+        {% for a in agences %}
+            <article style="border: 1px solid #ddd; padding: 15px; border-radius: 6px; background: #fafafa; border-left: 4px solid #3498db;">
+                <h3 style="margin: 0 0 10px 0; color: #2c3e50;">{{ a.nom }}</h3>
+                <p style="margin: 5px 0; font-size: 0.9em; color: #555;"><strong>Ville :</strong> {{ a.ville }}</p>
+                <p style="margin: 5px 0; font-size: 0.85em; color: #7f8c8d;"><strong>Code Postal :</strong> {{ a.code_postal }}</p>
+            </article>
+        {% else %}
+            <p style="font-style: italic; color: #95a5a6; text-align: center; grid-column: 1 / -1;">
+                Aucune agence n'est actuellement synchronisée sur l'accueil.
+            </p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
