@@ -116,7 +116,7 @@ def inscription():
     return render_template('inscription.html', message=message)
 
 
-@app.route('/agence')
+@app.route('/agences')
 def agence():
     try:
         conn = db_manager.get_connection()
