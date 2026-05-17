@@ -22,20 +22,23 @@
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="/accueil">Accueil (Carte)</a>
-        <a href="/bien">Recherche & Filtres</a>
-        <a href="/agences">Nos Agences</a>
-        <a href="/messagerie">Boîte de Réception (Chats)</a>
-        {% if session.get('user_id') %}
-            <a href="/mise_en_vente">Publier un Bien</a>
-            <a href="/profil">Mon Profil (Rôle: {{ session.get('role') }})</a>
-            <a href="/deconnexion" style="margin-left: auto; color: #ffc107;">Déconnexion</a>
-        {% else %}
-            <a href="/connexion" style="margin-left: auto;">Connexion</a>
-            <a href="/inscription">Inscription</a>
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('agence') }}">Nos Agences</a>
+    <a href="{{ url_for('bien') }}">Acheter / Louer</a>
+    {% if session.get('user_id') %}
+        <a href="{{ url_for('messagerie_boite') }}">Messagerie</a>
+        {% if session.get('role') in ['admin', 'commercial'] %}
+            <a href="{{ url_for('dashboard') }}" style="color: #f39c12;">Dashboard Stats</a>
+            <a href="{{ url_for('mise_en_vente') }}">Publier un bien</a>
         {% endif %}
-    </nav>
+        <a href="{{ url_for('profil') }}">Mon Profil</a>
+        <a href="{{ url_for('deconnexion') }}" style="color: #e74c3c;">Déconnexion</a>
+    {% else %}
+        <a href="{{ url_for('connexion') }}">Connexion</a>
+        <a href="{{ url_for('inscription') }}">Inscription</a>
+    {% endif %}
+</nav>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}

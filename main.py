@@ -360,5 +360,30 @@ def liste_utilisateurs():
     conn.close()
     return render_template('utilisateur.html', utilisateurs=tous_les_users)
 
+@app.route('/dashboard')
+@role_required(['admin', 'commercial']) # Sécurité d'accès
+def dashboard():
+    try:
+        conn = db_manager.get_connection()
+        stats_repo = StatistiqueRepository(conn)
+        stats_repo.calculer_real_stats_from_db()
+        toutes_les_stats = stats_repo.find_all()
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*), SUM(prix_final) FROM transaction")
+        res_trans = cur.fetchone()
+        total_ventes = res_trans[0] or 0
+        ca_total = res_trans[1] or 0
+        cur.execute("SELECT COUNT(*) FROM bien WHERE statut ILIKE 'Disponible'")
+        biens_actifs = cur.fetchone()[0] or 0
+        cur.close()
+        conn.close()
+        return render_template('dashboard_stats.html', 
+                               statistiques=toutes_les_stats, 
+                               total_ventes=total_ventes, 
+                               ca_total=ca_total, 
+                               biens_actifs=biens_actifs)
+    except Exception as e:
+        return f"Erreur lors de la génération du rapport statistique : {e}"
+    
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
