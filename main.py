@@ -320,6 +320,14 @@ def messagerie_envoyer():
     
     return redirect(f"/messagerie?file_id={id_file}")
 
+@app.route('/utilisateurs')
+@role_required(['admin']) # Seuls les admins peuvent déclencher cette fonction
+def liste_utilisateurs():
+    conn = db_manager.get_connection()
+    repo = UtilisateurRepository(conn)
+    tous_les_users = repo.find_all()
+    conn.close()
+    return render_template('utilisateur.html', utilisateurs=tous_les_users)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
