@@ -1,52 +1,72 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% block title %}YMMO - {{ bien.type_bien }} {{ bien.ville }}{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>YMMO - Biens</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 90%;
-            margin: 20px auto;
-        }
+{% block content %}
+<div style="display: flex; gap: 30px; flex-wrap: wrap;">
+    
+    <div style="flex: 2; min-width: 300px;">
+        <h1>Détail du Bien (ID: {{ bien.id }})</h1>
+        <h2>{{ bien.prix }} € - {{ bien.type_bien }} à {{ bien.ville }}</h2>
+        <p><strong>Adresse précise :</strong> {{ bien.adresse }}</p>
+        <p><strong>Description :</strong><br>{{ bien.description }}</p>
+        
+        <ul>
+            <li><strong>Étage :</strong> {{ bien.etage if bien.etage else 'RDC' }}</li>
+            <li><strong>Exposition :</strong> {{ bien.exposition }}</li>
+            <li><strong>État du logement :</strong> {{ bien.etat_logement }}</li>
+            <li><strong>Chauffage :</strong> {{ bien.type_chauffage }} ({{ bien.energie_chauffage }})</li>
+            <li><strong>Vue :</strong> {{ bien.vue }}</li>
+            <li><strong>Statut actuel :</strong> <span style="color: green; font-weight: bold;">{{ bien.statut }}</span></li>
+        </ul>
 
-        th,
-        td {
-            border: 1px solid #333;
-            padding: 10px;
-            text-align: left;
-        }
+        <hr>
 
-        th {
-            background-color: #eee;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>Détail du Bien</h1>
-    <div>
-        <p>ID : {{ bien.id }}</p>
-        <p>Ville : {{ bien.ville }}</p>
-        <p>Adresse : {{ bien.adresse }}</p>
-        <p>Description : {{ bien.description }}</p>
-        <p>Nombre de pièces : {{ bien.nbr_pieces }}</p>
-        <p>Surface : {{ bien.surface }}</p>
-        <p>Type de bien : {{ bien.type_bien }}</p>
-        <p>Exposition : {{ bien.exposition }}</p>
-        <p>État logement : {{ bien.etat_logement }}</p>
-        <p>Énergie chauffage : {{ bien.energie_chauffage }}</p>
-        <p>Type eau chaude : {{ bien.type_eau_chaude }}</p>
-        <p>Type chauffage : {{ bien.type_chauffage }}</p>
-        <p>Moyen eau chaude : {{ bien.moyen_eau_chaude }}</p>
-        <p>Étage : {{ bien.etage }}</p>
-        <p>Vue : {{ bien.vue }}</p>
-        <p>Prix : {{ bien.prix }}</p>
-        <p>Statut : {{ bien.statut }}</p>
-        <p>ID Statistique : {{ bien.id_statistique }}</p>
-        <p>ID Agence : {{ bien.id_agence }}</p>
+        <h3>Composition du logement (Détail des pièces)</h3>
+        {% if pieces %}
+            <table border="1" cellpadding="8" style="width: 100%; border-collapse: collapse;">
+                <thead style="background: #eee;">
+                    <tr>
+                        <th>Nom de la pièce</th>
+                        <th>Surface</th>
+                        <th>Étage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in pieces %}
+                    <tr>
+                        <td>{{ p.nom_piece }}</td>
+                        <td>{{ p.metre_carre_piece }} m²</td>
+                        <td>{{ p.etage }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucun détail de pièce disponible pour ce bien.</p>
+        {% endif %}
     </div>
-</body>
 
-</html>
+    <div style="flex: 1; min-width: 250px; background: #eef7ff; padding: 20px; border-radius: 8px; border: 1px solid #bce0fd;">
+        <h3 style="color: #004085; margin-top: 0;">📊 Analyses Prédictives (Module IA)</h3>
+        {% if statistiques %}
+            <p><strong>Zone Géographique :</strong> {{ statistiques.zone_geographique }}</p>
+            <p><strong>Prix Moyen Local :</strong> {{ statistiques.prix_moyen_m2 }} € / m²</p>
+            
+            <p><strong>Indice de Popularité :</strong> 
+                <span style="font-size: 1.2em; font-weight: bold; color: #ff9900;">
+                    {{ statistiques.indice_popularite }} / 10
+                </span>
+            </p>
+            <p><strong>Évolution Estimée des Prix :</strong> {{ statistiques.precision_evolution_prix }} %</p>
+            <p><strong>Volume des Ventes Annuel :</strong> {{ statistiques.volume_vente_estime }} ventes</p>
+            <p><small><em>Dernière analyse de tendance effectuée le : {{ statistiques.date_analyse }}</em></small></p>
+        {% else %}
+            <p>Aucune donnée statistique prédictive disponible pour ce secteur géographique.</p>
+        {% endif %}
+        
+        <hr style="border-color: #bce0fd;">
+        
+        <a href="/messagerie/creer?id_bien={{ bien.id }}" class="btn" style="width: 100%; text-align: center;">Contacter l'agence pour ce bien</a>
+    </div>
+</div>
+{% endblock %}

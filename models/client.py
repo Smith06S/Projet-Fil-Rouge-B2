@@ -52,3 +52,20 @@ class ClientRepository:
         cur.execute("UPDATE bien SET nom = %s, prenom = %s, email = %s, mdp = %s, telephone = %s, type_client = %s, budget_max = %s WHERE id_utilisateur = %s;" , (nom, prenom, email, mdp, telephone, type_client, budget_max, id_user))
         self.db.commit()
         cur.close()
+
+    def modify_Client(self, nom, prenom, email, mdp, telephone, type_client, budget_max, id_user):
+        cur = self.db.cursor()
+        cur.execute("""
+            UPDATE utilisateur 
+            SET nom = %s, prenom = %s, email = %s, mdp = %s, telephone = %s 
+            WHERE id_utilisateur = %s;
+        """, (nom, prenom, email, mdp, telephone, id_user))
+        
+        cur.execute("""
+            UPDATE client 
+            SET type_client = %s, budget_max = %s 
+            WHERE id_utilisateur = %s;
+        """, (type_client, budget_max, id_user))
+        
+        self.db.commit()
+        cur.close()

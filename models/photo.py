@@ -23,10 +23,10 @@ class PhotoRepository:
     
     def agence_Photo(self, id_agence):
         cur = self.db.cursor()
-        cur.execute("SELECT id_photo, lien FROM photo WHERE id_bien = %s",(id_agence,))
+        cur.execute("SELECT id_photo, lien, id_agence FROM photo WHERE id_agence = %s", (id_agence,))
         rows = cur.fetchall()
 
-        photos = [Photo(r[0], r[1]) for r in rows]
+        photos = [Photo(r[0], r[1], None, r[2]) for r in rows]
 
         cur.close()
         return photos

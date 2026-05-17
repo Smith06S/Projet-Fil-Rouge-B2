@@ -63,3 +63,24 @@ class BienRepository:
         cur.execute("DELETE FROM bien WHERE id_bien = %s", (id_bien,))
         self.db.commit()
         cur.close()
+
+    def find_by_filter(self, ville=None, prix_max=None, type_bien=None):
+        cur = self.db.cursor()
+        query = "SELECT id_bien, ville, adresse, description, nbr_pieces, surface, type_bien FROM bien WHERE 1=1"
+        params = []
+        
+        if ville:
+            query += " AND ville ILIKE %s"
+            params.append(f"%{ville}%")
+        if prix_max:
+            query += " AND prix <= %s"
+            params.append(prix_max)
+        if type_bien:
+            query += " AND type_bien = %s"
+            params.append(type_bien)
+            
+        cur.execute(query, tuple(params))
+        rows = cur.fetchall()
+        biens = [Bien(r[0], r[1], r[2], r[3], r[4], r[5], r[6]) for r in rows]
+        cur.close()
+        return biens
