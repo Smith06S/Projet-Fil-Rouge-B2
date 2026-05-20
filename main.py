@@ -25,8 +25,8 @@ db_manager = Database()
 @app.route('/accueil')
 def accueil():
     try:
-        from models.carte import generer_carte_biens
-        generer_carte_biens()
+        #from models.carte import generer_carte_biens
+        #generer_carte_biens()
         
         conn = db_manager.get_connection()
         repo = AgenceRepository(conn)
@@ -386,4 +386,5 @@ def dashboard():
         return f"Erreur lors de la génération du rapport statistique : {e}"
     
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+    
