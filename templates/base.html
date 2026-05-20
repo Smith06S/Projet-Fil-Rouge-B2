@@ -3,26 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Ymmo - Application Immobilière{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}YMMO{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f9f9f9; }
+        
+        /* C'est cette classe qui gère le joli design de ta barre */
+        .navbar { 
+            display: flex; 
+            gap: 15px; 
+            background: #2c3e50; /* Changé pour un bleu nuit pro, ou remets #333 si tu préfères */
+            padding: 15px; 
+            margin-bottom: 30px; 
+            border-radius: 6px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            align-items: center;
+        }
+        .navbar a { color: white; text-decoration: none; font-weight: bold; padding: 5px 10px; border-radius: 4px; }
+        .navbar a:hover { color: #3498db; background: rgba(255,255,255,0.1); }
+        
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .flash { padding: 12px; margin-bottom: 20px; border-radius: 4px; background-color: #d4edda; color: #155724; font-weight: bold; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #fff; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        .btn { background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-danger { background: #dc3545; }
+    </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="navbar-brand">
-            <img src="{{ url_for('static', filename='logoYmmo.svg') }}" alt="Ymmo" class="logo-nav">
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="{{ url_for('accueil') }}"><span>Accueil</span></a></li>
-            <li class="nav-item"><a href="{{ url_for('bien') }}"><span>Biens</span></a></li>
-            <li class="nav-item"><a href="{{ url_for('connexion') }}"><span>Connexion</span></a></li>
-        </ul>
+        <a href="{{ url_for('accueil') }}">Accueil</a>
+        <a href="{{ url_for('agence') }}">Nos Agences</a>
+        <a href="{{ url_for('bien') }}">Acheter / Louer</a>
+        {% if session.get('user_id') %}
+            <a href="{{ url_for('messagerie_boite') }}">Messagerie</a>
+            {% if session.get('role') in ['admin', 'commercial'] %}
+                <a href="{{ url_for('dashboard') }}" style="color: #f39c12;">Dashboard Stats</a>
+                <a href="{{ url_for('mise_en_vente') }}">Publier un bien</a>
+            {% endif %}
+            <a href="{{ url_for('profil') }}">Mon Profil</a>
+            <a href="{{ url_for('deconnexion') }}" style="color: #ff4d4d; margin-left: auto;">Déconnexion</a>
+        {% else %}
+            <a href="{{ url_for('connexion') }}" style="margin-left: auto;">Connexion</a>
+            <a href="{{ url_for('inscription') }}">Inscription</a>
+        {% endif %}
     </nav>
 
-    <main class="container">
-        {% block content %}
-        {% endblock %}
-    </main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {% if category == 'error' %}error{% endif %}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
 </body>
 </html>
