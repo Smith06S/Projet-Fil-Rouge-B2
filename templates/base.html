@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Ymmo - Application Immobilière{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
 
     <nav class="navbar">
-        <div class="navbar-brand">Ymmo Logement</div>
+        <div class="navbar-brand">
+            <img src="{{ url_for('static', filename='logoYmmo.svg') }}" alt="Ymmo" class="logo-nav">
+        </div>
         <ul class="nav-menu">
             <li class="nav-item"><a href="{{ url_for('accueil') }}"><span>Accueil</span></a></li>
             <li class="nav-item"><a href="{{ url_for('bien') }}"><span>Biens</span></a></li>
