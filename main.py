@@ -25,9 +25,7 @@ db_manager = Database()
 @app.route('/accueil')
 def accueil():
     try:
-        #from models.carte import generer_carte_biens
-        #generer_carte_biens()
-        
+             
         conn = db_manager.get_connection()
         repo = AgenceRepository(conn)
         mes_agences = repo.find_all()
