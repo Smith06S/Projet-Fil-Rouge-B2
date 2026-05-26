@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from database import Database
-from models.utilisateur import Utilisateur
-from models.bien import Bien
 
 app = Flask(__name__)
-app.secret_key = 'ymmo_secret_key_123'  # Nécessaire pour utiliser les sessions (flash, connexion)
+app.secret_key = 'ymmo_secret_key_123'  # Clé obligatoire pour les sessions et messages flash
 
 # Initialisation de la base de données
 db = Database()
@@ -30,8 +28,7 @@ def inscription():
             flash("Veuillez remplir tous les champs obligatoires.", "danger")
             return render_template('inscription.html')
             
-        # Exemple d'insertion basique via database ou modèle
-        query = "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role) VALUES (%s, %s, %s, %s, %s);"
+        query = "INSERT INTO UTILISATEUR (nom, prenom, email, mot_de_passe, role) VALUES (%s, %s, %s, %s, %s);"
         try:
             db.execute_query(query, (nom, prenom, email, mot_de_passe, role))
             flash("Inscription réussie ! Connectez-vous.", "success")
@@ -47,7 +44,7 @@ def connexion():
         email = request.form.get('email')
         mot_de_passe = request.form.get('password')
         
-        query = "SELECT id, nom, prenom, role FROM utilisateur WHERE email = %s AND mot_de_passe = %s;"
+        query = "SELECT idUtilisateur, nom, prenom, role FROM UTILISATEUR WHERE email = %s AND mot_de_passe = %s;"
         user = db.fetch_one(query, (email, mot_de_passe))
         
         if user:
@@ -70,14 +67,14 @@ def deconnexion():
 
 @app.route('/biens')
 def liste_biens():
-    # Récupération des biens depuis la base de données
-    query = "SELECT id, titre, description, prix, ville, type_bien FROM bien;"
+    # Correction stricte des colonnes selon ton Looping
+    query = "SELECT idBien, prixBien, descriptionBien, villeBien, typeBien FROM BIEN;"
     biens_data = db.fetch_all(query)
     return render_template('listeBien.html', biens=biens_data)
 
 @app.route('/bien/<int:id>')
 def produit(id):
-    query = "SELECT id, titre, description, prix, ville, type_bien FROM bien WHERE id = %s;"
+    query = "SELECT idBien, prixBien, descriptionBien, villeBien, typeBien FROM BIEN WHERE idBien = %s;"
     bien = db.fetch_one(query, (id,))
     if not bien:
         flash("Ce bien n'existe pas.", "warning")
@@ -91,15 +88,17 @@ def mise_en_vente():
         return redirect(url_for('connexion'))
         
     if request.method == 'POST':
-        titre = request.form.get('titre')
         description = request.form.get('description')
         prix = request.form.get('prix')
         ville = request.form.get('ville')
         type_bien = request.form.get('type_bien')
         
-        query = "INSERT INTO bien (titre, description, prix, ville, type_bien, proprietaire_id) VALUES (%s, %s, %s, %s, %s, %s);"
+        query = """
+            INSERT INTO BIEN (prixBien, descriptionBien, villeBien, typeBien, idUtilisateur) 
+            VALUES (%s, %s, %s, %s, %s);
+        """
         try:
-            db.execute_query(query, (titre, description, prix, ville, type_bien, session['user_id']))
+            db.execute_query(query, (prix, description, ville, type_bien, session['user_id']))
             flash("Votre bien a été mis en vente avec succès !", "success")
             return redirect(url_for('liste_biens'))
         except Exception as e:
@@ -131,5 +130,5 @@ def dashboard_stats():
     return render_template('dashboard_stats.html')
 
 if __name__ == '__main__':
-    # Hôte réglé sur 0.0.0.0 pour écouter sur le réseau local et permettre les tests distants
+    # host='0.0.0.0' est indispensable pour écouter sur ton IP 10.0.0.11
     app.run(host='0.0.0.0', port=5000, debug=True)

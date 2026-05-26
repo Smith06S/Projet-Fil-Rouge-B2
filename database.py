@@ -18,7 +18,7 @@ class Database:
         )
 
     def execute_query(self, query, params=None):
-        """Pour les requêtes de type INSERT, UPDATE, DELETE"""
+        """Exécute une requête de modification (INSERT, UPDATE, DELETE)"""
         conn = self.get_connection()
         cursor = conn.cursor()
         try:
@@ -32,7 +32,7 @@ class Database:
             conn.close()
 
     def fetch_all(self, query, params=None):
-        """Pour récupérer plusieurs lignes (SELECT)"""
+        """Récupère un ensemble de résultats (SELECT global)"""
         conn = self.get_connection()
         cursor = conn.cursor()
         try:
@@ -46,7 +46,7 @@ class Database:
             conn.close()
 
     def fetch_one(self, query, params=None):
-        """Pour récupérer une seule ligne (SELECT ... LIMIT 1)"""
+        """Récupère un seul résultat (SELECT unique)"""
         conn = self.get_connection()
         cursor = conn.cursor()
         try:

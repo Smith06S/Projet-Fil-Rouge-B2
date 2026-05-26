@@ -1,61 +1,35 @@
 {% extends 'base.html' %}
-{% block title %}YMMO - Recherche Immobilière{% endblock %}
+
+{% block title %}Nos Biens Immobiliers - Ymmo{% endblock %}
 
 {% block content %}
-<h1>Recherche de Biens Immobiliers</h1>
-
-<form method="GET" action="/bien" style="background: #eee; padding: 15px; border-radius: 4px; margin-bottom: 30px;">
-    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-        <div style="flex: 1; min-width: 150px;">
-            <label>Ville :</label>
-            <input type="text" name="ville" value="{{ request.args.get('ville', '') }}" placeholder="Ex: Aix-en-Provence">
-        </div>
-        <div style="flex: 1; min-width: 150px;">
-            <label>Prix Max :</label>
-            <input type="number" name="prix_max" value="{{ request.args.get('prix_max', '') }}" placeholder="Budget max">
-        </div>
-        <div style="flex: 1; min-width: 150px;">
-            <label>Type :</label>
-            <select name="type_bien">
-                <option value="">Tous les types</option>
-                <option value="Appartement" {% if request.args.get('type_bien') == 'Appartement' %}selected{% endif %}>Appartement</option>
-                <option value="Maison" {% if request.args.get('type_bien') == 'Maison' %}selected{% endif %}>Maison</option>
-                <option value="Bureau" {% if request.args.get('type_bien') == 'Bureau' %}selected{% endif %}>Bureau</option>
-            </select>
-        </div>
-        <div style="flex: 1; min-width: 150px;">
-            <label>Trier par :</label>
-            <select name="tri">
-                <option value="prix_asc" {% if request.args.get('tri') == 'prix_asc' %}selected{% endif %}>Prix : du - cher au + cher</option>
-                <option value="prix_desc" {% if request.args.get('tri') == 'prix_desc' %}selected{% endif %}>Prix : du + cher au - cher</option>
-                <option value="surface_desc" {% if request.args.get('tri') == 'surface_desc' %}selected{% endif %}>Surface décroissante</option>
-            </select>
-        </div>
+<div class="container" style="padding: 20px;">
+    <h1 style="text-align: center; margin-bottom: 30px;">Catalogue des Biens Immobiliers</h1>
+    
+    <div class="biens-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+        {% if biens %}
+            {% for bien in biens %}
+                <div class="bien-card" style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <h2 style="color: #333; margin-top: 0;">{{ bien[4] }} à {{ bien[3] }}</h2>
+                    
+                    <p class="description" style="color: #666; font-size: 14px; min-height: 60px;">{{ bien[2] }}</p>
+                    
+                    <p class="price" style="font-size: 18px; color: #2ecc71; font-weight: bold; margin-bottom: 15px;">
+                        {{ bien[1] }} €
+                    </p>
+                    
+                    <a href="{{ url_for('produit', id=bien[0]) }}" class="btn-details" style="display: inline-block; background: #3498db; color: #fff; padding: 10px 15px; text-decoration: none; border-radius: 4px; text-align: center; width: 100%;">
+                        Voir la fiche détaillée
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: #eee; border-radius: 8px;">
+                <h3>Données de la table PostgreSQL</h3>
+                <p>Aucun bien immobilier n'est enregistré dans la base de données pour le moment.</p>
+                <a href="{{ url_for('mise_en_vente') }}" style="color: #3498db; font-weight: bold;">Ajouter un premier bien</a>
+            </div>
+        {% endif %}
     </div>
-    <button type="submit" class="btn" style="margin-top: 15px;">Appliquer les filtres</button>
-</form>
-
-<div class="grid">
-    {% for b in biens %}
-    <div class="card">
-        <h3>{{ b.type_bien }} - {{ b.ville }}</h3>
-        <p><strong>Adresse :</strong> {{ b.adresse }}</p>
-        <p><strong>Prix :</strong> {{ b.prix }} €</p>
-        <p><strong>Surface :</strong> {{ b.surface }} m² ({{ b.nbr_pieces }} pièces)</p>
-        <p><em>{{ b.description[:100] }}...</em></p>
-        
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <a href="/bien/{{ b.id }}" class="btn">Détails & Pièces</a>
-            
-            {% if session.get('role') in ['admin', 'commercial'] %}
-                <form method="POST" action="/bien/{{ b.id }}/supprimer" onsubmit="return confirm('Confirmer la suppression ?');">
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
-                </form>
-            {% endif %}
-        </div>
-    </div>
-    {% else %}
-    <p>Aucun bien ne correspond à vos critères de recherche.</p>
-    {% endfor %}
 </div>
 {% endblock %}
