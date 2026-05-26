@@ -3,7 +3,7 @@ import psycopg2
 class Database:
     def __init__(self):
         self.host = "localhost"
-        self.database = "postgres"
+        self.database = "ymmodb"
         self.user = "postgres"
         self.password = "ymmo123"
         self.port = "5432"
