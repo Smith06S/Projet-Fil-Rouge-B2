@@ -25,8 +25,8 @@
             {% endfor %}
         {% else %}
             <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: #eee; border-radius: 8px;">
-                <h3>Données de la table PostgreSQL</h3>
-                <p>Aucun bien immobilier n'est enregistré dans la base de données pour le moment.</p>
+                <h3>Base de données PostgreSQL connectée</h3>
+                <p>Aucun bien immobilier n'est enregistré pour le moment.</p>
                 <a href="{{ url_for('mise_en_vente') }}" style="color: #3498db; font-weight: bold;">Ajouter un premier bien</a>
             </div>
         {% endif %}

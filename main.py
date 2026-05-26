@@ -44,7 +44,6 @@ def connexion():
         email = request.form.get('email')
         mot_de_passe = request.form.get('password')
         
-        # Adaptation aux minuscules standards de PostgreSQL pour l'utilisateur
         query = "SELECT id_utilisateur, nom, prenom, role FROM utilisateur WHERE email = %s AND mot_de_passe = %s;"
         user = db.fetch_one(query, (email, mot_de_passe))
         
@@ -68,7 +67,7 @@ def deconnexion():
 
 @app.route('/biens')
 def liste_biens():
-    # Correction stricte selon l'indication de Postgres (id_bien, prix_bien, etc.)
+    # Sélection rigoureuse des colonnes en minuscules avec tirets bas
     query = "SELECT id_bien, prix_bien, description_bien, ville_bien, type_bien FROM bien;"
     biens_data = db.fetch_all(query)
     return render_template('listeBien.html', biens=biens_data)
@@ -132,4 +131,3 @@ def dashboard_stats():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-    
