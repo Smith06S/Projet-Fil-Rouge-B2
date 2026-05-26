@@ -28,7 +28,7 @@ def inscription():
             flash("Veuillez remplir tous les champs obligatoires.", "danger")
             return render_template('inscription.html')
             
-        query = "INSERT INTO UTILISATEUR (nom, prenom, email, mot_de_passe, role) VALUES (%s, %s, %s, %s, %s);"
+        query = "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role) VALUES (%s, %s, %s, %s, %s);"
         try:
             db.execute_query(query, (nom, prenom, email, mot_de_passe, role))
             flash("Inscription réussie ! Connectez-vous.", "success")
@@ -44,7 +44,8 @@ def connexion():
         email = request.form.get('email')
         mot_de_passe = request.form.get('password')
         
-        query = "SELECT idUtilisateur, nom, prenom, role FROM UTILISATEUR WHERE email = %s AND mot_de_passe = %s;"
+        # Adaptation aux minuscules standards de PostgreSQL pour l'utilisateur
+        query = "SELECT id_utilisateur, nom, prenom, role FROM utilisateur WHERE email = %s AND mot_de_passe = %s;"
         user = db.fetch_one(query, (email, mot_de_passe))
         
         if user:
@@ -67,14 +68,14 @@ def deconnexion():
 
 @app.route('/biens')
 def liste_biens():
-    # Correction stricte des colonnes selon ton Looping
-    query = "SELECT idBien, prixBien, descriptionBien, villeBien, typeBien FROM BIEN;"
+    # Correction stricte selon l'indication de Postgres (id_bien, prix_bien, etc.)
+    query = "SELECT id_bien, prix_bien, description_bien, ville_bien, type_bien FROM bien;"
     biens_data = db.fetch_all(query)
     return render_template('listeBien.html', biens=biens_data)
 
 @app.route('/bien/<int:id>')
 def produit(id):
-    query = "SELECT idBien, prixBien, descriptionBien, villeBien, typeBien FROM BIEN WHERE idBien = %s;"
+    query = "SELECT id_bien, prix_bien, description_bien, ville_bien, type_bien FROM bien WHERE id_bien = %s;"
     bien = db.fetch_one(query, (id,))
     if not bien:
         flash("Ce bien n'existe pas.", "warning")
@@ -94,7 +95,7 @@ def mise_en_vente():
         type_bien = request.form.get('type_bien')
         
         query = """
-            INSERT INTO BIEN (prixBien, descriptionBien, villeBien, typeBien, idUtilisateur) 
+            INSERT INTO bien (prix_bien, description_bien, ville_bien, type_bien, id_utilisateur) 
             VALUES (%s, %s, %s, %s, %s);
         """
         try:
@@ -130,5 +131,5 @@ def dashboard_stats():
     return render_template('dashboard_stats.html')
 
 if __name__ == '__main__':
-    # host='0.0.0.0' est indispensable pour écouter sur ton IP 10.0.0.11
     app.run(host='0.0.0.0', port=5000, debug=True)
+    
