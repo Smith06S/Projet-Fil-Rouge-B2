@@ -11,21 +11,21 @@
             {% for bien in biens %}
                 <div class="bien-card" style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                     
-                    <h2 style="color: #333; margin-top: 0;">{{ bien['type_bien'] }} à {{ bien['ville'] }}</h2>
+                    <h2 style="color: #333; margin-top: 0;">{{ bien[6] }} à {{ bien[1] }}</h2>
                     
                     <p style="color: #888; font-size: 13px; margin: -5px 0 10px 0;">
-                        {{ bien['nbr_pieces'] }} pièces - {{ bien['surface'] }} m²
+                        {{ bien[4] }} pièces - {{ bien[5] }} m²
                     </p>
                     
                     <p class="description" style="color: #666; font-size: 14px; min-height: 50px;">
-                        {{ bien['description'] }}
+                        {{ bien[3] }}
                     </p>
                     
                     <p class="price" style="font-size: 18px; color: #2ecc71; font-weight: bold; margin-bottom: 15px;">
-                        {{ bien['prix'] }} €
+                        {{ bien[7] }} €
                     </p>
                     
-                    <a href="{{ url_for('produit', id=bien['id_bien']) }}" class="btn-details" style="display: inline-block; background: #3498db; color: #fff; padding: 10px 15px; text-decoration: none; border-radius: 4px; text-align: center; width: 100%;">
+                    <a href="{{ url_for('produit', id=bien[0]) }}" class="btn-details" style="display: inline-block; background: #3498db; color: #fff; padding: 10px 15px; text-decoration: none; border-radius: 4px; text-align: center; width: 100%;">
                         Voir la fiche détaillée
                     </a>
                 </div>
@@ -33,7 +33,7 @@
         {% else %}
             <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: #eee; border-radius: 8px;">
                 <h3>Aucun bien disponible</h3>
-                <p>La table 'bien' de PostgreSQL est connectée mais ne contient aucune ligne.</p>
+                <p>La table 'bien' est vide.</p>
                 <a href="{{ url_for('mise_en_vente') }}" style="color: #3498db; font-weight: bold;">Ajouter une annonce immobilière</a>
             </div>
         {% endif %}

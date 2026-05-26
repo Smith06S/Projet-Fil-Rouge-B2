@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from database import Database
 
 app = Flask(__name__)
-app.secret_key = 'ymmo_secret_key_123'  # Nécessaire pour les sessions et messages flash
+app.secret_key = 'ymmo_secret_key_123'
 
 db = Database()
 
@@ -27,14 +27,13 @@ def inscription():
             flash("Veuillez remplir tous les champs obligatoires.", "danger")
             return render_template('inscription.html')
             
-        # Modifie ici selon les vraies colonnes de ta table utilisateur si besoin
         query = "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role) VALUES (%s, %s, %s, %s, %s);"
         try:
             db.execute_query(query, (nom, prenom, email, mot_de_passe, role))
             flash("Inscription réussie ! Connectez-vous.", "success")
             return redirect(url_for('connexion'))
         except Exception as e:
-            flash(f"Erreur lors de l'inscription : {e}", "danger")
+            flash(f"Erreur d'inscription : {e}", "danger")
             
     return render_template('inscription.html')
 
@@ -45,31 +44,17 @@ def connexion():
         mot_de_passe = request.form.get('password')
         
         query = "SELECT id_utilisateur, nom, prenom, role FROM utilisateur WHERE email = %s AND mot_de_passe = %s;"
-        try:
-            user = db.fetch_one(query, (email, mot_de_passe))
-            if user:
-                session['user_id'] = user['id_utilisateur']
-                session['user_nom'] = user['nom']
-                session['user_prenom'] = user['prenom']
-                session['user_role'] = user['role']
-                flash(f"Ravi de vous revoir, {user['prenom']} !", "success")
-                return redirect(url_for('accueil'))
-            else:
-                flash("Identifiants incorrects.", "danger")
-        except Exception as e:
-            # Si ta table utilisateur utilise des structures différentes
-            query_alt = "SELECT * FROM utilisateur WHERE email = %s AND mot_de_passe = %s;"
-            try:
-                user = db.fetch_one(query_alt, (email, mot_de_passe))
-                if user:
-                    # Tente de récupérer dynamiquement l'id
-                    session['user_id'] = user.get('id_utilisateur') or user.get('idutilisateur') or list(user.values())[0]
-                    session['user_nom'] = user.get('nom', '')
-                    session['user_prenom'] = user.get('prenom', '')
-                    session['user_role'] = user.get('role', 'client')
-                    return redirect(url_for('accueil'))
-            except Exception:
-                flash(f"Erreur de connexion BDD : {e}", "danger")
+        user = db.fetch_one(query, (email, mot_de_passe))
+        
+        if user:
+            session['user_id'] = user[0]
+            session['user_nom'] = user[1]
+            session['user_prenom'] = user[2]
+            session['user_role'] = user[3]
+            flash(f"Ravi de vous revoir, {user[2]} !", "success")
+            return redirect(url_for('accueil'))
+        else:
+            flash("Identifiants incorrects.", "danger")
             
     return render_template('connexion.html')
 
@@ -81,14 +66,14 @@ def deconnexion():
 
 @app.route('/biens')
 def liste_biens():
-    # Sélection des colonnes validées par ta commande psql
-    query = "SELECT id_bien, prix, description, ville, type_bien, nbr_pieces, surface FROM bien;"
+    # Récupération de l'ensemble des colonnes dans l'ordre de ta table
+    query = "SELECT id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, prix FROM bien;"
     biens_data = db.fetch_all(query)
     return render_template('listeBien.html', biens=biens_data)
 
 @app.route('/bien/<int:id>')
 def produit(id):
-    query = "SELECT id_bien, prix, description, ville, type_bien, nbr_pieces, surface, adresse, exposition, etat_logement, vue FROM bien WHERE id_bien = %s;"
+    query = "SELECT id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, prix FROM bien WHERE id_bien = %s;"
     bien = db.fetch_one(query, (id,))
     if not bien:
         flash("Ce bien n'existe pas.", "warning")
@@ -110,30 +95,17 @@ def mise_en_vente():
         type_bien = request.form.get('type_bien')
         prix = request.form.get('prix')
         
-        # Valeurs par défaut exigées par tes contraintes "not null" de la table
-        exposition = request.form.get('exposition', 'Standard')
-        etat_logement = request.form.get('etat_logement', 'Bon état')
-        energie_chauffage = request.form.get('energie_chauffage', 'Électrique')
-        type_eau_chaude = request.form.get('type_eau_chaude', 'Individuel')
-        type_chauffage = request.form.get('type_chauffage', 'Individuel')
-        moyen_eau_chaude = request.form.get('moyen_eau_chaude', 'Ballon')
-        etage = request.form.get('etage', 'Rez-de-chaussée')
-        vue = request.form.get('vue', 'Dégagée')
-        statut = request.form.get('statut', 'Disponible')
-        id_agence = request.form.get('id_agence', 1) # Assigne par défaut à l'agence 1
-        
         query = """
             INSERT INTO bien (ville, adresse, description, nbr_pieces, surface, type_bien, exposition, 
             etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_agence) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            VALUES (%s, %s, %s, %s, %s, %s, 'Standard', 'Bon état', 'Électrique', 'Individuel', 'Individuel', 'Ballon', '1', 'Dégagée', %s, 'Disponible', 1);
         """
         try:
-            db.execute_query(query, (ville, adresse, description, nbr_pieces, surface, type_bien, exposition, 
-                                     etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_agence))
+            db.execute_query(query, (ville, adresse, description, nbr_pieces, surface, type_bien, prix))
             flash("Votre bien a été mis en vente !", "success")
             return redirect(url_for('liste_biens'))
         except Exception as e:
-            flash(f"Erreur d'insertion dans la table bien : {e}", "danger")
+            flash(f"Erreur lors de l'ajout : {e}", "danger")
             
     return render_template('miseEnVente.html')
 
@@ -143,14 +115,10 @@ def agences():
 
 @app.route('/profil')
 def profil():
-    if 'user_id' not in session:
-        return redirect(url_for('connexion'))
     return render_template('profil.html')
 
 @app.route('/messagerie')
 def messagerie():
-    if 'user_id' not in session:
-        return redirect(url_for('connexion'))
     return render_template('messagerie.html')
 
 @app.route('/dashboard')
