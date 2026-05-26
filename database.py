@@ -1,5 +1,4 @@
 import psycopg2
-from psycopg2 import ExtrasLogger
 
 class Database:
     def __init__(self):
