@@ -26,14 +26,23 @@ class ClientRepository:
     
     def is_Client(self, id_user):
         cur = self.db.cursor()
-        cur.execute("SELECT 1 FROM client WHERE id_utilisateur = %s AND role = client", (id_user,))
+        cur.execute("SELECT 1 FROM client WHERE id_utilisateur = %s AND role = 'client'", (id_user,))
         result = cur.fetchone()
         cur.close()
         return result is not None
     
+    def get_id_client(self, id_utilisateur):
+        cur = self.db.cursor()
+        cur.execute("SELECT id_client FROM client WHERE id_utilisateur = %s", (id_utilisateur,))
+        row = cur.fetchone()
+        cur.close()
+        if row:
+            return row[0]
+        return None
+    
     def get_Client(self, id):
         cur = self.db.cursor()
-        cur.execute("SELECT id_client, type_client, budget_max, id_agence, id_utilisateur, nom, prenom, email, mdp, telephone, role FROM client JOIN utilisateur ON client.id_utilisateur = utilisateur.id_utilisateur WHERE id_user = %s", (id,))
+        cur.execute("SELECT id_client, type_client, budget_max, id_agence, id_utilisateur, nom, prenom, email, mdp, telephone, role FROM client JOIN utilisateur ON client.id_utilisateur = utilisateur.id_utilisateur WHERE id_utilisateur = %s", (id,))
         row = cur.fetchone()
         cur.close()
         if row:

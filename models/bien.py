@@ -1,6 +1,6 @@
 class Bien:
     """Représente un bien (Entité)"""
-    def __init__(self,  id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, exposition=None, etat_logement=None, energie_chauffage=None, type_eau_chaude=None, type_chauffage=None, moyen_eau_chaude=None, etage=None, vue=None, prix=None, statut=None, id_statistique=None, id_agence=None):
+    def __init__(self,  id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, exposition=None, etat_logement=None, energie_chauffage=None, type_eau_chaude=None, type_chauffage=None, moyen_eau_chaude=None, etage=None, vue=None, prix=None, statut=None, id_commercial=None, id_statistique=None, id_agence=None):
         self.id = id_bien
         self.ville = ville
         self.adresse = adresse
@@ -18,6 +18,7 @@ class Bien:
         self.vue = vue
         self.prix = prix
         self.statut = statut
+        self.id_commercial = id_commercial
         self.id_statistique = id_statistique
         self.id_agence = id_agence
 
@@ -38,7 +39,7 @@ class BienRepository:
     
     def getProduit(self, id):
         cur = self.db.cursor()
-        cur.execute("SELECT id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, exposition, etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_statistique, id_agence FROM bien WHERE id_bien = %s", (id,))
+        cur.execute("SELECT id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, exposition, etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_commercial, id_statistique, id_agence FROM bien WHERE id_bien = %s", (id,))
         row = cur.fetchone()
         cur.close()
         if row:
@@ -46,9 +47,9 @@ class BienRepository:
         else:
             return None
         
-    def createBien(self, ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_agence):
+    def createBien(self, ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_commercial, id_agence):
         cur = self.db.cursor()
-        cur.execute("INSERT INTO bien (ville, adresse, description, nbr_pieces, surface, type_bien, exposition, etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_statistique, id_agence) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL, %s)", (ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_agence))
+        cur.execute("INSERT INTO bien (ville, adresse, description, nbr_pieces, surface, type_bien, exposition, etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_commercial, id_statistique, id_agence) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL, %s)", (ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_commercial, id_agence))
         self.db.commit()
         cur.close()
 

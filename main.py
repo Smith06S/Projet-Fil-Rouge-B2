@@ -45,6 +45,7 @@ def connexion():
         conn = db_manager.get_connection()
         user_repo = UtilisateurRepository(conn)
         commercial_repo = CommercialRepository(conn)
+        client_repo = ClientRepository(conn)
         
         if user_repo.verifieMdp(password, email):
             utilisateur = user_repo.get_by_email(email)
@@ -54,8 +55,16 @@ def connexion():
             
             if utilisateur.role == 'commercial':
                 session['id_agence'] = commercial_repo.get_idAgence(utilisateur.id)
+                session['id_commercial'] = commercial_repo.get_id_commercial(utilisateur.id)
+                session['id_client'] = None
+            elif utilisateur.role == 'client':
+                session['id_agence'] = None
+                session['id_commercial'] = None
+                session['id_client'] = client_repo.get_id_client(utilisateur.id)
             else:
                 session['id_agence'] = None
+                session['id_commercial'] = None
+                session['id_client'] = None
                 
             conn.close()
             flash("Connexion réussie !", "success")
@@ -233,10 +242,11 @@ def mise_en_vente():
         
         conn = db_manager.get_connection()
         repo = BienRepository(conn)
+        id_commercial = session.get('id_commercial')
         try:
             repo.createBien(ville, adresse, description, nbrPieces, surface, typeBien, 
                             exposition, etatLogement, energieChauffage, typeEauChaude, 
-                            typeChauffage, moyenEauChaude, etage, vue, prix, statut, agence)
+                            typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_commercial, agence)
             flash("Mise en vente réussie !", "success")
             conn.close()
             return redirect(url_for('bien'))
@@ -318,7 +328,7 @@ def messagerie_creer():
     bien = bien_repo.getProduit(id_bien)
     nom_discussion = f"Discussion Projet - Bien #{id_bien} ({bien.ville if bien else ''})"
     
-    file_repo.create_file_discussion(nom_discussion, "NOW()")
+    file_repo.create_file_discussion(nom_discussion, "NOW()", id_bien)
     
     toutes_les_files = file_repo.find_all()
     dernier_id = toutes_les_files[-1].id_file_discussion if toutes_les_files else None
@@ -341,8 +351,8 @@ def messagerie_envoyer():
     conn = db_manager.get_connection()
     msg_repo = MessagerieRepository(conn)
     
-    id_commercial = user_id if role == 'commercial' else None
-    id_client = user_id if role == 'client' else None
+    id_commercial = session.get('id_commercial') if role == 'commercial' else None
+    id_client = session.get('id_client') if role == 'client' else None
     
     msg_repo.create_message(contenu, id_commercial, id_client, id_file)
     conn.close()
