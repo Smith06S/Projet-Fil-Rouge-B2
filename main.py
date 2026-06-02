@@ -160,9 +160,9 @@ def inscription():
                     
                     cur = conn.cursor()
                     cur.execute("""
-                        INSERT INTO client (type_client, budget_max, id_agence, id_utilisateur)
-                        VALUES (%s, 0, %s, %s)
-                    """, (default_type_client, id_agence, nouvel_user.id))
+                        INSERT INTO client (type_client, budget_max, id_utilisateur)
+                        VALUES (%s, 0, %s)
+                    """, (default_type_client, nouvel_user.id))
                     cur.close()
 
                 conn.commit()
