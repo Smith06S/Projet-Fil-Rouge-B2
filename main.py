@@ -130,7 +130,7 @@ def inscription():
             password = request.form.get('password')
             phone = request.form.get('phone')
             role = request.form.get('role')
-            id_agence = request.form.get('id_agence')
+            id_agence = request.form.get('id_agence') or None
             
             user_repo = UtilisateurRepository(conn)
             
@@ -140,6 +140,9 @@ def inscription():
                 nouvel_user = user_repo.get_by_email(email)
                 
                 if role == 'commercial':
+                    if id_agence is None:
+                        raise ValueError("Une agence doit être sélectionnée pour un commercial.")
+
                     import random
                     matricule_genere = f"MAT-{random.randint(1000, 9999)}"
                     
@@ -154,11 +157,12 @@ def inscription():
                     default_type_client = 'Particulier'
                     if len(default_type_client) > 10:
                         default_type_client = default_type_client[:10]
+                    
                     cur = conn.cursor()
                     cur.execute("""
                         INSERT INTO client (type_client, budget_max, id_agence, id_utilisateur)
-                        VALUES (%s, 0, NULL, %s)
-                    """, (default_type_client, nouvel_user.id))
+                        VALUES (%s, 0, %s, %s)
+                    """, (default_type_client, id_agence, nouvel_user.id))
                     cur.close()
 
                 conn.commit()
