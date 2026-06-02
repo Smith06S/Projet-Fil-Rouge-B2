@@ -93,8 +93,10 @@ def profil():
     conn = db_manager.get_connection()
     repo = UtilisateurRepository(conn)
     utilisateur = repo.get_by_id(user_id)
+    repo_favoris = FavorisRepository(conn)
+    favoris = repo_favoris.find_all_by_user(user_id)
     conn.close()
-    return render_template('profil.html', utilisateur=utilisateur)
+    return render_template('profil.html', utilisateur=utilisateur, favoris = favoris)
 
 
 @app.route('/inscription', methods=['GET', 'POST'])
