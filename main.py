@@ -266,18 +266,24 @@ def mise_en_vente():
         vue = request.form.get('vue')
         prix = request.form.get('prix')
         statut = request.form.get('statut')
-        agence = request.form.get('agence')
-        
-        conn = db_manager.get_connection()
-        repo = BienRepository(conn)
+        id_agence = session.get('id_agence')
         id_commercial = session.get('id_commercial')
-        try:
-            repo.createBien(ville, adresse, description, nbrPieces, surface, typeBien, 
-                            exposition, etatLogement, energieChauffage, typeEauChaude, 
-                            typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_commercial, agence)
-            flash("Mise en vente réussie !", "success")
+
+        if session.get('role') == 'commercial' and id_agence is None:
+            message = "Impossible de créer un bien : l'agence du commercial n'est pas définie."
+        else:
+            conn = db_manager.get_connection()
+            repo = BienRepository(conn)
+            try:
+                repo.createBien(ville, adresse, description, nbrPieces, surface, typeBien, 
+                                exposition, etatLogement, energieChauffage, typeEauChaude, 
+                                typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_commercial, id_agence)
+                flash("Mise en vente réussie !", "success")
+                conn.close()
+                return redirect(url_for('bien'))
+            except Exception as e:
+                message = f"Erreur lors de la mise en vente : {e}"
             conn.close()
-            return redirect(url_for('bien'))
         except Exception as e:
             message = f"Erreur lors de la mise en vente : {e}"
         conn.close()
