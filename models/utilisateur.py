@@ -65,7 +65,6 @@ class UtilisateurRepository:
         mdp_hache = self.hashPassword(mdp_clair)
         cur = self.db.cursor()
         cur.execute("INSERT INTO utilisateur (nom, prenom, email, mdp, telephone, role) VALUES (%s, %s, %s, %s, %s, %s)", (nom, prenom, email, mdp_hache, telephone, role))
-        self.db.commit()
         cur.close()
 
     def find_profil(self, id):

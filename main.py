@@ -122,53 +122,54 @@ def inscription():
     message = None
     conn = db_manager.get_connection()
     
-    if request.method == 'POST':
-        fname = request.form.get('fname')
-        lname = request.form.get('lname')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        phone = request.form.get('phone')
-        role = request.form.get('role')
-        id_agence = request.form.get('id_agence')
-        
-        user_repo = UtilisateurRepository(conn)
-        
-        try:
-            user_repo.createUtilisateur(fname, lname, email, password, phone, role)
+    try:
+        if request.method == 'POST':
+            fname = request.form.get('fname')
+            lname = request.form.get('lname')
+            email = request.form.get('email')
+            password = request.form.get('password')
+            phone = request.form.get('phone')
+            role = request.form.get('role')
+            id_agence = request.form.get('id_agence')
             
-            nouvel_user = user_repo.get_by_email(email)
+            user_repo = UtilisateurRepository(conn)
             
-            if role == 'commercial':
-                import random
-                matricule_genere = f"MAT-{random.randint(1000, 9999)}"
+            try:
+                user_repo.createUtilisateur(fname, lname, email, password, phone, role)
                 
-                cur = conn.cursor()
-                cur.execute("""
-                    INSERT INTO commercial (date_embauche, matricule, id_agence, id_utilisateur)
-                    VALUES (NOW(), %s, %s, %s)
-                """, (matricule_genere, id_agence, nouvel_user.id))
-                conn.commit()
-                cur.close()
+                nouvel_user = user_repo.get_by_email(email)
                 
-            elif role == 'client':
-                cur = conn.cursor()
-                cur.execute("""
-                    INSERT INTO client (type_client, budget_max, id_agence, id_utilisateur)
-                    VALUES ('Particulier', 0, NULL, %s)
-                """, (nouvel_user.id,))
-                conn.commit()
-                cur.close()
+                if role == 'commercial':
+                    import random
+                    matricule_genere = f"MAT-{random.randint(1000, 9999)}"
+                    
+                    cur = conn.cursor()
+                    cur.execute("""
+                        INSERT INTO commercial (date_embauche, matricule, id_agence, id_utilisateur)
+                        VALUES (NOW(), %s, %s, %s)
+                    """, (matricule_genere, id_agence, nouvel_user.id))
+                    cur.close()
+                    
+                elif role == 'client':
+                    cur = conn.cursor()
+                    cur.execute("""
+                        INSERT INTO client (type_client, budget_max, id_agence, id_utilisateur)
+                        VALUES ('Particulier', 0, NULL, %s)
+                    """, (nouvel_user.id,))
+                    cur.close()
 
-            flash("Inscription réussie ! Vous pouvez maintenant vous connecter.", "success")
-            conn.close()
-            return redirect(url_for('connexion'))
-            
-        except Exception as e:
-            message = f"Erreur lors de l'inscription : {e}"
-    
-    agence_repo = AgenceRepository(conn)
-    toutes_les_agences = agence_repo.find_all()
-    conn.close()
+                conn.commit()
+                flash("Inscription réussie ! Vous pouvez maintenant vous connecter.", "success")
+                return redirect(url_for('connexion'))
+                
+            except Exception as e:
+                conn.rollback()
+                message = f"Erreur lors de l'inscription : {e}"
+
+        agence_repo = AgenceRepository(conn)
+        toutes_les_agences = agence_repo.find_all()
+    finally:
+        conn.close()
     
     return render_template('inscription.html', message=message, agences_dispo=toutes_les_agences)
 
