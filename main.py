@@ -151,11 +151,14 @@ def inscription():
                     cur.close()
                     
                 elif role == 'client':
+                    default_type_client = 'Particulier'
+                    if len(default_type_client) > 10:
+                        default_type_client = default_type_client[:10]
                     cur = conn.cursor()
                     cur.execute("""
                         INSERT INTO client (type_client, budget_max, id_agence, id_utilisateur)
-                        VALUES ('Particulier', 0, NULL, %s)
-                    """, (nouvel_user.id,))
+                        VALUES (%s, 0, NULL, %s)
+                    """, (default_type_client, nouvel_user.id))
                     cur.close()
 
                 conn.commit()
