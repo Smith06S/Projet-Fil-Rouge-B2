@@ -19,3 +19,22 @@ class FavorisRepository:
 
         cur.close()
         return favoris
+
+    def add_to_favoris(self, id_bien, id_client):
+        cur = self.db.cursor()
+        cur.execute("INSERT INTO favoris (id_bien, id_client) VALUES (%s, %s)", (id_bien, id_client))
+        self.db.commit()
+        cur.close()
+
+    def remove_from_favoris(self, id_bien, id_client):
+        cur = self.db.cursor()
+        cur.execute("DELETE FROM favoris WHERE id_bien = %s AND id_client = %s", (id_bien, id_client))
+        self.db.commit()
+        cur.close()
+
+    def favoris_exists(self, id_bien, id_client):
+        cur = self.db.cursor()
+        cur.execute("SELECT 1 FROM favoris WHERE id_bien = %s AND id_client = %s", (id_bien, id_client))
+        result = cur.fetchone()
+        cur.close()
+        return result is not None
