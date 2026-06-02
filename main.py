@@ -269,22 +269,41 @@ def mise_en_vente():
         id_agence = session.get('id_agence')
         id_commercial = session.get('id_commercial')
 
-        if session.get('role') == 'commercial' and id_agence is None:
-            message = "Impossible de créer un bien : l'agence du commercial n'est pas définie."
+        if session.get('role') == 'commercial':
+            if id_agence is None:
+                message = "Impossible de créer un bien : l'agence du commercial n'est pas définie."
+            elif id_commercial is None:
+                message = "Impossible de créer un bien : vous n'êtes pas assigné comme commercial. Veuillez vérifier votre inscription."
+            else:
+                conn = db_manager.get_connection()
+                repo = BienRepository(conn)
+                try:
+                    repo.createBien(ville, adresse, description, nbrPieces, surface, typeBien, 
+                                    exposition, etatLogement, energieChauffage, typeEauChaude, 
+                                    typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_commercial, id_agence)
+                    flash("Mise en vente réussie !", "success")
+                    conn.close()
+                    return redirect(url_for('bien'))
+                except Exception as e:
+                    message = f"Erreur lors de la mise en vente : {e}"
+                    conn.close()
         else:
-            conn = db_manager.get_connection()
-            repo = BienRepository(conn)
-            try:
-                repo.createBien(ville, adresse, description, nbrPieces, surface, typeBien, 
-                                exposition, etatLogement, energieChauffage, typeEauChaude, 
-                                typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_commercial, id_agence)
-                flash("Mise en vente réussie !", "success")
-                conn.close()
-                return redirect(url_for('bien'))
-            except Exception as e:
-                message = f"Erreur lors de la mise en vente : {e}"
-            
-        conn.close()
+            # Admin
+            if id_commercial is None or id_agence is None:
+                message = "Impossible de créer un bien : commercial ou agence non défini."
+            else:
+                conn = db_manager.get_connection()
+                repo = BienRepository(conn)
+                try:
+                    repo.createBien(ville, adresse, description, nbrPieces, surface, typeBien, 
+                                    exposition, etatLogement, energieChauffage, typeEauChaude, 
+                                    typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_commercial, id_agence)
+                    flash("Mise en vente réussie !", "success")
+                    conn.close()
+                    return redirect(url_for('bien'))
+                except Exception as e:
+                    message = f"Erreur lors de la mise en vente : {e}"
+                    conn.close()
         
     return render_template('miseEnVente.html', message=message)
 
