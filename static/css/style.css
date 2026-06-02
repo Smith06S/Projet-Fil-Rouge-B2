@@ -133,15 +133,13 @@ body {
 
 @media (min-width: 768px) {
     body {
-        padding-top: 100px;
+        padding-top: 95px;
     }
 
     .navbar {
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
-        height: 85px;
-        padding: 0 10%;
+        padding: 24px 60px;
         gap: 0;
     }
 
@@ -151,21 +149,20 @@ body {
     }
 
     .navbar-links {
-        flex-direction: row;
         flex-wrap: nowrap;
         justify-content: flex-end;
-        gap: 40px;
+        gap: 32px;
     }
 
     .navbar-links a {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
         font-weight: 500;
-        padding: 8px 0;
+        padding: 6px 0;
     }
 
     .navbar-links .nav-auth {
-        padding: 12px 32px;
-        font-size: 1.05rem;
+        padding: 12px 28px;
+        font-size: 1rem;
         border-radius: 14px;
     }
 
