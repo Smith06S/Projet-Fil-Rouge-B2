@@ -133,29 +133,20 @@ body {
 
 @media (min-width: 768px) {
     body {
-        padding-top: 90px;
+        padding-top: 100px;
     }
 
     .navbar {
         flex-direction: row;
-        justify-content: center;
-        padding: 0 20px;
-        height: 80px;
-    }
-
-    .navbar-container {
-        display: flex;
-        flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        width: 100%;
-        max-width: 1440px;
-        height: 100%;
-        padding: 0 60px;
+        height: 85px;
+        padding: 0 10%;
+        gap: 0;
     }
 
     .nav-logo-svg {
-        width: 145px;
+        width: 155px;
         height: auto;
     }
 
@@ -163,19 +154,19 @@ body {
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: flex-end;
-        gap: 32px;
+        gap: 40px;
     }
 
     .navbar-links a {
-        font-size: 1rem;
+        font-size: 1.15rem;
         font-weight: 500;
-        padding: 6px 0;
+        padding: 8px 0;
     }
 
     .navbar-links .nav-auth {
-        padding: 10px 26px;
-        font-size: 0.95rem;
-        border-radius: 12px;
+        padding: 12px 32px;
+        font-size: 1.05rem;
+        border-radius: 14px;
     }
 
     .container {
