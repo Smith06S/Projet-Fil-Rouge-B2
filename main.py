@@ -15,6 +15,7 @@ from models.piece import PieceRepository
 from models.statistique import StatistiqueRepository
 from models.transaction import TransactionRepository
 from helpers.auth_helper import role_required
+from models.carte import generer_carte_biens
 
 app = Flask(__name__)
 app.secret_key = 'votre_cle_secrete_ymmo'
@@ -25,7 +26,7 @@ db_manager = Database()
 @app.route('/accueil')
 def accueil():
     try:
-             
+        generer_carte_biens()
         conn = db_manager.get_connection()
         repo = AgenceRepository(conn)
         mes_agences = repo.find_all()
