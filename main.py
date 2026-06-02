@@ -283,9 +283,7 @@ def mise_en_vente():
                 return redirect(url_for('bien'))
             except Exception as e:
                 message = f"Erreur lors de la mise en vente : {e}"
-            conn.close()
-        except Exception as e:
-            message = f"Erreur lors de la mise en vente : {e}"
+            
         conn.close()
         
     return render_template('miseEnVente.html', message=message)
