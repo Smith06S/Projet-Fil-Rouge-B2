@@ -1,52 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YMMO</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="navbar-brand">
-            <a href="/accueil">
-                <svg class="nav-logo-svg" width="200" height="40" viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g fill="var(--gris-fonce)">
-                        <path d="M18.78.563 3.29 39.406h6.34L25.12.562h-6.34Zm-8.507 9.952c.32.722.481 1.525.481 2.247 0 2.568-1.524 4.655-3.691 5.457L0 .563h6.26l4.013 9.952Z"/>
-                        <path d="M28.078 12.36C28.077 5.539 33.615 0 40.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"/>
-                        <path d="M46.078 12.36C46.077 5.539 51.615 0 58.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"/>
-                        <path d="M72.078 12.36C72.077 5.539 77.615 0 84.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"/>
-                        <path d="M90.078 12.36C90.077 5.539 95.615 0 102.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"/>
-                        <path d="M130.563 0c-6.822 0-12.36 5.538-12.36 12.36 0 6.821 5.538 12.36 12.36 12.36 6.822 0 12.36-5.539 12.36-12.36C142.923 5.538 137.385 0 130.563 0Zm0 18.78c-3.611 0-6.5-2.89-6.5-6.5 0-3.612 2.889-6.502 6.5-6.502 3.612 0 6.501 2.89 6.501 6.501 0 3.612-2.89 6.501-6.5 6.501Z"/>
-                    </g>
-                </svg>
-            </a>
-        </div>
-        
-        <div class="navbar-links">
-            <a href="/accueil" class="active">Accueil</a>
-            <a href="/bien">Biens Immobiliers</a>
-            <a href="/agence">Nos Agences</a>
-            <a href="/contact">Contact</a>
-            
-            {% if session.get('user_id') %}
-                <a href="/messagerie_boite">Messagerie</a>
-                {% if session.get('role') in ['admin', 'commercial'] %}
-                    <a href="/dashboard">Stats</a>
-                    <a href="/mise_en_vente">Publier</a>
-                {% endif %}
-                <a href="/profil">Mon Profil</a>
-                <a href="/deconnexion" class="nav-logout">Déconnexion</a>
-            {% else %}
-                <a href="/connexion" class="nav-auth">Connection</a>
-            {% endif %}
-        </div>
+      <div class="navbar-brand">
+        <a href="/accueil">
+          <svg
+            class="nav-logo-svg"
+            width="200"
+            height="40"
+            viewBox="0 0 200 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g fill="var(--gris-fonce)">
+              <path
+                d="M18.78.563 3.29 39.406h6.34L25.12.562h-6.34Zm-8.507 9.952c.32.722.481 1.525.481 2.247 0 2.568-1.524 4.655-3.691 5.457L0 .563h6.26l4.013 9.952Z"
+              />
+              <path
+                d="M28.078 12.36C28.077 5.539 33.615 0 40.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"
+              />
+              <path
+                d="M46.078 12.36C46.077 5.539 51.615 0 58.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"
+              />
+              <path
+                d="M72.078 12.36C72.077 5.539 77.615 0 84.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"
+              />
+              <path
+                d="M90.078 12.36C90.077 5.539 95.615 0 102.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"
+              />
+              <path
+                d="M130.563 0c-6.822 0-12.36 5.538-12.36 12.36 0 6.821 5.538 12.36 12.36 12.36 6.822 0 12.36-5.539 12.36-12.36C142.923 5.538 137.385 0 130.563 0Zm0 18.78c-3.611 0-6.5-2.89-6.5-6.5 0-3.612 2.889-6.502 6.5-6.502 3.612 0 6.501 2.89 6.501 6.501 0 3.612-2.89 6.501-6.5 6.501Z"
+              />
+            </g>
+          </svg>
+        </a>
+      </div>
+
+      <div class="navbar-links">
+        <a href="/accueil" class="active">Accueil</a>
+        <a href="/bien">Biens Immobiliers</a>
+        <a href="/agence">Nos Agences</a>
+        <a href="/contact">Contact</a>
+
+        {% if session.get('user_id') %}
+        <a href="/messagerie_boite">Messagerie</a>
+        {% if session.get('role') in ['admin', 'commercial'] %}
+        <a href="/dashboard">Stats</a>
+        <a href="/mise_en_vente">Publier</a>
+        {% endif %}
+        <a href="/profil">Mon Profil</a>
+        <a href="/deconnexion" class="nav-logout">Déconnexion</a>
+        {% else %}
+        <a href="/connexion" class="nav-auth">Connection</a>
+        {% endif %}
+      </div>
     </nav>
 
     {% block content %}
     <section
-      id="accueil-carte"
       style="text-align: center; margin: 30px auto 40px auto; max-width: 1200px"
     >
       <h1 style="color: #2c3e50; font-size: 2.2em; margin-bottom: 5px">
@@ -62,7 +79,6 @@
       </h2>
 
       <div
-        class="map-container"
         style="
           width: 100%;
           height: 500px;
@@ -79,7 +95,6 @@
     <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0" />
 
     <section
-      id="accueil-agences"
       style="max-width: 1200px; margin: 0 auto 30px auto"
     >
       <h2 style="color: #2c3e50; margin-bottom: 20px">
