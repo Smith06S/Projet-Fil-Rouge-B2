@@ -8,6 +8,10 @@
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
+html {
+    font-size: 16px !important;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -20,6 +24,9 @@ body {
     background-color: #ffffff;
     color: var(--gris-fonce);
     padding-top: 140px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 1rem !important;
 }
 
 .navbar {
