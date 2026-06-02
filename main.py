@@ -8,13 +8,11 @@ from models.bien import BienRepository
 from models.client import ClientRepository
 from models.commercial import CommercialRepository
 from models.favoris import FavorisRepository
-from models.panier import PanierRepository
 from models.messagerie import MessagerieRepository
 from models.file_discussion import FileDiscussionRepository
 from models.photo import PhotoRepository
 from models.piece import PieceRepository
 from models.statistique import StatistiqueRepository
-from models.transaction import TransactionRepository
 from helpers.auth_helper import role_required
 
 app = Flask(__name__)
@@ -522,96 +520,6 @@ def remove_favoris(id):
     
     return redirect(url_for('bien_detail', id=id))
 
-@app.route('/bien/<int:id>/add_panier', methods=['POST'])
-def add_panier(id):
-    user_id = session.get('user_id')
-    role = session.get('role')
-    id_client = session.get('id_client')
-    
-    if not user_id or role != 'client':
-        flash("Seuls les clients peuvent ajouter au panier.", "error")
-        return redirect(url_for('connexion'))
-    
-    if not id_client:
-        flash("Erreur : Identifiant client manquant.", "error")
-        return redirect(url_for('bien_detail', id=id))
-    
-    conn = db_manager.get_connection()
-    repo_panier = PanierRepository(conn)
-    
-    try:
-        if not repo_panier.panier_exists(id, id_client):
-            repo_panier.add_to_panier(id, id_client)
-            flash("Bien ajouté au panier !", "success")
-        else:
-            flash("Ce bien est déjà dans votre panier.", "info")
-    except Exception as e:
-        flash(f"Erreur lors de l'ajout au panier : {e}", "error")
-    finally:
-        conn.close()
-    
-    return redirect(url_for('bien_detail', id=id))
-
-@app.route('/bien/<int:id>/remove_panier', methods=['POST'])
-def remove_panier(id):
-    user_id = session.get('user_id')
-    role = session.get('role')
-    id_client = session.get('id_client')
-    
-    if not user_id or role != 'client' or not id_client:
-        flash("Action non autorisée.", "error")
-        return redirect(url_for('connexion'))
-    
-    conn = db_manager.get_connection()
-    repo_panier = PanierRepository(conn)
-    
-    try:
-        repo_panier.remove_bien_from_panier(id, id_client)
-        flash("Bien retiré du panier.", "success")
-    except Exception as e:
-        flash(f"Erreur lors du retrait du panier : {e}", "error")
-    finally:
-        conn.close()
-    
-    return redirect(url_for('bien_detail', id=id))
-
-@app.route('/panier')
-def panier():
-    user_id = session.get('user_id')
-    role = session.get('role')
-    id_client = session.get('id_client')
-    
-    if not user_id or role != 'client':
-        flash("Seuls les clients peuvent accéder au panier.", "error")
-        return redirect(url_for('connexion'))
-    
-    if not id_client:
-        flash("Erreur : Identifiant client manquant.", "error")
-        return redirect(url_for('bien'))
-    
-    conn = db_manager.get_connection()
-    repo_panier = PanierRepository(conn)
-    repo_bien = BienRepository(conn)
-    
-    try:
-        articles_panier = repo_panier.find_all_by_user(id_client)
-        # Récupérer les détails des biens
-        biens_detail = []
-        for article in articles_panier:
-            bien = repo_bien.getProduit(article.id_bien)
-            if bien:
-                biens_detail.append({
-                    'id_panier': article.id_panier,
-                    'bien': bien,
-                    'date_ajout': article.date_ajout
-                })
-    except Exception as e:
-        flash(f"Erreur lors de la récupération du panier : {e}", "error")
-        biens_detail = []
-    finally:
-        conn.close()
-    
-    return render_template('panier.html', panier=biens_detail)
 
 @app.route('/utilisateurs')
 @role_required(['admin']) # Seuls les admins peuvent déclencher cette fonction
@@ -631,10 +539,9 @@ def dashboard():
         stats_repo.calculer_real_stats_from_db()
         toutes_les_stats = stats_repo.find_all()
         cur = conn.cursor()
-        cur.execute("SELECT COUNT(*), SUM(prix_final) FROM transaction")
-        res_trans = cur.fetchone()
-        total_ventes = res_trans[0] or 0
-        ca_total = res_trans[1] or 0
+        # Système de transactions supprimé — valeurs par défaut
+        total_ventes = 0
+        ca_total = 0
         cur.execute("SELECT COUNT(*) FROM bien WHERE statut ILIKE 'Disponible'")
         biens_actifs = cur.fetchone()[0] or 0
         cur.close()
