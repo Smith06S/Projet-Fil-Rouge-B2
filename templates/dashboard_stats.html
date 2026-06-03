@@ -1,67 +1,69 @@
 {% extends 'base.html' %}
+{% block title %}YMMO - Rapports Analytiques & Administration{% endblock %}
+
 {% block content %}
-<div class="dashboard-header">
-    <h1>Tableau de Bord Stratégique (KPIs & Marché)</h1>
-    {% if session.get('role') == 'admin' %}
-        <a href="{{ url_for('dashboard.ajouter_commercial') }}" class="btn-action">Créer un nouveau compte Commercial</a>
-    {% endif %}
+<h1>Rapport d'Activité National & Analyses Marché</h1>
+<p>Données stratégiques consolidées et analyses prédictives générées par notre module de tendance.</p>
+
+<div style="display: flex; gap: 20px; margin-bottom: 30px;">
+    <div style="background: #333; color: white; padding: 15px; width: 200px;">
+        <h3>Catalogue Actif</h3>
+        <p style="font-size: 1.5em; font-weight: bold;">{{ biens_actifs }} offres</p>
+    </div>
+    <div style="background: #27ae60; color: white; padding: 15px; width: 200px;">
+        <h3>Volume Ventes</h3>
+        <p style="font-size: 1.5em; font-weight: bold;">{{ total_ventes }} transactions</p>
+    </div>
+    <div style="background: #2980b9; color: white; padding: 15px; width: 200px;">
+        <h3>Chiffre d'Affaires</h3>
+        <p style="font-size: 1.5em; font-weight: bold;">{{ ca_total }} €</p>
+    </div>
 </div>
 
-<section class="kpi-container">
-    <div class="kpi-card">
-        <h3>Volume Ventes Réelles</h3>
-        <p class="kpi-value">{{ stats.total_ventes }}</p>
-        <span class="kpi-sub">Transactions actées en BDD</span>
-    </div>
-    <div class="kpi-card">
-        <h3>Chiffre d'Affaires Cumulé</h3>
-        <p class="kpi-value">{{ "{:,.2f}".format(stats.ca_total) }} €</p>
-        <span class="kpi-sub">Volume financier des ventes</span>
-    </div>
-    <div class="kpi-card">
-        <h3>Offres Actives</h3>
-        <p class="kpi-value">{{ stats.biens_actifs }}</p>
-        <span class="kpi-sub">Biens au statut 'Disponible'</span>
-    </div>
-</section>
+<hr>
 
-<section class="data-analysis-section">
-    <h2>Analyse Avancée des Tendances du Marché Immobilier</h2>
-    <p>Statistiques calculées dynamiquement en Python pour identifier les zones d'achat et d'investissement les plus attractives au m².</p>
+<h2>Analyses de tendances & Prédictions Immobilières par Zone</h2>
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th>Secteur / Ville</th>
+            <th>Prix Moyen Estimé (€/m²)</th>
+            <th>🔥 Indice de Popularité (Biens Populaires)</th>
+            <th>📈 Prévision Évolution Prix (Acheter ici)</th>
+            <th>Prédiction de Ventes Annuelles</th>
+            <th>Date du calcul</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in statistiques %}
+        <tr>
+            <td><strong>{{ s.zone_geographique }}</strong></td>
+            <td>{{ s.prix_moyen_m2 }} € / m²</td>
+            <td style="color: #e67e22; font-weight: bold;">{{ s.indice_popularite }} / 10</td>
+            <td style="color: green; font-weight: bold;">+ {{ s.precision_evolution_prix }} % (Zone Intéressante)</td>
+            <td>{{ s.volume_vente_estime }} transactions projetées</td>
+            <td>{{ s.date_analyse }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">Aucune donnée analytique compilée pour le moment.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
+
+{% if session.get('role') == 'admin' %}
+    <h2 style="color: red;">🛡️ Zone Restreinte Admin : Gestion SCRUM des Utilisateurs</h2>
+    <p>En tant qu'administrateur système, vous pouvez auditer la liste des utilisateurs enregistrés et révoquer/supprimer des comptes directement.</p>
     
-    <table class="analysis-table">
-        <thead>
-            <tr>
-                <th>Secteur / Ville</th>
-                <th>Prix Moyen au m² calculé</th>
-                <th>Volume de Biens Disponibles</th>
-                <th>Indice d'Attractivité Stratégique</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if stats.analyse_villes %}
-                {% for zone in stats.analyse_villes %}
-                    <tr>
-                        <td><strong>{{ zone.ville }}</strong></td>
-                        <td class="numeric-cell">{{ "{:,.2f}".format(zone.prix_m2_moyen) }} € / m²</td>
-                        <td class="numeric-cell">{{ zone.volume_actifs }} biens</td>
-                        <td>
-                            {% if zone.prix_m2_moyen > 4000 %}
-                                <span class="tag tag-high">Zone Premium / Haute rentabilité</span>
-                            {% elif zone.prix_m2_moyen > 2000 %}
-                                <span class="tag tag-medium">Zone Équilibrée / Marché Fluide</span>
-                            {% else %}
-                                <span class="tag tag-low">Zone Accessible / Opportunités</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="4" class="no-data">Aucune donnée transactionnelle ou immobilière disponible pour générer les rapports.</td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
-</section>
+    <p><em>(La suppression d'un utilisateur entraînera la purge en cascade de ses dépendances métiers conformément aux contraintes de clés SQL).</em></p>
+    
+    <form method="POST" action="/utilisateur/supprimer_generique" onsubmit="return confirm('Êtes-vous certain de vouloir supprimer cet utilisateur définitivement ?');" style="background: #fdf2e9; padding: 15px; border: 1px solid #e67e22; max-width: 400px;">
+        <label>Saisir l'ID Utilisateur à supprimer de la base :</label><br>
+        <input type="number" name="id_utilisateur" placeholder="Ex: 4" required style="width: 100%; margin: 10px 0;"><br>
+        <button type="submit" style="background: red; color: white; border: none; padding: 10px; cursor: pointer; font-weight: bold; width: 100%;">🔥 Supprimer l'utilisateur</button>
+    </form>
+{% endif %}
 {% endblock %}

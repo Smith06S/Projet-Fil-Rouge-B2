@@ -1,42 +1,33 @@
 {% extends 'base.html' %}
+{% block title %}YMMO - {{ bien.type_bien }} à {{ bien.ville }}{% endblock %}
+
 {% block content %}
-<div class="product-container">
-    <div class="product-main">
-        <span class="badge">{{ bien.type_bien }} - {{ bien.statut }}</span>
-        <h1>{{ bien.type_bien }} à {{ bien.ville }}</h1>
-        <p class="address"><strong>Adresse postale :</strong> {{ bien.adresse }}</p>
-        <p class="price">{{ "{:,.2f}".format(bien.prix) }} €</p>
-        
-        <div class="technical-sheet">
-            <h3>Caractéristiques techniques</h3>
-            <ul>
-                <li><strong>Superficie :</strong> {{ bien.surface }} m²</li>
-                <li><strong>Nombre de pièces :</strong> {{ bien.nbr_pieces }}</li>
-            </ul>
-        </div>
+<h1>Fiche Technique : {{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h1>
+<p><strong>Localisation :</strong> {{ bien.adresse }}, {{ bien.ville }}</p>
+<p><strong>Prix de commercialisation :</strong> <strong style="color: green; font-size: 1.3em;">{{ bien.prix }} €</strong></p>
+<p><strong>Nombre de pièces :</strong> {{ bien.nbr_pieces }}</p>
+<p><strong>Description :</strong></p>
+<p style="background: #fafafa; padding: 10px; border-left: 3px solid #007BFF;">{{ bien.description }}</p>
 
-        <div class="description-box">
-            <h3>Description du bien</h3>
-            <p>{{ bien.description }}</p>
-        </div>
-    </div>
+<p>
+    <a href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}" style="background: #e67e22; color: white; padding: 8px; text-decoration: none; font-weight: bold;">🗺️ Voir la localisation exacte sur la carte</a>
+</p>
 
-    <div class="product-sidebar">
-        <div class="contact-card">
-            <h3>Intéressé par ce bien ?</h3>
-            <p>Entrez en relation directe avec le commercial chargé de ce dossier d'achat/vente.</p>
-            
-            {% if session.get('user_id') %}
-                {% if session.get('role') == 'client' %}
-                    <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}" class="btn-contact">Contacter l'agence par Tchat</a>
-                {% else %}
-                    <p class="info-note">Les comptes Agence et Admin ne peuvent pas initier de tchat acheteur.</p>
-                {% endif %}
-            {% else %}
-                <p class="warning-note">Veuillez vous authentifier pour ouvrir une messagerie sécurisée.</p>
-                <a href="{{ url_for('auth.connexion') }}" class="btn-secondary">Se connecter</a>
-            {% endif %}
-        </div>
-    </div>
-</div>
+<hr>
+
+<h3>Actions & Prise de contact</h3>
+{% if session.get('user_id') %}
+    {% if session.get('role') == 'client' %}
+        <form method="POST" action="{{ url_for('bien.ajouter_favoris', id_bien=bien.id_bien) }}" style="display: inline-block; margin-right: 10px;">
+            <button type="submit" style="background: #f39c12; color: white; padding: 10px; border: none; cursor: pointer; font-weight: bold;">⭐ Ajouter aux Favoris</button>
+        </form>
+
+        <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}" style="background: #27ae60; color: white; padding: 10px; text-decoration: none; font-weight: bold; display: inline-block;">💬 Contacter le commercial dédié</a>
+    {% else %}
+        <p><em>Les comptes professionnels (Commerciaux / Admin) ne peuvent pas ajouter de biens en favoris ni ouvrir de tchat acheteur.</em></p>
+    {% endif %}
+{% else %}
+    <p><strong>Intéressé par ce bien ?</strong> Vous devez être connecté pour interagir.</p>
+    <a href="{{ url_for('auth.connexion') }}">Se connecter</a> ou <a href="{{ url_for('auth.inscription') }}">Créer un compte client</a>
+{% endif %}
 {% endblock %}

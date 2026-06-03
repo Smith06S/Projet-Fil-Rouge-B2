@@ -1,36 +1,27 @@
 {% extends 'base.html' %}
+{% block title %}YMMO - Créer un compte client{% endblock %}
+
 {% block content %}
-<div class="form-wrapper">
-    <h2>Créer un compte Client</h2>
-    <p>Inscrivez-vous pour interagir avec nos commerciaux et sauvegarder vos recherches.</p>
+<h2>Création de compte Client</h2>
+<form method="POST" action="{{ url_for('auth.inscription') }}" style="max-width: 400px;">
+    <label>Prénom :</label><br>
+    <input type="text" name="fname" required style="width:100%; margin-bottom:10px;"><br>
     
-    <form action="{{ url_for('auth.inscription') }}" method="POST" class="main-form">
-        <div class="form-group">
-            <label for="fname">Prénom</label>
-            <input type="text" id="fname" name="fname" required placeholder="Ex: Jean">
-        </div>
-        <div class="form-group">
-            <label for="lname">Nom</label>
-            <input type="text" id="lname" name="lname" required placeholder="Ex: Dupont">
-        </div>
-        <div class="form-group">
-            <label for="email">Adresse Email</label>
-            <input type="email" id="email" name="email" required placeholder="jean.dupont@email.com">
-        </div>
-        <div class="form-group">
-            <label for="password">Mot de passe</label>
-            <input type="password" id="password" name="password" required placeholder="********">
-        </div>
-        <div class="form-group">
-            <label for="phone">Numéro de Téléphone</label>
-            <input type="tel" id="phone" name="phone" placeholder="0600000000">
-        </div>
-        <div class="form-group">
-            <label for="budget">Votre Budget Maximum (€)</label>
-            <input type="number" id="budget" name="budget" min="0" value="0" required placeholder="Ex: 250000">
-        </div>
-        <button type="submit" class="btn-submit">Créer mon compte client</button>
-    </form>
-    <p class="form-footer">Vous avez déjà un compte ? <a href="{{ url_for('auth.connexion') }}">Connectez-vous ici</a>.</p>
-</div>
+    <label>Nom :</label><br>
+    <input type="text" name="lname" required style="width:100%; margin-bottom:10px;"><br>
+    
+    <label>Adresse Email :</label><br>
+    <input type="email" name="email" required style="width:100%; margin-bottom:10px;"><br>
+    
+    <label>Mot de passe :</label><br>
+    <input type="password" name="password" required style="width:100%; margin-bottom:10px;"><br>
+    
+    <label>Téléphone :</label><br>
+    <input type="text" name="phone" required style="width:100%; margin-bottom:10px;"><br>
+    
+    <label>Votre Budget Maximum d'Achat (€) :</label><br>
+    <input type="number" name="budget" value="0" required style="width:100%; margin-bottom:15px;"><br>
+    
+    <button type="submit">Créer mon compte Client</button>
+</form>
 {% endblock %}

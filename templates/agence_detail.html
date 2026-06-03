@@ -1,35 +1,42 @@
 {% extends 'base.html' %}
+{% block title %}YMMO - Fiche Agence {{ agence.nom }}{% endblock %}
+
 {% block content %}
-<div class="agence-header">
-    <h1>{{ agence.nom }}</h1>
-    <p class="location">{{ agence.adresse }} - {{ agence.ville }}</p>
-</div>
+<h1>{{ agence.nom }}</h1>
+<p><strong>Identifiant Agence :</strong> #{{ agence.id_agence }}</p>
+<p><strong>Ville d'implantation :</strong> {{ agence.ville }}</p>
+<p><strong>Adresse :</strong> {{ agence.adresse }}</p>
 
-<hr class="separator">
+<hr>
 
-<h2>Biens immobiliers actuellement disponibles dans cette agence</h2>
-<div class="biens-grid">
-    {% if biens %}
-        {% for bien in biens %}
-            <div class="bien-card">
-                <div class="bien-type">{{ bien.type_bien }}</div>
-                <h3>{{ bien.ville }}</h3>
-                <p class="bien-prix">{{ "{:,.2f}".format(bien.prix) }} €</p>
-                <p class="bien-details"><strong>Surface :</strong> {{ bien.surface }} m² | <strong>Pièces :</strong> {{ bien.nbr_pieces }}</p>
-                <p class="bien-desc">{{ bien.description[:120] }}...</p>
-                <div class="card-actions">
-                    <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}" class="btn-secondary">Voir la fiche</a>
-                    
-                    {% if session.get('role') == 'admin' or (session.get('role') == 'commercial' and session.get('id_agence') == agence.id_agence) %}
-                        <form action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}" method="POST" onsubmit="return confirm('Confirmer la suppression définitive de cette annonce ?');" style="display:inline;">
-                            <button type="submit" class="btn-danger">Supprimer</button>
-                        </form>
-                    {% endif %}
-                </div>
+{% if session.get('role') == 'commercial' and session.get('id_agence') == agence.id_agence %}
+    <div style="background: #e9f7ef; padding: 15px; border: 1px solid #27ae60; margin-bottom: 20px;">
+        <h3>Espace Professionnel : Gestion de l'agence</h3>
+        <a href="{{ url_for('bien.creation_bien') }}" style="background: #27ae60; color: white; padding: 10px; text-decoration: none; font-weight: bold;">➕ Créer / Publier un nouveau bien</a>
+    </div>
+{% endif %}
+
+<h2>Catalogue des biens de cette agence</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+    {% for bien in biens %}
+        <div style="border: 1px solid #ccc; padding: 15px; width: 280px; position: relative;">
+            <h3>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h3>
+            <p><strong>Ville :</strong> {{ bien.ville }}</p>
+            <p style="color: green; font-weight: bold;">{{ bien.prix }} €</p>
+            <p><em>{{ bien.nbr_pieces }} pièces</em></p>
+            
+            <div style="margin-top: 10px;">
+                <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}" style="background: #007BFF; color: white; padding: 5px; text-decoration: none; font-size: 0.9em;">Détails & Pièces</a>
+                
+                {% if session.get('role') == 'admin' or (session.get('role') == 'commercial' and session.get('id_agence') == bien.id_agence) %}
+                    <form method="POST" action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}" style="display: inline; margin-left: 5px;" onsubmit="return confirm('Confirmer la suppression définitive de ce bien ?');">
+                        <button type="submit" style="background: red; color: white; border: none; padding: 5px; cursor: pointer; font-size: 0.9em;">Supprimer</button>
+                    </form>
+                {% endif %}
             </div>
-        {% endfor %}
+        </div>
     {% else %}
-        <p class="no-data">Aucun bien disponible à la vente pour le moment dans cette agence.</p>
-    {% endif %}
+        <p>Aucun bien immobilier n'est actuellement disponible ou en vente dans cette agence.</p>
+    {% endfor %}
 </div>
 {% endblock %}

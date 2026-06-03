@@ -14,9 +14,9 @@ app.register_blueprint(bien_bp)
 app.register_blueprint(chat_bp)
 app.register_blueprint(dashboard_bp)
 
-@app.route('/')
-def index():
-    return redirect(url_for('agence.liste_agences'))
+@app.route('/ymmo')
+def ymmo_global_redirect():
+    return redirect(url_for('agence.accueil'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

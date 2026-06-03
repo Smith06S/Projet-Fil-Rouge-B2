@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from database import Database
 from models.bien import BienRepository
+from models.carte import generer_carte_un_bien
 from helpers.auth_helper import role_required
 
 bien_bp = Blueprint('bien', __name__)
@@ -28,9 +29,22 @@ def bien_detail(id_bien):
         return "Bien introuvable", 404
     return render_template('produit.html', bien=bien_obj)
 
-@bien_bp.route('/bien/ajouter', methods=['GET', 'POST'])
-@role_required(['commercial', 'admin'])
-def ajouter_bien():
+@bien_bp.route('/carte/<int:id_bien>')
+def voir_carte_bien(id_bien):
+    conn = db_manager.get_connection()
+    repo = BienRepository(conn)
+    bien_obj = repo.get_by_id(id_bien)
+    conn.close()
+    if not bien_obj:
+        return "Bien introuvable", 404
+    
+    # Génère le code HTML de la carte
+    carte_html = generer_carte_un_bien(bien_obj)
+    return render_template('carte_bien.html', bien=bien_obj, carte_html=carte_html)
+
+@bien_bp.route('/creation_bien', methods=['GET', 'POST'])
+@role_required(['commercial'])
+def creation_bien():
     if request.method == 'POST':
         conn = db_manager.get_connection()
         repo = BienRepository(conn)
@@ -54,25 +68,22 @@ def ajouter_bien():
             conn.close()
     return render_template('miseEnVente.html')
 
-@bien_bp.route('/bien/<int:id_bien>/supprimer', methods=['POST'])
-@role_required(['commercial', 'admin'])
-def supprimer_bien(id_bien):
+@bien_bp.route('/bien/<int:id_bien>/add_favoris', methods=['POST'])
+@role_required(['client'])
+def ajouter_favoris(id_bien):
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
-    bien_obj = repo.get_by_id(id_bien)
-    
-    if not bien_obj:
-        conn.close()
-        flash("Bien introuvable.", "error")
-        return redirect(url_for('agence.liste_agences'))
-
-    # Sécurité : Un commercial ne peut supprimer que les biens de son agence
-    if session.get('role') == 'commercial' and session.get('id_agence') != bien_obj.id_agence:
-        conn.close()
-        flash("Action non autorisée sur les biens d'une autre agence.", "error")
-        return redirect(url_for('agence.liste_agences'))
-
-    repo.delete(id_bien)
+    repo.add_favoris(session.get('id_client'), id_bien)
     conn.close()
-    flash("Bien supprimé avec succès.", "success")
-    return redirect(url_for('agence.agence_detail', id_agence=bien_obj.id_agence))
+    flash("Bien ajouté à vos favoris !", "success")
+    return redirect(url_for('bien.bien_detail', id_bien=id_bien))
+
+@bien_bp.route('/bien/<int:id_bien>/remove_favoris', methods=['POST'])
+@role_required(['client'])
+def retirer_favoris(id_bien):
+    conn = db_manager.get_connection()
+    repo = BienRepository(conn)
+    repo.remove_favoris(session.get('id_client'), id_bien)
+    conn.close()
+    flash("Bien retiré de vos favoris.", "info")
+    return redirect(url_for('auth.voir_profil'))

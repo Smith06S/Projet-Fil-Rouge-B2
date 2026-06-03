@@ -2,56 +2,43 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ymmo - Plateforme Immobilière Centralisée</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>{% block title %}YMMO{% endblock %}</title>
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <a class="nav-logo" href="{{ url_for('agence.liste_agences') }}">YMMO</a>
-            <ul class="nav-links">
-                <li><a href="{{ url_for('agence.liste_agences') }}">Nos Agences</a></li>
-                <li><a href="{{ url_for('bien.liste_biens') }}">Acheter / Louer</a></li>
-                
-                {% if session.get('user_id') %}
-                    {% if session.get('role') in ['commercial', 'admin'] %}
-                        <li><a href="{{ url_for('bien.ajouter_bien') }}">Publier un Bien</a></li>
-                        <li><a href="{{ url_for('dashboard.voir_dashboard') }}">Tableau de Bord</a></li>
-                    {% endif %}
-                    
-                    {% if session.get('role') == 'client' %}
-                        <li><a href="{{ url_for('chat.boite_reception') }}">Mes Messages</a></li>
-                    {% else %}
-                        <li><a href="{{ url_for('chat.boite_reception') }}">Messagerie Agence</a></li>
-                    {% endif %}
-                    
-                    <li class="user-name">Bonjour, {{ session.get('nom_complet') }} ({{ session.get('role') }})</li>
-                    <li><a href="{{ url_for('auth.deconnexion') }}" class="btn-nav btn-logout">Déconnexion</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('auth.connexion') }}" class="btn-nav">Connexion</a></li>
-                    <li><a href="{{ url_for('auth.inscription') }}" class="btn-nav btn-register">Inscription</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
+    <nav style="background: #eee; padding: 10px; margin-bottom: 20px;">
+        <a href="{{ url_for('agence.accueil') }}">Accueil (Agences)</a> | 
+        <a href="{{ url_for('bien.liste_biens') }}">Tous les Biens</a> 
+        
+        {% if session.get('user_id') %}
+            | <a href="{{ url_for('auth.voir_profil') }}">Mon Profil</a>
+            {% if session.get('role') in ['commercial', 'admin'] %}
+                | <a href="{{ url_for('chat.boite_reception') }}">Messagerie</a>
+                | <a href="{{ url_for('dashboard.voir_dashboard') }}">Dashboard Analytique</a>
+            {% else %}
+                | <a href="{{ url_for('chat.boite_reception') }}">Mes Discussions Chat</a>
+            {% endif %}
+            | <strong>Connecté ({{ session.get('role') }})</strong>
+            | <a href="{{ url_for('auth.deconnexion') }}">Déconnexion</a>
+        {% else %}
+            | <a href="{{ url_for('auth.connexion') }}">Connexion</a>
+            | <a href="{{ url_for('auth.inscription') }}">Inscription</a>
+        {% endif %}
+    </nav>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="flash-container">
+            <div style="padding: 10px; margin-bottom: 20px; border: 1px solid #ccc;">
                 {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    <p>
+                        <strong>{{ category|upper }} :</strong> {{ message }}
+                    </p>
                 {% endfor %}
             </div>
         {% endif %}
     {% endwith %}
 
-    <main class="container">
+    <main>
         {% block content %}{% endblock %}
     </main>
-
-    <footer>
-        <p>&copy; 2026 Ymmo Groupe Immobilier - Aix-en-Provence. Projet d'Évaluation UF B2 Informatique.</p>
-    </footer>
 </body>
 </html>

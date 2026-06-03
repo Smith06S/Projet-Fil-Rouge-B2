@@ -1,20 +1,15 @@
 {% extends 'base.html' %}
+{% block title %}YMMO - Connexion{% endblock %}
+
 {% block content %}
-<div class="form-wrapper">
-    <h2>Espace de Connexion Ymmo</h2>
-    <p>Accédez à vos outils de gestion immobilière et à vos conversations privées.</p>
+<h2>Connexion à la plateforme</h2>
+<form method="POST" action="{{ url_for('auth.connexion') }}" style="max-width: 300px;">
+    <label>Adresse Email :</label><br>
+    <input type="email" name="email" required style="width:100%; margin-bottom:10px;"><br>
     
-    <form action="{{ url_for('auth.connexion') }}" method="POST" class="main-form">
-        <div class="form-group">
-            <label for="email">Adresse Email</label>
-            <input type="email" id="email" name="email" required placeholder="votre.email@ymmo.fr">
-        </div>
-        <div class="form-group">
-            <label for="password">Mot de passe</label>
-            <input type="password" id="password" name="password" required placeholder="********">
-        </div>
-        <button type="submit" class="btn-submit">Se connecter</button>
-    </form>
-    <p class="form-footer">Nouveau sur la plateforme ? <a href="{{ url_for('auth.inscription') }}">Inscrivez-vous comme client</a>.</p>
-</div>
+    <label>Mot de passe :</label><br>
+    <input type="password" name="password" required style="width:100%; margin-bottom:15px;"><br>
+    
+    <button type="submit">Se connecter</button>
+</form>
 {% endblock %}

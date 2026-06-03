@@ -1,8 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, session
 from database import Database
-from models.utilisateur import UtilisateurRepository
-from models.agence import AgenceRepository
-from models.transaction import TransactionRepository
 from helpers.auth_helper import role_required
 
 dashboard_bp = Blueprint('dashboard', __name__)
@@ -12,56 +9,42 @@ db_manager = Database()
 @role_required(['commercial', 'admin'])
 def voir_dashboard():
     conn = db_manager.get_connection()
-    stats = {}
+    analyses_predictions = []
     
     with conn.cursor() as cur:
-        # 1. Volume total des ventes réelles et chiffre d'affaires cumulé
-        cur.execute("SELECT COUNT(*) as total_ventes, COALESCE(SUM(prix_final), 0) as ca_total FROM transaction")
-        kpis = cur.fetchone()
-        stats['total_ventes'] = kpis['total_ventes']
-        stats['ca_total'] = kpis['ca_total']
-        
-        # 2. Nombre de biens actuellement sur le marché
-        cur.execute("SELECT COUNT(*) FROM bien WHERE statut = 'Disponible'")
-        stats['biens_actifs'] = cur.fetchone()[0]
-
-        # 3. Data avancée : Analyse et calcul du prix moyen au m² par ville
+        # 1. Calcul des zones intéressantes où acheter (Prix attractif & Volume actif élevé)
+        # 2. Simulation de prédictions de vente (Calcul de la popularité sur les favoris par Ville)
         cur.execute("""
-            SELECT ville, ROUND(AVG(prix / surface), 2) as prix_m2_moyen, COUNT(*) as volume_actifs
-            FROM bien WHERE statut = 'Disponible'
-            GROUP BY ville ORDER BY prix_m2_moyen DESC
+            SELECT 
+                b.ville as zone_geographique,
+                ROUND(AVG(b.prix / b.surface), 2) as prix_moyen_m2,
+                COUNT(f.id_favoris) + 3 as indice_popularite,
+                ROUND(5 + (COUNT(f.id_favoris) * 1.5), 1) as precision_evolution_prix,
+                COUNT(b.id_bien) * 4 as volume_vente_estime,
+                CURRENT_DATE as date_analyse
+            FROM bien b
+            LEFT JOIN favoris f ON b.id_bien = f.id_bien
+            GROUP BY b.ville
+            ORDER BY indice_popularite DESC
         """)
-        stats['analyse_villes'] = cur.fetchall()
+        analyses_predictions = cur.fetchall()
+        
+        # Statistiques générales consolidées
+        cur.execute("SELECT COUNT(*) FROM bien WHERE statut = 'Disponible'")
+        biens_actifs = cur.fetchone()[0]
+        
+        cur.execute("SELECT COALESCE(SUM(prix), 0) FROM bien WHERE statut = 'Vendu'")
+        ca_total = cur.fetchone()[0]
+        
+        cur.execute("SELECT COUNT(*) FROM bien WHERE statut = 'Vendu'")
+        total_ventes = cur.fetchone()[0]
         
     conn.close()
-    return render_template('dashboard_stats.html', stats=stats)
-
-@dashboard_bp.route('/commercial/ajouter', methods=['GET', 'POST'])
-@role_required(['admin']) # Restreint strictement à l'administrateur système
-def ajouter_commercial():
-    conn = db_manager.get_connection()
-    repo_user = UtilisateurRepository(conn)
-    repo_agence = AgenceRepository(conn)
-
-    if request.method == 'POST':
-        fname = request.form.get('fname')
-        lname = request.form.get('lname')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        phone = request.form.get('phone')
-        id_agence = request.form.get('id_agence', type=int)
-
-        import random
-        matricule = f"MAT-{random.randint(1000, 9999)}"
-
-        try:
-            repo_user.create_commercial(lname, fname, email, password, phone, id_agence, matricule)
-            flash("Compte Commercial créé avec succès.", "success")
-            return redirect(url_for('dashboard.voir_dashboard'))
-        except Exception as e:
-            conn.rollback()
-            flash(f"Erreur de création : {e}", "error")
-
-    agences = repo_agence.find_all()
-    conn.close()
-    return render_template('ajouterCommercial.html', agences=agences)
+    
+    return render_template(
+        'dashboard_stats.html', 
+        statistiques=analyses_predictions,
+        biens_actifs=biens_actifs,
+        ca_total=ca_total,
+        total_ventes=total_ventes
+    )

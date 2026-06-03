@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Espace Personnel{% endblock %}
+
+{% block content %}
+<h1>Votre Espace Personnel</h1>
+<ul>
+    <li><strong>Nom complet :</strong> {{ utilisateur.prenom }} {{ utilisateur.nom }}</li>
+    <li><strong>Adresse Email :</strong> {{ utilisateur.email }}</li>
+    <li><strong>Numéro de téléphone :</strong> {{ utilisateur.telephone }}</li>
+    <li><strong>Habilitation du compte :</strong> Rôle unique [{{ utilisateur.role|upper }}]</li>
+</ul>
+
+<hr>
+
+{% if session.get('role') == 'client' %}
+    <h2>⭐ Vos Biens Immobiliers Coups de Cœur (Favoris)</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+        {% for item in favoris %}
+            <div style="border: 1px solid #f39c12; padding: 15px; width: 250px;">
+                <h4>{{ item.type_bien }} - {{ item.ville }}</h4>
+                <p>{{ item.prix }} €</p>
+                <a href="{{ url_for('bien.bien_detail', id_bien=item.id_bien) }}">Consulter l'annonce</a>
+                <br><br>
+                <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=item.id_bien) }}">
+                    <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 5px; cursor: pointer;">✕ Retirer des favoris</button>
+                </form>
+            </div>
+        {% else %}
+            <p>Vous n'avez pas encore de biens enregistrés dans vos favoris.</p>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Publier une annonce immobilière{% endblock %}
+
+{% block content %}
+<h1>Fiche d'enregistrement de bien (Mise en vente / Location)</h1>
+<p style="color: red;">Zone restreinte : Votre publication sera automatiquement enregistrée au catalogue de l'agence ID : {{ session.get('id_agence') }}</p>
+
+<form method="POST" action="{{ url_for('bien.creation_bien') }}" style="background: #fafafa; padding: 20px; border: 1px solid #ccc; max-width: 600px;">
+    <div>
+        <label>Ville d'implantation :</label><br>
+        <input type="text" name="ville" required style="width: 100%; margin-bottom: 10px;">
+    </div>
+    <div>
+        <label>Adresse Complète :</label><br>
+        <input type="text" name="adresse" required style="width: 100%; margin-bottom: 10px;">
+    </div>
+    <div>
+        <label>Description Commerciale :</label><br>
+        <textarea name="description" rows="4" required style="width: 100%; margin-bottom: 10px;"></textarea>
+    </div>
+    <div>
+        <label>Nombre de pièces :</label><br>
+        <input type="number" name="nbrPieces" required style="width: 100%; margin-bottom: 10px;">
+    </div>
+    <div>
+        <label>Superficie (m²) :</label><br>
+        <input type="number" step="0.01" name="surface" required style="width: 100%; margin-bottom: 10px;">
+    </div>
+    <div>
+        <label>Type de bien :</label><br>
+        <select name="typeBien" style="width: 100%; margin-bottom: 10px;">
+            <option value="Maison">Maison</option>
+            <option value="Appartement">Appartement</option>
+            <option value="Bureau">Bureau</option>
+            <option value="Local">Local</option>
+        </select>
+    </div>
+    <div>
+        <label>Prix Final Attendu (€) :</label><br>
+        <input type="number" step="0.01" name="prix" required style="width: 100%; margin-bottom: 15px; font-weight: bold;">
+    </div>
+    
+    <button type="submit" style="background: #007BFF; color: white; padding: 10px 20px; border: none; font-size: 1em; cursor: pointer;">💾 Enregistrer et publier officiellement l'annonce</button>
+</form>
+{% endblock %}

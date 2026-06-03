@@ -28,7 +28,7 @@ def boite_reception():
     conn.close()
     return render_template('messagerie.html', discussions=discussions, active_discussion=active_discussion, messages=messages)
 
-@chat_bp.route('/messagerie/contacter/<int:id_bien>')
+@chat_bp.route('/messagerie/initier/<int:id_bien>')
 @role_required(['client'])
 def initier_tchat(id_bien):
     conn = db_manager.get_connection()
@@ -38,16 +38,13 @@ def initier_tchat(id_bien):
     bien = repo_bien.get_by_id(id_bien)
     if not bien:
         conn.close()
-        flash("Bien introuvable.", "error")
-        return redirect(url_for('agence.liste_agences'))
+        return "Bien introuvable", 404
 
-    # Étape 7 : Vérification d'un tchat préexistant
     discussion_existante = repo_chat.find_existing_discussion(id_bien, session.get('id_client'))
     if discussion_existante:
         conn.close()
         return redirect(url_for('chat.boite_reception', discussion_id=discussion_existante.id_discussion))
 
-    # Sinon, création d'une nouvelle discussion propre
     titre = f"Discussion - {bien.type_bien} à {bien.ville}"
     id_disc = repo_chat.create_discussion(titre, id_bien, session.get('id_client'), bien.id_commercial)
     conn.close()

@@ -1,55 +1,62 @@
 {% extends 'base.html' %}
+{% block title %}YMMO - Messagerie Interne{% endblock %}
+
 {% block content %}
-<h1>Votre Messagerie Privée Sécurisée</h1>
+<style>
+    .messaging-container { display: flex; gap: 20px; height: 500px; font-family: sans-serif; }
+    .discussions-sidebar { width: 30%; border: 1px solid #ccc; padding: 10px; overflow-y: auto; background: #f9f9f9; }
+    .chat-area { width: 70%; border: 1px solid #ccc; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
+    .messages-history { flex-grow: 1; overflow-y: auto; border: 1px solid #eee; padding: 10px; margin-bottom: 15px; background: #fff; }
+    .message-bubble { padding: 8px 12px; margin-bottom: 8px; border-radius: 5px; max-width: 70%; word-wrap: break-word; }
+    .msg-me { background-color: #dcf8c6; margin-left: auto; text-align: right; }
+    .msg-other { background-color: #eceff1; margin-right: auto; text-align: left; }
+    .discussion-item { display: block; padding: 10px; margin-bottom: 5px; border: 1px solid #ddd; text-decoration: none; color: #333; }
+    .discussion-active { background-color: #e3f2fd; border-color: #2196f3; }
+</style>
 
-<div class="messaging-layout">
-    <aside class="discussions-sidebar">
-        <h3>Conversations</h3>
-        {% if discussions %}
-            <ul class="discussions-list">
-                {% for disc in discussions %}
-                    <li class="{% if active_discussion and active_discussion.id_discussion == disc.id_discussion %}active{% endif %}">
-                        <a href="{{ url_for('chat.boite_reception', discussion_id=disc.id_discussion) }}">
-                            {{ disc.titre }}
-                            <span class="date-meta">{{ disc.date_creation.strftime('%d/%m') }}</span>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
+<h1>Messagerie Privée & Suivi Clientèle</h1>
+
+<div class="messaging-container">
+    
+    <div class="discussions-sidebar">
+        <h3>Fils de discussion</h3>
+        {% for d in discussions %}
+            <a href="?discussion_id={{ d.id_discussion }}" class="discussion-item {% if active_discussion and active_discussion.id_discussion == d.id_discussion %}discussion-active{% endif %}">
+                <strong>{{ d.titre }}</strong><br>
+                <small>Créé le {{ d.date_creation }}</small>
+            </a>
         {% else %}
-            <p class="empty-sidebar">Aucun tchat ouvert pour le moment.</p>
-        {% endif %}
-    </aside>
+            <p>Aucune conversation active.</p>
+        {% endfor %}
+    </div>
 
-    <section class="chat-area">
+    <div class="chat-area">
         {% if active_discussion %}
-            <div class="chat-header">
-                <h2>{{ active_discussion.titre }}</h2>
-            </div>
+            <h3>Fil de discussion actif : {{ active_discussion.titre }}</h3>
             
-            <div class="messages-stream">
-                {% if messages %}
-                    {% for msg in messages %}
-                        <div class="message-bubble {% if msg.id_expediteur == session.get('user_id') %}msg-me{% else %}msg-other{% endif %}">
-                            <p class="msg-author"><strong>{{ msg.prenom }} {{ msg.nom }}</strong></p>
-                            <p class="msg-text">{{ msg.message }}</p>
-                            <span class="msg-time">{{ msg.date_heure.strftime('%H:%M') }}</span>
-                        </div>
-                    {% endfor %}
+            <div class="messages-history">
+                {% for m in messages %}
+                    <div class="message-bubble {% if m.id_expediteur == session.get('user_id') %}msg-me{% else %}msg-other{% endif %}">
+                        <small><strong>{{ m.prenom }} {{ m.nom }} :</strong></small>
+                        <p style="margin: 4px 0;">{{ m.message }}</p>
+                        <span style="font-size: 0.7em; color: #666;">{{ m.date_heure }}</span>
+                    </div>
                 {% else %}
-                    <p class="no-msg">Aucun message dans cette discussion. Ouvrez le dialogue !</p>
-                {% endif %}
+                    <p style="text-align: center; color: #999;">Aucun message dans cette discussion. Prenez l'initiative d'écrire !</p>
+                {% endfor %}
             </div>
 
-            <form action="{{ url_for('chat.envoyer_message', id_discussion=active_discussion.id_discussion) }}" method="POST" class="chat-input-form">
-                <input type="text" name="contenu_message" required placeholder="Rédigez votre message ici..." autocomplete="off">
-                <button type="submit" class="btn-send">Envoyer</button>
+            <form method="POST" action="{{ url_for('chat.envoyer_message', id_discussion=active_discussion.id_discussion) }}" style="display: flex; gap: 10px;">
+                <input type="text" name="contenu_message" placeholder="Saisissez votre message ici..." required style="flex-grow: 1; padding: 8px;">
+                <button type="submit" style="background: #27ae60; color: white; border: none; padding: 8px 15px; cursor: pointer;">Envoyer</button>
             </form>
+
         {% else %}
-            <div class="chat-placeholder">
-                <p>Sélectionnez une discussion dans la liste de gauche pour afficher les messages et répondre.</p>
+            <div style="text-align: center; margin-top: 150px; color: #7f8c8d;">
+                <p>← Veuillez sélectionner un fil de discussion à gauche pour afficher les échanges et répondre.</p>
             </div>
         {% endif %}
-    </section>
+    </div>
+
 </div>
 {% endblock %}

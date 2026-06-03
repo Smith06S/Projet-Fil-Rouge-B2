@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Panneau d'Administration des Utilisateurs{% endblock %}
+
+{% block content %}
+<h1>🛡️ Panneau d'Administration : Liste Générale des Utilisateurs</h1>
+<p style="color: red; font-weight: bold;">Zone Restreinte — Accès réservé exclusivement aux administrateurs système.</p>
+
+<hr>
+
+<!-- BOUTON SCRUM : ACCÈS AU FORMULAIRE D'AJOUT DE COMMERCIAL -->
+<div style="background: #eaf2f8; padding: 15px; border: 1px solid #2980b9; margin-bottom: 25px;">
+    <h3>Gestion des équipes</h3>
+    <p>Besoin d'intégrer un nouveau membre dans l'une des 12 agences territoriales ?</p>
+    <a href="{{ url_for('dashboard.ajouter_commercial') }}" style="background: #2980b9; color: white; padding: 10px 15px; text-decoration: none; font-weight: bold; display: inline-block;">➕ Créer et assigner un nouveau compte Commercial</a>
+</div>
+
+<h2>Utilisateurs enregistrés dans le système</h2>
+<p>L'audit ci-dessous affiche l'ensemble des rôles (Clients, Commerciaux, et Administrateurs) présents en base de données.</p>
+
+<!-- TABLEAU DE GESTION ET DE SUPPRESSION SCRUM -->
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: left; margin-top: 15px;">
+    <thead>
+        <tr style="background-color: #2c3e50; color: white;">
+            <th>ID</th>
+            <th>Nom Complet</th>
+            <th>Adresse Email</th>
+            <th>Téléphone</th>
+            <th>Habilitation / Rôle</th>
+            <th>Actions de modération</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in utilisateurs %}
+        <tr>
+            <td>#{{ u.id_utilisateur }}</td>
+            <td><strong>{{ u.nom }} {{ u.prenom }}</strong></td>
+            <td><code>{{ u.email }}</code></td>
+            <td>{{ u.telephone or 'Non renseigné' }}</td>
+            <td>
+                <span style="background: #eee; padding: 3px 8px; border-radius: 10px; font-size: 0.9em; font-weight: bold;">
+                    {{ u.role|upper }}
+                </span>
+            </td>
+            <td>
+                <!-- L'admin ne doit pas pouvoir se supprimer lui-même par mégarde -->
+                {% if u.id_utilisateur != session.get('user_id') %}
+                    <!-- FONCTIONNALITÉ SCRUM : BOUTON DE SUPPRESSION DE L'UTILISATEUR -->
+                    <form method="POST" action="/utilisateur/{{ u.id_utilisateur }}/supprimer" style="display: inline;" onsubmit="return confirm('❗ ATTENTION : Êtes-vous sûr de vouloir supprimer définitivement {{ u.prenom }} {{ u.nom }} ? Cette action purgera son profil et toutes ses données associées (favoris, biens ou discussions) en cascade.');">
+                        <button type="submit" style="background-color: #e74c3c; color: white; border: none; padding: 6px 12px; cursor: pointer; font-weight: bold;">
+                            🔥 Supprimer le compte
+                        </button>
+                    </form>
+                {% else %}
+                    <span style="color: #7f8c8d; font-style: italic;">Votre compte actuel</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6" style="text-align: center; font-style: italic; color: #95a5a6; padding: 20px;">
+                Aucun utilisateur n'est actuellement enregistré dans le système.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('dashboard.voir_dashboard') }}">← Retourner au Dashboard Analytique</a>
+</div>
+{% endblock %}

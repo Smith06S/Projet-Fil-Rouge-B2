@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from database import Database
 from models.utilisateur import UtilisateurRepository
+from models.bien import BienRepository
+from helpers.auth_helper import role_required
 
 auth_bp = Blueprint('auth', __name__)
 db_manager = Database()
@@ -51,11 +53,26 @@ def connexion():
                 session['id_agence'] = comm['id_agence']
 
             conn.close()
-            return redirect(url_for('agence.liste_agences'))
+            return redirect(url_for('agence.accueil'))
         
         flash("Email ou mot de passe incorrect.", "error")
         conn.close()
     return render_template('connexion.html')
+
+@auth_bp.route('/profil')
+@role_required(['client', 'commercial', 'admin'])
+def voir_profil():
+    conn = db_manager.get_connection()
+    repo_user = UtilisateurRepository(conn)
+    repo_bien = BienRepository(conn)
+    
+    utilisateur = repo_user.get_by_id(session.get('user_id'))
+    favoris = []
+    if session.get('role') == 'client':
+        favoris = repo_bien.get_favoris_by_client(session.get('id_client'))
+        
+    conn.close()
+    return render_template('profil.html', utilisateur=utilisateur, favoris=favoris)
 
 @auth_bp.route('/deconnexion')
 def deconnexion():

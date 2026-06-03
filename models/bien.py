@@ -16,6 +16,11 @@ class BienRepository:
     def __init__(self, db_connection):
         self.db = db_connection
 
+    def find_all(self):
+        with self.db.cursor() as cur:
+            cur.execute("SELECT * FROM bien WHERE statut = 'Disponible'")
+            return [Bien(**row) for row in cur.fetchall()]
+
     def find_all_by_agence(self, id_agence):
         with self.db.cursor() as cur:
             cur.execute("SELECT * FROM bien WHERE id_agence = %s AND statut = 'Disponible'", (id_agence,))
@@ -29,12 +34,10 @@ class BienRepository:
 
     def create(self, ville, adresse, description, nbr_pieces, surface, type_bien, prix, id_commercial, id_agence):
         with self.db.cursor() as cur:
-            cur.execute("""INSERT INTO bien (ville, adresse, description, nbr_pieces, surface, type_bien, prix, statut, id_commercial, id_agence) VALUES (%s, %s, %s, %s, %s, %s, %s, 'Disponible', %s, %s)""", (ville, adresse, description, nbr_pieces, surface, type_bien, prix, id_commercial, id_agence))
-        self.db.commit()
-
-    def update(self, id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, prix, statut):
-        with self.db.cursor() as cur:
-            cur.execute("""UPDATE bien SET ville=%s, adresse=%s, description=%s, nbr_pieces=%s, surface=%s, type_bien=%s, prix=%s, statut=%s WHERE id_bien=%s """, (ville, adresse, description, nbr_pieces, surface, type_bien, prix, statut, id_bien))
+            cur.execute("""
+                INSERT INTO bien (ville, adresse, description, nbr_pieces, surface, type_bien, prix, statut, id_commercial, id_agence) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, 'Disponible', %s, %s)
+            """, (ville, adresse, description, nbr_pieces, surface, type_bien, prix, id_commercial, id_agence))
         self.db.commit()
 
     def delete(self, id_bien):
@@ -56,4 +59,27 @@ class BienRepository:
                 query += " AND type_bien = %s"
                 params.append(type_bien)
             cur.execute(query, params)
+            return [Bien(**row) for row in cur.fetchall()]
+
+    # --- Gestion de la table Favoris ---
+    def add_favoris(self, id_client, id_bien):
+        with self.db.cursor() as cur:
+            cur.execute("""
+                INSERT INTO favoris (id_client, id_bien) VALUES (%s, %s)
+                ON CONFLICT DO NOTHING
+            """, (id_client, id_bien))
+        self.db.commit()
+
+    def remove_favoris(self, id_client, id_bien):
+        with self.db.cursor() as cur:
+            cur.execute("DELETE FROM favoris WHERE id_client = %s AND id_bien = %s", (id_client, id_bien))
+        self.db.commit()
+
+    def get_favoris_by_client(self, id_client):
+        with self.db.cursor() as cur:
+            cur.execute("""
+                SELECT b.* FROM bien b
+                JOIN favoris f ON b.id_bien = f.id_bien
+                WHERE f.id_client = %s
+            """, (id_client,))
             return [Bien(**row) for row in cur.fetchall()]
