@@ -180,27 +180,20 @@ body {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
-        gap: 32px;
+        align-items: center;
+        gap: 20px;
         width: auto;
     }
 
-    .nav-logo-svg {
-        padding-top: 9px;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-    }
-
     .navbar-links a {
-        font-size: 1.05rem;
-        font-weight: 500;
-        padding: 6px 0;
+        font-size: 1rem;
+        white-space: nowrap;
+        padding: 6px 10px;
     }
 
     .navbar-links .nav-auth {
-        padding: 12px 28px;
-        font-size: 1rem;
-        border-radius: 14px;
+        padding: 8px 16px;
+        font-size: 0.9rem;
     }
 
     .container {
