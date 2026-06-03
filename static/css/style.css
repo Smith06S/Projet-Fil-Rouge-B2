@@ -58,10 +58,10 @@ body {
 }
 
 .nav-logo-svg {
-    width: 180px;
+    width: 160px;
     height: auto;
     display: block;
-    margin-top: 9px;
+    margin-top: 12px;
     margin-left: -10px;
 }
 
@@ -180,6 +180,8 @@ body {
 
     .nav-logo-svg {
         width: 220px;
+        margin-top: 9px;
+        margin-left: 0;
     }
 
     .navbar-links {
