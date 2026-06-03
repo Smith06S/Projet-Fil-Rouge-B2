@@ -1,31 +1,21 @@
 class Agence:
-    """Représente une agence (Entité)"""
-    def __init__(self, id, nom, ville, code_postal):
-        self.id = id
+    def __init__(self, id_agence, nom, ville, adresse):
+        self.id_agence = id_agence
         self.nom = nom
         self.ville = ville
-        self.code_postal = code_postal
+        self.adresse = adresse
 
 class AgenceRepository:
-    """Gère la communication avec la table 'agence'"""
-    def __init__(self, db_connexion):
-        self.db = db_connexion
+    def __init__(self, db_connection):
+        self.db = db_connection
 
     def find_all(self):
-        cur = self.db.cursor()
-        cur.execute("SELECT id_agence, nom_agence, ville, code_postal FROM agence")
-        rows = cur.fetchall()
-
-        agences = [Agence(r[0], r[1], r[2], r[3]) for r in rows]
-
-        cur.close()
-        return agences
+        with self.db.cursor() as cur:
+            cur.execute("SELECT id_agence, nom, ville, adresse FROM agence")
+            return [Agence(**row) for row in cur.fetchall()]
 
     def get_by_id(self, id_agence):
-        cur = self.db.cursor()
-        cur.execute("SELECT id_agence, nom_agence, ville, code_postal FROM agence WHERE id_agence = %s", (id_agence,))
-        row = cur.fetchone()
-        cur.close()
-        if row:
-            return Agence(row[0], row[1], row[2], row[3])
-        return None
+        with self.db.cursor() as cur:
+            cur.execute("SELECT id_agence, nom, ville, adresse FROM agence WHERE id_agence = %s", (id_agence,))
+            row = cur.fetchone()
+            return Agence(**row) if row else None

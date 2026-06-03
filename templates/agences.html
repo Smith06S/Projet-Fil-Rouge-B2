@@ -1,40 +1,21 @@
 {% extends 'base.html' %}
-{% block title %}YMMO - Réseau d'Agences{% endblock %}
-
 {% block content %}
-<header style="border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 30px;">
-    <h1 style="color: #2c3e50; margin: 0;">Notre Réseau National d'Agences</h1>
-    <p style="color: #7f8c8d; margin: 8px 0 0 0;">
-        Ymmo est un groupe immobilier implanté en France avec un siège social basé à Aix-en-Provence et un réseau de 12 agences réparties sur le territoire national.
-    </p>
-</header>
+<section class="welcome-section" style="text-align: center; margin-bottom: 40px;">
+    <h1>Bienvenue sur le réseau national Ymmo</h1>
+    <p style="color: #7f8c8d;">Découvrez notre siège social d'Aix-en-Provence et nos agences territoriales connectées via VPN sécurisé.</p>
+</section>
 
-<section style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
-    {% for a in agences %}
-        <article style="background: white; border: 1px solid #ddd; border-radius: 6px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-            <a href="{{ url_for('agence_detail', id=a.id) }}" style="text-decoration: none; color: inherit; display: block;">
-                <h3 style="margin: 0 0 10px 0; color: #2c3e50;">{{ a.nom }}</h3>
-                
-                <p style="margin: 5px 0; color: #555;">
-                    <strong>Identifiant :</strong> #{{ a.id }}
-                </p>
-                <p style="margin: 5px 0; color: #555;">
-                    <strong>Ville :</strong> {{ a.ville }}
-                </p>
-                <p style="margin: 5px 0; color: #7f8c8d; font-size: 0.9em;">
-                    <strong>Code Postal :</strong> {{ a.code_postal }}
-                </p>
-                
-                <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0 10px 0;">
-                <p style="margin: 0; font-size: 0.85em; color: #3498db; font-weight: bold;">
-                     Connectée au siège via VPN IPSec
-                </p>
-            </a>
-        </article>
+<section class="agences-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+    {% for agence in agences %}
+        <div class="agence-card" style="background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h2 style="color: #2c3e50; margin-top: 0;">{{ agence.nom }}</h2>
+            <p><strong>Ville :</strong> {{ agence.ville }}</p>
+            <p style="color: #555; font-size: 0.95em;"><strong>Adresse :</strong> {{ agence.adresse }}</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}" class="btn" style="display: block; text-align: center; background: #3498db; color: white; padding: 10px; border-radius: 4px; text-decoration: none; font-weight: bold;">Visiter l'agence</a>
+        </div>
     {% else %}
-        <p style="font-style: italic; color: #95a5a6; grid-column: 1 / -1; text-align: center; padding: 30px;">
-            Aucune agence immobilière n'est actuellement enregistrée dans la base de données.
-        </p>
+        <p style="grid-column: 1 / -1; text-align: center; font-style: italic; color: #95a5a6;">Aucune agence n'est enregistrée dans le système actuellement.</p>
     {% endfor %}
 </section>
 {% endblock %}
