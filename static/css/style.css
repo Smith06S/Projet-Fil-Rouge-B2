@@ -59,9 +59,10 @@ body {
 }
 
 .nav-logo-svg {
-    width: 110px;
-    height: auto;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .navbar-links {
