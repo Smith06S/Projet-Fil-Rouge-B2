@@ -45,6 +45,9 @@
                 <a href="{{ url_for('dashboard') }}" style="color: #f39c12;">Dashboard Stats</a>
                 <a href="{{ url_for('mise_en_vente') }}">Publier un bien</a>
             {% endif %}
+            {% if session.get('role') == 'commercial' %}
+                <a href="{{ url_for('ajouter_commercial') }}">Ajouter Commercial</a>
+            {% endif %}
             <a href="{{ url_for('profil') }}">Mon Profil</a>
             <a href="{{ url_for('deconnexion') }}" style="color: #ff4d4d; margin-left: auto;">Déconnexion</a>
         {% else %}

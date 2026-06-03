@@ -13,11 +13,23 @@ class FileDiscussionRepository:
     def __init__(self, db_connexion):
         self.db = db_connexion
 
-    def find_all(self):
+    def find_all(self, id_client=None, id_commercial=None):
         cur = self.db.cursor()
-        cur.execute("SELECT id_file_discussion, nom_discussione, date_creation, id_bien, id_commercial, id_client FROM file_discussion")
-        rows = cur.fetchall()
+        if id_client is not None:
+            cur.execute(
+                "SELECT id_file_discussion, nom_discussione, date_creation, id_bien, id_commercial, id_client FROM file_discussion WHERE id_client = %s",
+                (id_client,)
+            )
+        elif id_commercial is not None:
+            cur.execute(
+                "SELECT id_file_discussion, nom_discussione, date_creation, id_bien, id_commercial, id_client FROM file_discussion WHERE id_commercial = %s",
+                (id_commercial,)
+            )
+        else:
+            cur.close()
+            return []
 
+        rows = cur.fetchall()
         file_discussions = [FileDiscussion(r[0], r[1], r[2], r[3], r[4], r[5]) for r in rows]
 
         cur.close()

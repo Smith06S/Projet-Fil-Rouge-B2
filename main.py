@@ -20,7 +20,6 @@ app.secret_key = 'votre_cle_secrete_ymmo'
 db_manager = Database()
 
 
-@app.route('/')
 @app.route('/accueil')
 def accueil():
     try:
@@ -127,8 +126,7 @@ def inscription():
             email = request.form.get('email')
             password = request.form.get('password')
             phone = request.form.get('phone')
-            role = request.form.get('role')
-            id_agence = request.form.get('id_agence') or None
+            role = 'client'
             
             user_repo = UtilisateurRepository(conn)
             
@@ -137,31 +135,16 @@ def inscription():
                 
                 nouvel_user = user_repo.get_by_email(email)
                 
-                if role == 'commercial':
-                    if id_agence is None:
-                        raise ValueError("Une agence doit être sélectionnée pour un commercial.")
-
-                    import random
-                    matricule_genere = f"MAT-{random.randint(1000, 9999)}"
-                    
-                    cur = conn.cursor()
-                    cur.execute("""
-                        INSERT INTO commercial (date_embauche, matricule, id_agence, id_utilisateur)
-                        VALUES (NOW(), %s, %s, %s)
-                    """, (matricule_genere, id_agence, nouvel_user.id))
-                    cur.close()
-                    
-                elif role == 'client':
-                    default_type_client = 'Particulier'
-                    if len(default_type_client) > 10:
-                        default_type_client = default_type_client[:10]
-                    
-                    cur = conn.cursor()
-                    cur.execute("""
-                        INSERT INTO client (type_client, budget_max, id_utilisateur)
-                        VALUES (%s, 0, %s)
-                    """, (default_type_client, nouvel_user.id))
-                    cur.close()
+                default_type_client = 'Particulier'
+                if len(default_type_client) > 10:
+                    default_type_client = default_type_client[:10]
+                
+                cur = conn.cursor()
+                cur.execute("""
+                    INSERT INTO client (type_client, budget_max, id_utilisateur)
+                    VALUES (%s, 0, %s)
+                """, (default_type_client, nouvel_user.id))
+                cur.close()
 
                 conn.commit()
                 flash("Inscription réussie ! Vous pouvez maintenant vous connecter.", "success")
@@ -170,15 +153,53 @@ def inscription():
             except Exception as e:
                 conn.rollback()
                 message = f"Erreur lors de l'inscription : {e}"
-
-        agence_repo = AgenceRepository(conn)
-        toutes_les_agences = agence_repo.find_all()
     finally:
         conn.close()
     
-    return render_template('inscription.html', message=message, agences_dispo=toutes_les_agences)
+    return render_template('inscription.html', message=message)
 
+@app.route('/commercial/ajouter', methods=['GET', 'POST'])
+@role_required(['commercial'])
+def ajouter_commercial():
+    message = None
+    if request.method == 'POST':
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        phone = request.form.get('phone')
+        id_agence = session.get('id_agence')
 
+        if not id_agence:
+            message = "Agence non définie. Impossible de créer un commercial."
+            return render_template('ajouterCommercial.html', message=message)
+
+        conn = db_manager.get_connection()
+        user_repo = UtilisateurRepository(conn)
+        try:
+            user_repo.createUtilisateur(fname, lname, email, password, phone, 'commercial')
+            nouvel_user = user_repo.get_by_email(email)
+
+            import random
+            matricule_genere = f"MAT-{random.randint(1000, 9999)}"
+            cur = conn.cursor()
+            cur.execute("""
+                INSERT INTO commercial (date_embauche, matricule, id_agence, id_utilisateur)
+                VALUES (NOW(), %s, %s, %s)
+            """, (matricule_genere, id_agence, nouvel_user.id))
+            cur.close()
+            conn.commit()
+            flash("Nouveau commercial créé avec succès.", "success")
+            conn.close()
+            return redirect(url_for('profil'))
+        except Exception as e:
+            conn.rollback()
+            message = f"Erreur lors de la création du commercial : {e}"
+            conn.close()
+
+    return render_template('ajouterCommercial.html', message=message)
+
+@app.route('/')
 @app.route('/agence')
 @app.route('/agences')
 def agence():
@@ -336,17 +357,25 @@ def supprimer_bien(id):
 @app.route('/messagerie')
 def messagerie_boite():
     user_id = session.get('user_id')
+    role = session.get('role')
     if not user_id:
         flash("Veuillez vous connecter pour voir vos messages.", "error")
         return redirect(url_for('connexion'))
         
+    id_client = session.get('id_client')
+    id_commercial = session.get('id_commercial')
     file_id = request.args.get('file_id', type=int)
     
     conn = db_manager.get_connection()
     file_repo = FileDiscussionRepository(conn)
     msg_repo = MessagerieRepository(conn)
     
-    discussions = file_repo.find_all()
+    if role == 'client':
+        discussions = file_repo.find_all(id_client=id_client)
+    elif role == 'commercial':
+        discussions = file_repo.find_all(id_commercial=id_commercial)
+    else:
+        discussions = []
     
     active_file = None
     messages = []
@@ -355,7 +384,10 @@ def messagerie_boite():
             if f.id_file_discussion == file_id:
                 active_file = f
                 break
-        messages = msg_repo.find_all(file_id)
+        if active_file:
+            messages = msg_repo.find_all(file_id)
+        else:
+            messages = []
         
     conn.close()
     return render_template('messagerie.html', discussions=discussions, active_file=active_file, messages=messages)
