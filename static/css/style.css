@@ -128,10 +128,6 @@ body {
     color: var(--gris-fonce);
 }
 
-.navbar-links .nav-logout {
-    color: #cc2e2e;
-}
-
 .container {
     width: 100%;
     padding: 20px 15px;
