@@ -59,10 +59,9 @@ body {
 }
 
 .nav-logo-svg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    width: 110px;
+    height: auto;
+    display: block;
 }
 
 .navbar-links {
@@ -152,8 +151,10 @@ body {
     }
 
     .nav-logo-svg {
-        width: 155px;
-        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
     }
 
     .navbar-links {
