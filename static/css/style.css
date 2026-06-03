@@ -152,6 +152,7 @@ body {
 
     .nav-logo-svg {
         display: flex;
+        padding-top: 10px;
         justify-content: center;
         align-items: center;
         height: 100%;
