@@ -1,42 +1,47 @@
 {% extends 'base.html' %}
-{% block title %}YMMO - Accueil & Réseau National{% endblock %}
+{% block title %}YMMO - Accueil de l'agence{% endblock %}
 
 {% block content %}
-{% if banner_agence %}
-<div style="border: 2px solid #000; padding: 20px; margin-bottom: 30px; background-color: #f9f9f9;">
-    <h2>Agence Vedette : {{ banner_agence.nom }}</h2>
-    <p><strong>Adresse :</strong> {{ banner_agence.adresse }}, {{ banner_agence.ville }}</p>
-    <img src="{{ banner_agence.image_url }}" alt="Photo de {{ banner_agence.nom }}" style="max-width: 100%; height: auto; max-height: 250px; display: block; margin-top: 10px;">
+<div style="border: 1px solid #ccc; padding: 20px; background: #f9f9f9; margin-bottom: 30px;">
+    <h1>Bienvenue chez {{ agence.nom }}</h1>
+    <p><strong>Votre agence de référence :</strong> {{ honest_adresse }}, {{ agence.ville }}</p>
+    
+    <img src="{{ agence.image_url }}" alt="Bannière {{ agence.nom }}" style="max-width: 100%; height: auto; max-height: 300px; margin-top: 10px; display: block;">
 </div>
-{% endif %}
 
 <hr>
 
-<h2>⭐ Top 5 de nos Agences les plus Populaires</h2>
-<ul>
-    {% for top in top_agences %}
-        <li>
-            <strong>{{ top.nom }}</strong> à {{ top.ville }} 
-            (Basée sur le volume de biens ajoutés aux favoris par nos clients)
-        </li>
-    {% else %}
-        <li>Aucune agence classée pour le moment.</li>
-    {% endfor %}
-</ul>
-
-<hr>
-
-<h2>Notre Réseau National d'Agences</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 15px;">
-    {% for a in agences %}
-        <div style="border: 1px solid #000; padding: 15px; width: 250px;">
-            <h3>{{ a.nom }}</h3>
-            <p><strong>Ville :</strong> {{ a.ville }}</p>
-            <p><strong>Adresse :</strong> {{ a.adresse }}</p>
-            <a href="{{ url_for('agence.agence_detail', id_agence=a.id_agence) }}" style="display: inline-block; background: #007BFF; color: white; padding: 5px 10px; text-decoration: none;">Voir les détails et les biens</a>
+<h2>⭐ Les 5 Biens les plus populaires de notre agence</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px;">
+    {% for bien in top_biens %}
+        <div style="border: 1px solid #f39c12; padding: 15px; width: 250px;">
+            <h4>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h4>
+            <p><strong>Prix :</strong> {{ bien.prix }} €</p>
+            <p><em>{{ bien.ville }}</em></p>
+            <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}" style="display:inline-block; background:#f39c12; color:white; padding:5px 10px; text-decoration:none; font-size:0.9em;">Consulter l'annonce</a>
         </div>
     {% else %}
-        <p>Aucune agence disponible dans le système.</p>
+        <p>Aucun bien de cette agence n'a encore été mis en favoris par les clients.</p>
     {% endfor %}
 </div>
+
+<hr>
+
+<h2>📍 Où nous trouver ?</h2>
+<div style="border: 2px solid #2c3e50; padding: 20px; background: #edf2f7; max-width: 500px;">
+    <h3>{{ agence.nom }}</h3>
+    <p><strong>Adresse de l'antenne :</strong> {{ agence.adresse }}, {{ agence.ville }}</p>
+    
+    <div style="background: #fff; border: 1px dashed #666; padding: 15px; text-align: center; margin: 15px 0;">
+        🗺️ <em>[Carte de localisation de l'agence : {{ agence.nom }}]</em>
+    </div>
+    
+    <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}" style="display: block; text-align: center; background: #2c3e50; color: white; padding: 10px; text-decoration: none; font-weight: bold;">
+        Voir la fiche détaillée de l'agence & tous ses biens
+    </a>
+</div>
+
+<p style="margin-top: 40px;">
+    <a href="{{ url_for('agence.selection_agence') }}">← Choisir une autre agence territoriale YMMO</a>
+</p>
 {% endblock %}
