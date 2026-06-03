@@ -30,30 +30,21 @@ body {
 }
 
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: var(--orange-clair);
     position: fixed;
-    width: 100%;
     top: 0;
-}
-
-.menu-toggle { display: flex; flex-direction: column; border: none; background: none; gap: 4px; }
-.bar { width: 25px; height: 3px; background: var(--gris-fonce); }
-
-.navbar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    left: 0;
     width: 100%;
-    gap: 10px;
+    background-color: var(--orange-clair);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 12px 30px;
 }
 
 .navbar-brand {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .nav-logo-svg {
@@ -62,31 +53,31 @@ body {
     display: block;
 }
 
-.navbar-links {
-    display: none;
+.menu-toggle {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-.navbar-links a {
-    color: var(--gris-fonce);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    padding: 4px 0;
-    border-bottom: 2px solid transparent;
-    transition: opacity 0.2s ease;
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--gris-fonce);
 }
 
-.navbar-links a.active {
-    border-bottom: 2px solid var(--gris-fonce);
+.navbar-links {
+    display: none; 
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+    text-align: center;
 }
 
-.navbar-links a:hover {
-    opacity: 0.7;
+.navbar-links.active {
+    display: flex;
 }
 
 .navbar-links .nav-auth {
@@ -142,8 +133,6 @@ body {
         padding-top: 95px;
     }
 
-    .menu-toggle { display: none; }
-
     .navbar {
         flex-direction: row;
         justify-content: space-between;
@@ -175,6 +164,14 @@ body {
         padding: 12px 28px;
         font-size: 1rem;
         border-radius: 14px;
+    }
+
+    .navbar-brand {
+        width: auto;
+    }
+
+    .menu-toggle {
+        display: none;
     }
 
     .container {
