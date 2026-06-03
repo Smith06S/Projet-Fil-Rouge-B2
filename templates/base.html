@@ -1,68 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}YMMO{% endblock %}</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f9f9f9; }
-        
-        /* C'est cette classe qui gère le joli design de ta barre */
-        .navbar { 
-            display: flex; 
-            gap: 15px; 
-            background: #2c3e50; /* Changé pour un bleu nuit pro, ou remets #333 si tu préfères */
-            padding: 15px; 
-            margin-bottom: 30px; 
-            border-radius: 6px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            align-items: center;
-        }
-        .navbar a { color: white; text-decoration: none; font-weight: bold; padding: 5px 10px; border-radius: 4px; }
-        .navbar a:hover { color: #3498db; background: rgba(255,255,255,0.1); }
-        
-        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .flash { padding: 12px; margin-bottom: 20px; border-radius: 4px; background-color: #d4edda; color: #155724; font-weight: bold; }
-        .error { background-color: #f8d7da; color: #721c24; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #fff; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; }
-        .btn { background: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
-        .btn-danger { background: #dc3545; }
-    </style>
-</head>
-<body>
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}YMMO{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+
+<body>
     <nav class="navbar">
-        <a href="{{ url_for('accueil') }}">Accueil</a>
-        <a href="{{ url_for('agence') }}">Nos Agences</a>
-        <a href="{{ url_for('bien') }}">Acheter / Louer</a>
-        {% if session.get('user_id') %}
-            <a href="{{ url_for('messagerie_boite') }}">Messagerie</a>
+        <div class="navbar-brand">
+            <a href="{{ url_for('accueil') }}"><svg
+            class="nav-logo-svg"
+            width="200"
+            height="40"
+            viewBox="0 0 200 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g fill="var(--gris-fonce)">
+              <path
+                d="M18.78.563 3.29 39.406h6.34L25.12.562h-6.34Zm-8.507 9.952c.32.722.481 1.525.481 2.247 0 2.568-1.524 4.655-3.691 5.457L0 .563h6.26l4.013 9.952Z"
+              />
+              <path
+                d="M28.078 12.36C28.077 5.539 33.615 0 40.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"
+              />
+              <path
+                d="M46.078 12.36C46.077 5.539 51.615 0 58.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"
+              />
+              <path
+                d="M72.078 12.36C72.077 5.539 77.615 0 84.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"
+              />
+              <path
+                d="M90.078 12.36C90.077 5.539 95.615 0 102.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z"
+              />
+              <path
+                d="M130.563 0c-6.822 0-12.36 5.538-12.36 12.36 0 6.821 5.538 12.36 12.36 12.36 6.822 0 12.36-5.539 12.36-12.36C142.923 5.538 137.385 0 130.563 0Zm0 18.78c-3.611 0-6.5-2.89-6.5-6.5 0-3.612 2.889-6.502 6.5-6.502 3.612 0 6.501 2.89 6.501 6.501 0 3.612-2.89 6.501-6.5 6.501Z"
+              /></a>
+        </div>
+
+        <div class="navbar-links">
+                <a href="{{ url_for('accueil') }}">
+                    <span class="nav-text">Accueil</span>
+                </a>
+                <a href="{{ url_for('agence') }}">
+                    <span class="nav-text">Nos Agences</span>
+                </a>
+                <a href="{{ url_for('bien') }}">
+                    <span class="nav-text">Acheter / Louer</span>
+                </a>
+
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('messagerie_boite') }}">
+                    <span class="nav-text">Messagerie</span>
+                </a>
             {% if session.get('role') in ['admin', 'commercial'] %}
-                <a href="{{ url_for('dashboard') }}" style="color: #f39c12;">Dashboard Stats</a>
-                <a href="{{ url_for('mise_en_vente') }}">Publier un bien</a>
+                <a href="{{ url_for('dashboard') }}" style="color: var(--accent-color)">
+                    <span class="nav-text">Stats</span>
+                </a>
+                <a href="{{ url_for('mise_en_vente') }}">
+                    <span>➕</span>
+                    <span class="nav-text">Publier</span>
+                </a>
             {% endif %}
-            <a href="{{ url_for('profil') }}">Mon Profil</a>
-            <a href="{{ url_for('deconnexion') }}" style="color: #ff4d4d; margin-left: auto;">Déconnexion</a>
-        {% else %}
-            <a href="{{ url_for('connexion') }}" style="margin-left: auto;">Connexion</a>
-            <a href="{{ url_for('inscription') }}">Inscription</a>
-        {% endif %}
+                <a href="{{ url_for('profil') }}">
+                    <span>👤</span>
+                    <span class="nav-text">Mon Profil</span>
+                </a>
+                <a href="{{ url_for('deconnexion') }}" style="color: #ff4d4d">
+                    <span>🚪</span>
+                    <span class="nav-text">Déconnexion</span>
+                </a>
+            {% else %}
+                <a href="{{ url_for('connexion') }}">Connexion</a>
+                <a href="{{ url_for('inscription') }}">Inscription</a>
+            {% endif %}
+        </div>
     </nav>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="flash {% if category == 'error' %}error{% endif %}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash {% if category == 'error' %}error{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
 
-    <main class="container">
-        {% block content %}{% endblock %}
-    </main>
+    <main class="container">{% block content %}{% endblock %}</main>
 </body>
+
 </html>
