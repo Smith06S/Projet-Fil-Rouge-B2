@@ -30,20 +30,18 @@ body {
 }
 
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--orange-clair);
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    padding: 12px 30px;
-    gap: 10px;
-    box-sizing: border-box;
-    z-index: 1000;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    background-color: var(--orange-clair);
+    position: fixed;
+    width: 100%;
+    top: 0;
 }
+
+.menu-toggle { display: flex; flex-direction: column; border: none; background: none; gap: 4px; }
+.bar { width: 25px; height: 3px; background: var(--gris-fonce); }
 
 .navbar-container {
     display: flex;
@@ -65,6 +63,7 @@ body {
 }
 
 .navbar-links {
+    display: none;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -142,6 +141,8 @@ body {
     body {
         padding-top: 95px;
     }
+
+    .menu-toggle { display: none; }
 
     .navbar {
         flex-direction: row;
