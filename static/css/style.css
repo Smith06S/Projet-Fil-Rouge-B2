@@ -59,7 +59,7 @@ body {
 }
 
 .nav-logo-svg {
-    width: 110px;
+    width: 130px;
     height: auto;
     display: block;
 }
@@ -154,7 +154,6 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 90px;
         height: 100%;
     }
 
