@@ -129,8 +129,8 @@ body {
 }
 
 #banner-image {
-    width: 100%;
-    max-width: 150rem;
+    width: 150%;
+    max-width: 300rem;
     height: auto;
     margin-bottom: 1.25rem;
     margin-top: -4.5rem;
