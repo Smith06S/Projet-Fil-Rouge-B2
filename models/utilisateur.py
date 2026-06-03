@@ -40,6 +40,12 @@ class UtilisateurRepository:
             cur.execute("SELECT * FROM utilisateur WHERE email = %s", (email,))
             row = cur.fetchone()
             return Utilisateur(**row) if row else None
+    
+    def get_by_id(self, id_utilisateur):
+        with self.db.cursor() as cur:
+            cur.execute("SELECT * FROM utilisateur WHERE id_utilisateur = %s", (id_utilisateur,))
+            row = cur.fetchone()
+            return Utilisateur(**row) if row else None
 
     def create_client(self, nom, prenom, email, mdp_clair, telephone, budget_max):
         mdp_hache = self.hash_password(mdp_clair)
