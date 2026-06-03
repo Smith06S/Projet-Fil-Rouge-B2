@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Agence {{ agence.nom }}{% endblock %}
+
+{% block content %}
+<section style="max-width: 1000px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+        <div>
+            <h1 style="margin: 0; color: #2c3e50;">{{ agence.nom }}</h1>
+            <p style="margin: 8px 0 0; color: #555;"><strong>Ville :</strong> {{ agence.ville }}</p>
+            <p style="margin: 4px 0 0; color: #555;"><strong>Code Postal :</strong> {{ agence.code_postal }}</p>
+        </div>
+        <div style="text-align: right;">
+            {% if role == 'commercial' and effective_role == 'commercial' %}
+                <span style="display: inline-block; background: #27ae60; color: white; padding: 10px 14px; border-radius: 6px; font-weight: bold;">Vous êtes commercial de cette agence</span>
+            {% elif role == 'commercial' and effective_role == 'client' %}
+                <span style="display: inline-block; background: #3498db; color: white; padding: 10px 14px; border-radius: 6px; font-weight: bold;">Vous êtes client de cette agence</span>
+            {% elif role == 'client' %}
+                <span style="display: inline-block; background: #3498db; color: white; padding: 10px 14px; border-radius: 6px; font-weight: bold;">Connecté en tant que client</span>
+            {% else %}
+                <span style="display: inline-block; background: #95a5a6; color: white; padding: 10px 14px; border-radius: 6px; font-weight: bold;">Visiteur</span>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if role != 'client' and not (role == 'commercial' and effective_role == 'commercial') %}
+    <div style="background: #f0f8ff; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #dfe9f3;">
+        <p style="margin: 0; color: #34495e;">Pour accéder aux fonctionnalités spécifiques à cette agence, connectez-vous ou inscrivez-vous en tant que client.</p>
+        <div style="margin-top: 15px; display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="{{ url_for('connexion') }}" class="btn" style="background: #3498db;">Se connecter</a>
+            <a href="{{ url_for('inscription') }}" class="btn" style="background: #27ae60;">Créer un compte client</a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if effective_role == 'commercial' %}
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
+        <a href="{{ url_for('mise_en_vente') }}" class="btn" style="background: #e67e22;">Publier un bien</a>
+        <a href="{{ url_for('ajouter_commercial') }}" class="btn" style="background: #8e44ad;">Ajouter un commercial</a>
+    </div>
+    {% endif %}
+
+    <div style="margin-bottom: 20px;">
+        <h2 style="margin-bottom: 12px; color: #2c3e50;">Biens de l'agence</h2>
+        {% if biens %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            {% for bien in biens %}
+            <article style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background: #fff;">
+                <h3 style="margin: 0 0 10px 0; color: #2c3e50;">{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h3>
+                <p style="margin: 5px 0; color: #555;">{{ bien.adresse }}, {{ bien.ville }}</p>
+                <p style="margin: 5px 0; color: #27ae60; font-weight: bold;">{{ bien.prix }} €</p>
+                <a href="{{ url_for('bien_detail', id=bien.id) }}" class="btn" style="background: #2980b9;">Voir le bien</a>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="font-style: italic; color: #95a5a6;">Aucun bien disponible dans cette agence pour le moment.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

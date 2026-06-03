@@ -46,6 +46,14 @@ class BienRepository:
             return Bien(*row)
         else:
             return None
+
+    def find_by_agence(self, id_agence):
+        cur = self.db.cursor()
+        cur.execute("SELECT id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, exposition, etat_logement, energie_chauffage, type_eau_chaude, type_chauffage, moyen_eau_chaude, etage, vue, prix, statut, id_commercial, id_statistique, id_agence FROM bien WHERE id_agence = %s", (id_agence,))
+        rows = cur.fetchall()
+        biens = [Bien(*r) for r in rows]
+        cur.close()
+        return biens
         
     def createBien(self, ville, adresse, description, nbrPieces, surface, typeBien, exposition, etatLogement, energieChauffage, typeEauChaude, typeChauffage, moyenEauChaude, etage, vue, prix, statut, id_commercial, id_agence):
         cur = self.db.cursor()

@@ -41,11 +41,13 @@
         <a href="{{ url_for('bien') }}">Acheter / Louer</a>
         {% if session.get('user_id') %}
             <a href="{{ url_for('messagerie_boite') }}">Messagerie</a>
-            {% if session.get('role') in ['admin', 'commercial'] %}
+            {% set selected_agence = session.get('selected_agence') %}
+            {% set current_agence = session.get('id_agence') %}
+            {% if session.get('role') in ['admin', 'commercial'] and (selected_agence is none or selected_agence == current_agence) %}
                 <a href="{{ url_for('dashboard') }}" style="color: #f39c12;">Dashboard Stats</a>
                 <a href="{{ url_for('mise_en_vente') }}">Publier un bien</a>
             {% endif %}
-            {% if session.get('role') == 'commercial' %}
+            {% if session.get('role') == 'commercial' and (selected_agence is none or selected_agence == current_agence) %}
                 <a href="{{ url_for('ajouter_commercial') }}">Ajouter Commercial</a>
             {% endif %}
             <a href="{{ url_for('profil') }}">Mon Profil</a>

@@ -204,6 +204,7 @@ def ajouter_commercial():
 @app.route('/agences')
 def agence():
     try:
+        session.pop('selected_agence', None)
         conn = db_manager.get_connection()
         repo = AgenceRepository(conn)
         mes_agences = repo.find_all()
@@ -211,6 +212,43 @@ def agence():
         return render_template('agences.html', agences=mes_agences)
     except Exception as e:
         return f"Erreur de base de données : {e}"
+
+
+@app.route('/agence/<int:id>')
+def agence_detail(id):
+    user_id = session.get('user_id')
+    role = session.get('role')
+    id_client = session.get('id_client')
+    id_commercial = session.get('id_commercial')
+    selected_agence = session.get('selected_agence')
+
+    conn = db_manager.get_connection()
+    agence_repo = AgenceRepository(conn)
+    bien_repo = BienRepository(conn)
+
+    agence_obj = agence_repo.get_by_id(id)
+    if not agence_obj:
+        conn.close()
+        return "Agence non trouvée", 404
+
+    biens_agence = bien_repo.find_by_agence(id)
+
+    if role == 'commercial' and session.get('id_agence') == id:
+        effective_role = 'commercial'
+    else:
+        effective_role = 'client'
+
+    session['selected_agence'] = id
+    conn.close()
+
+    return render_template(
+        'agence_detail.html',
+        agence=agence_obj,
+        biens=biens_agence,
+        role=role,
+        effective_role=effective_role,
+        selected_agence=id
+    )
 
 
 @app.route('/bien')

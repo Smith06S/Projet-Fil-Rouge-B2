@@ -20,3 +20,12 @@ class AgenceRepository:
 
         cur.close()
         return agences
+
+    def get_by_id(self, id_agence):
+        cur = self.db.cursor()
+        cur.execute("SELECT id_agence, nom_agence, ville, code_postal FROM agence WHERE id_agence = %s", (id_agence,))
+        row = cur.fetchone()
+        cur.close()
+        if row:
+            return Agence(row[0], row[1], row[2], row[3])
+        return None
