@@ -12,7 +12,6 @@ def liste_biens():
     ville = request.args.get('ville')
     prix_max = request.args.get('prix_max', type=float)
     type_bien = request.args.get('type_bien')
-
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
     biens = repo.find_by_filter(ville, prix_max, type_bien)
@@ -37,8 +36,7 @@ def voir_carte_bien(id_bien):
     conn.close()
     if not bien_obj:
         return "Bien introuvable", 404
-    
-    # Génère le code HTML de la carte
+         
     carte_html = generer_carte_un_bien(bien_obj)
     return render_template('carte_bien.html', bien=bien_obj, carte_html=carte_html)
 
@@ -67,6 +65,29 @@ def creation_bien():
         finally:
             conn.close()
     return render_template('miseEnVente.html')
+
+@bien_bp.route('/bien/<int:id_bien>/supprimer', methods=['POST'])
+@role_required(['commercial', 'admin'])
+def supprimer_bien(id_bien):
+    conn = db_manager.get_connection()
+    repo = BienRepository(conn)
+    bien_obj = repo.get_by_id(id_bien)
+    
+    if not bien_obj:
+        conn.close()
+        flash("Bien introuvable.", "error")
+        return redirect(url_for('agence.accueil'))
+        
+    # Sécurité SCRUM : Le commercial ne peut supprimer que les biens de sa propre agence
+    if session.get('role') == 'commercial' and session.get('id_agence') != bien_obj.id_agence:
+        conn.close()
+        flash("Action non autorisée sur les biens d'une autre agence.", "error")
+        return redirect(url_for('agence.accueil'))
+        
+    repo.delete(id_bien)
+    conn.close()
+    flash("Le bien a été supprimé avec succès.", "success")
+    return redirect(url_for('agence.agence_detail', id_agence=bien_obj.id_agence))
 
 @bien_bp.route('/bien/<int:id_bien>/add_favoris', methods=['POST'])
 @role_required(['client'])

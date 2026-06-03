@@ -1,6 +1,9 @@
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, request, redirect, url_for, flash
 from database import Database
+from models.utilisateur import UtilisateurRepository
+from models.agence import AgenceRepository
 from helpers.auth_helper import role_required
+import random
 
 dashboard_bp = Blueprint('dashboard', __name__)
 db_manager = Database()
@@ -12,8 +15,7 @@ def voir_dashboard():
     analyses_predictions = []
     
     with conn.cursor() as cur:
-        # 1. Calcul des zones intéressantes où acheter (Prix attractif & Volume actif élevé)
-        # 2. Simulation de prédictions de vente (Calcul de la popularité sur les favoris par Ville)
+        # 1. Calcul des zones intéressantes et prédictions basées sur les favoris
         cur.execute("""
             SELECT 
                 b.ville as zone_geographique,
@@ -38,6 +40,10 @@ def voir_dashboard():
         
         cur.execute("SELECT COUNT(*) FROM bien WHERE statut = 'Vendu'")
         total_ventes = cur.fetchone()[0]
+
+        # Récupération de la liste des utilisateurs pour la gestion SCRUM de l'admin
+        cur.execute("SELECT id_utilisateur, nom, prenom, email, telephone, role FROM utilisateur")
+        utilisateurs_list = cur.fetchall()
         
     conn.close()
     
@@ -46,5 +52,40 @@ def voir_dashboard():
         statistiques=analyses_predictions,
         biens_actifs=biens_actifs,
         ca_total=ca_total,
-        total_ventes=total_ventes
+        total_ventes=total_ventes,
+        utilisateurs=utilisateurs_list
     )
+
+@dashboard_bp.route('/commercial/ajouter', methods=['GET', 'POST'])
+@role_required(['commercial', 'admin'])
+def ajouter_commercial():
+    conn = db_manager.get_connection()
+    repo_user = UtilisateurRepository(conn)
+    repo_agence = AgenceRepository(conn)
+    
+    if request.method == 'POST':
+        nom = request.form.get('lname')
+        prenom = request.form.get('fname')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        telephone = request.form.get('phone')
+        
+        # Attribution de l'agence selon les droits
+        if session.get('role') == 'admin':
+            id_agence = request.form.get('id_agence', type=int)
+        else:
+            id_agence = session.get('id_agence')
+            
+        matricule = f"MAT-{random.randint(1000, 9999)}"
+        
+        try:
+            repo_user.create_commercial(nom, prenom, email, password, telephone, id_agence, matricule)
+            flash(f"Le commercial {prenom} {nom} a été créé avec le matricule {matricule}.", "success")
+            return redirect(url_for('dashboard.voir_dashboard'))
+        except Exception as e:
+            conn.rollback()
+            flash(f"Erreur de création du compte : {e}", "error")
+            
+    agences = repo_agence.find_all()
+    conn.close()
+    return render_template('ajouterCommercial.html', agences=agences, id_agence=session.get('id_agence'))
