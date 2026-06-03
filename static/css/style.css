@@ -114,17 +114,14 @@ body {
     opacity: 0.7;
 }
 
-.navbar-links .nav-auth {
+.navbar-links .nav-auth 
+.navbar-links .nav-logout{
     background-color: var(--gris-fonce);
-    color: #ffffff;
+    color: var(--orange-clair);
     border-radius: 12px;
     padding: 6px 14px;
     font-size: 0.8rem;
     border-bottom: none;
-}
-
-.navbar-links .nav-logout {
-    color: #cc2e2e;
 }
 
 .container {
@@ -199,7 +196,8 @@ body {
         padding: 6px 10px;
     }
 
-    .navbar-links .nav-auth {
+    .navbar-links .nav-auth 
+    .navbar-links .nav-logout {
         padding: 8px 16px;
         font-size: 0.9rem;
     }
