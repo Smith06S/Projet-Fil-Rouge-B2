@@ -14,31 +14,37 @@
     .discussion-active { background-color: #e3f2fd; border-color: #2196f3; }
 </style>
 
-<h1>Messagerie Privée</h1>
+<h1>Messagerie Privée & Suivi Clientèle</h1>
 
 <div class="messaging-container">
+    <!-- PANNEAU GAUCHE : LISTE DES DISCUSSIONS ACCESSIBLES -->
     <div class="discussions-sidebar">
-        <h3>Conversations</h3>
+        <h3>Fils de discussion</h3>
         {% for d in discussions %}
             <div class="discussion-item {% if active_discussion and active_discussion.id_discussion == d.id_discussion %}discussion-active{% endif %}">
                 <a href="?discussion_id={{ d.id_discussion }}" style="text-decoration: none; color: inherit; display: block; margin-bottom: 5px;">
-                    <strong>{{ d.titre }}</strong>
+                    <strong>{{ d.titre }}</strong><br>
+                    <small>Créé le {{ d.date_creation }}</small>
                 </a>
                 
+                <!-- Le commercial (et uniquement lui) peut supprimer la discussion -->
                 {% if session.get('role') == 'commercial' %}
-                    <form method="POST" action="{{ url_for('chat.supprimer_discussion', id_discussion=d.id_discussion) }}" onsubmit="return confirm('Supprimer définitivement cette conversation ?');">
-                        <button type="submit" style="background: red; color: white; border: none; font-size: 0.75em; padding: 3px; cursor: pointer;">✕ Supprimer le tchat</button>
+                    <form method="POST" action="{{ url_for('chat.supprimer_discussion', id_discussion=d.id_discussion) }}" onsubmit="return confirm('Confirmer la suppression définitive de ce fil de discussion ?');">
+                        <button type="submit" style="background: red; color: white; border: none; font-size: 0.75em; padding: 3px; cursor: pointer; border-radius: 3px;">✕ Supprimer le tchat</button>
                     </form>
                 {% endif %}
             </div>
         {% else %}
-            <p>Aucune conversation active.</p>
+            <p>Aucune conversation active pour le moment.</p>
         {% endfor %}
     </div>
 
+    <!-- PANNEAU DROIT : HISTORIQUE ET ENVOI DES MESSAGES -->
     <div class="chat-area">
         {% if active_discussion %}
-            <h3>Discussion : {{ active_discussion.titre }}</h3>
+            <h3>Fil de discussion actif : {{ active_discussion.titre }}</h3>
+            
+            <!-- CONTENEUR DES MESSAGES (C'est cette zone qui se rafraîchit automatiquement) -->
             <div class="messages-history">
                 {% for m in messages %}
                     <div class="message-bubble {% if m.id_expediteur == session.get('user_id') %}msg-me{% else %}msg-other{% endif %}">
@@ -46,16 +52,62 @@
                         <p style="margin: 4px 0;">{{ m.message }}</p>
                         <span style="font-size: 0.7em; color: #666;">{{ m.date_heure }}</span>
                     </div>
+                {% else %}
+                    <p style="text-align: center; color: #999; padding-top: 50px;">Aucun message dans cette discussion. Écrivez le premier message !</p>
                 {% endfor %}
             </div>
 
+            <!-- FORMULAIRE D'ENVOI DE MESSAGE (Fixé sur le nom de variable attendu par le backend) -->
             <form method="POST" action="{{ url_for('chat.envoyer_message', id_discussion=active_discussion.id_discussion) }}" style="display: flex; gap: 10px;">
-                <input type="text" name="contenu_message" placeholder="Saisissez votre message ici..." required style="flex-grow: 1; padding: 8px;">
-                <button type="submit" style="background: #27ae60; color: white; border: none; padding: 8px 15px; cursor: pointer;">Envoyer</button>
+                <input type="text" name="contenu_message" placeholder="Saisissez votre message ici..." required style="flex-grow: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <button type="submit" style="background: #27ae60; color: white; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 4px;">Envoyer</button>
             </form>
         {% else %}
-            <p style="text-align: center; margin-top: 150px; color: #7f8c8d;">Sélectionnez une discussion à gauche.</p>
+            <div style="text-align: center; margin-top: 150px; color: #7f8c8d;">
+                <p>← Veuillez sélectionner un fil de discussion à gauche pour afficher les échanges et répondre.</p>
+            </div>
         {% endif %}
     </div>
 </div>
+
+<!-- INJECTION DU SCRIPT DE MISE À JOUR DIRECTE AUTOMATIQUE -->
+{% if active_discussion %}
+<script>
+    // Fonction qui va chercher les messages en tâche de fond sans recharger la page
+    function chargerNouveauxMessages() {
+        // On récupère l'ID de la discussion actuelle depuis l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const discussionId = urlParams.get('discussion_id');
+
+        if (!discussionId) return;
+
+        // On appelle la même page en tâche de fond pour inspecter les nouveaux messages
+        fetch(`/messagerie?discussion_id=${discussionId}`)
+            .then(response => response.text())
+            .then(html => {
+                // On crée un parser pour extraire le nouvel historique des messages
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const nouvelHistorique = doc.querySelector('.messages-history').innerHTML;
+                
+                // On met à jour l'affichage si du contenu a changé
+                const zoneMessages = document.querySelector('.messages-history');
+                if (zoneMessages.innerHTML !== nouvelHistorique) {
+                    zoneMessages.innerHTML = nouvelHistorique;
+                    // Scroll automatique vers le bas lors d'un nouveau message
+                    zoneMessages.scrollTop = zoneMessages.scrollHeight;
+                }
+            })
+            .catch(err => console.error("Erreur de rafraîchissement :", err));
+    }
+
+    // On exécute la fonction toutes les 3000 millisecondes (3 secondes)
+    setInterval(chargerNouveauxMessages, 3000);
+    
+    // Petit confort : scroll tout en bas dès le premier chargement de la page
+    const zoneMessages = document.querySelector('.messages-history');
+    if(zoneMessages) zoneMessages.scrollTop = zoneMessages.scrollHeight;
+</script>
+{% endif %}
+
 {% endblock %}
