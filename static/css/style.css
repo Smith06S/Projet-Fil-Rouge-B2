@@ -62,6 +62,7 @@ body {
     height: auto;
     display: block;
     margin-top: 9px;
+    margin-left: -10px;
 }
 
 .menu-toggle {
