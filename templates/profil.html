@@ -12,8 +12,25 @@
 
 <hr>
 
+<!-- BLOC RE-LOCALISÉ : GESTION DES ÉQUIPES / CRÉATION DE COMMERCIAL -->
+{% if session.get('role') in ['admin', 'commercial'] %}
+    <div style="background: #eaf2f8; padding: 15px; border: 1px solid #2980b9; margin-top: 20px; margin-bottom: 20px;">
+        <h3>Espace Professionnel : Gestion des équipes</h3>
+        {% if session.get('role') == 'admin' %}
+            <p>En tant d'administrateur, vous pouvez créer un compte commercial et <strong>choisir son agence d'affectation</strong>.</p>
+        {% else %}
+            <p>En tant que commercial, vous pouvez créer un collègue qui sera <strong>automatiquement rattaché à votre propre agence (Agence #{{ session.get('id_agence') }})</strong>.</p>
+        {% endif %}
+        <a href="{{ url_for('dashboard.ajouter_commercial') }}" style="background: #2980b9; color: white; padding: 10px 15px; text-decoration: none; font-weight: bold; display: inline-block; border-radius: 4px;">
+            ➕ Créer un nouveau compte Commercial
+        </a>
+    </div>
+    <hr>
+{% endif %}
+
+<!-- SECTION PRIVILÈGE ADMIN : MODÉRATION DES COMPTES PAR EMAIL -->
 {% if session.get('role') == 'admin' %}
-    <div style="background: #fdeaea; border: 1px solid #f5c6cb; padding: 20px; margin-top: 30px;">
+    <div style="background: #fdeaea; border: 1px solid #f5c6cb; padding: 20px; margin-top: 20px; margin-bottom: 20px;">
         <h2 style="color: #721c24; margin-top: 0;">🛡️ Zone Administration : Modération des comptes</h2>
         <p>Saisissez l'adresse de messagerie d'un utilisateur pour révoquer son accès et effacer son profil en cascade.</p>
         
@@ -26,6 +43,7 @@
     <hr>
 {% endif %}
 
+<!-- SECTION CLIENTS : FAVORIS -->
 {% if session.get('role') == 'client' %}
     <h2>⭐ Vos Favoris</h2>
     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
@@ -39,7 +57,7 @@
                 </form>
             </div>
         {% else %}
-            <p>Aucun bien enregistré.</p>
+            <p>Aucun bien enregistré dans vos favoris.</p>
         {% endfor %}
     </div>
 {% endif %}

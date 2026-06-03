@@ -65,7 +65,7 @@ def ajouter_commercial():
         prenom = request.form.get('fname')
         email = request.form.get('email')
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password') # Double vérification
+        confirm_password = request.form.get('confirm_password')
         telephone = request.form.get('phone')
                   
         if password != confirm_password:
@@ -84,11 +84,12 @@ def ajouter_commercial():
         try:
             repo_user.create_commercial(nom, prenom, email, password, telephone, id_agence, matricule)
             flash(f"Le commercial {prenom} {nom} a été créé avec le matricule {matricule}.", "success")
-            return redirect(url_for('dashboard.voir_dashboard'))
+            return redirect(url_for('auth.voir_profil')) # <-- MODIFICATION : Redirection vers le profil
         except Exception as e:
             conn.rollback()
             flash(f"Erreur de création du compte : {e}", "error")
-                  
+            return redirect(url_for('auth.voir_profil')) # <-- MODIFICATION : Redirection vers le profil en cas d'échec
+                        
     agences = repo_agence.find_all()
     conn.close()
     return render_template('ajouterCommercial.html', agences=agences, id_agence=session.get('id_agence'))
