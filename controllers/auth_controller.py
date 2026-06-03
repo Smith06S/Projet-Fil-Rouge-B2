@@ -14,8 +14,14 @@ def inscription():
         prenom = request.form.get('fname')
         email = request.form.get('email')
         password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password') # Double vérification
         telephone = request.form.get('phone')
         budget = request.form.get('budget', 0, type=float)
+        
+        if password != confirm_password:
+            flash("Erreur : Les deux mots de passe saisis ne sont pas identiques.", "error")
+            return render_template('inscription.html')
+            
         conn = db_manager.get_connection()
         repo = UtilisateurRepository(conn)
         try:
@@ -41,6 +47,7 @@ def connexion():
             session['user_id'] = user.id_utilisateur
             session['role'] = user.role
             session['nom_complet'] = f"{user.prenom} {user.nom}"
+            session['email'] = user.email
             if user.role == 'client':
                 session['id_client'] = repo.get_client_id(user.id_utilisateur)
             elif user.role == 'commercial':
@@ -49,7 +56,7 @@ def connexion():
                 session['id_agence'] = comm['id_agence']
             conn.close()
             return redirect(url_for('agence.accueil'))
-                 
+                           
         flash("Email ou mot de passe incorrect.", "error")
         conn.close()
     return render_template('connexion.html')
@@ -60,35 +67,36 @@ def voir_profil():
     conn = db_manager.get_connection()
     repo_user = UtilisateurRepository(conn)
     repo_bien = BienRepository(conn)
-         
+               
     utilisateur = repo_user.get_by_id(session.get('user_id'))
     favoris = []
     if session.get('role') == 'client':
         favoris = repo_bien.get_favoris_by_client(session.get('id_client'))
-             
+                   
     conn.close()
     return render_template('profil.html', utilisateur=utilisateur, favoris=favoris)
 
-@auth_bp.route('/utilisateur/<int:id_utilisateur>/supprimer', methods=['POST'])
+@auth_bp.route('/utilisateur/supprimer', methods=['POST'])
 @role_required(['admin'])
-def supprimer_utilisateur(id_utilisateur):
-    if id_utilisateur == session.get('user_id'):
-        flash("Vous ne pouvez pas supprimer votre propre compte.", "error")
+def supprimer_utilisateur():
+    email_a_supprimer = request.form.get('email')
+    
+    if email_a_supprimer == session.get('email'):
+        flash("Action impossible : Vous ne pouvez pas vous révoquer vous-même.", "error")
         return redirect(url_for('dashboard.voir_dashboard'))
-        
+             
     conn = db_manager.get_connection()
     try:
         with conn.cursor() as cur:
-            # La suppression se propage en cascade sur les tables enfants via les FK sql
-            cur.execute("DELETE FROM utilisateur WHERE id_utilisateur = %s", (id_utilisateur,))
+            cur.execute("DELETE FROM utilisateur WHERE email = %s", (email_a_supprimer,))
         conn.commit()
-        flash("L'utilisateur a été supprimé définitivement du système.", "success")
+        flash(f"L'utilisateur {email_a_supprimer} a été supprimé du système en cascade.", "success")
     except Exception as e:
         conn.rollback()
         flash(f"Erreur lors de la suppression : {e}", "error")
     finally:
         conn.close()
-        
+             
     return redirect(url_for('dashboard.voir_dashboard'))
 
 @auth_bp.route('/deconnexion')

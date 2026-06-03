@@ -1,41 +1,33 @@
 {% extends 'base.html' %}
 {% block title %}YMMO - Ajouter un nouveau commercial{% endblock %}
-
 {% block content %}
-<h1>➕ Créer un compte Commercial</h1>
-<p>Utilisez ce formulaire pour enregistrer un nouveau membre du pôle commercial.</p>
-
-<!-- Formulaire relié au contrôleur d'ajout du backend -->
+<h1>Créer un compte Commercial</h1>
 <form method="POST" action="{{ url_for('dashboard.ajouter_commercial') }}" style="max-width: 500px;">
-    
     <div>
         <label for="fname">Prénom :</label><br>
         <input type="text" id="fname" name="fname" required style="width: 100%; margin-bottom: 10px;">
     </div>
-
     <div>
         <label for="lname">Nom de famille :</label><br>
         <input type="text" id="lname" name="lname" required style="width: 100%; margin-bottom: 10px;">
     </div>
-
     <div>
-        <label for="email">Adresse Email professionelle :</label><br>
+        <label for="email">Adresse Email professionnelle :</label><br>
         <input type="email" id="email" name="email" required style="width: 100%; margin-bottom: 10px;">
     </div>
-
     <div>
         <label for="password">Mot de passe provisoire :</label><br>
         <input type="password" id="password" name="password" required style="width: 100%; margin-bottom: 10px;">
     </div>
-
+    <div>
+        <label for="confirm_password">Confirmez le mot de passe provisoire :</label><br>
+        <input type="password" id="confirm_password" name="confirm_password" required style="width: 100%; margin-bottom: 10px;">
+    </div>
     <div>
         <label for="phone">Numéro de téléphone :</label><br>
         <input type="text" id="phone" name="phone" required style="width: 100%; margin-bottom: 15px;">
     </div>
-
-    <!-- ADAPTATION SCRUM SELON LE RÔLE DE L'UTILISATEUR CONNECTÉ -->
     {% if session.get('role') == 'admin' %}
-        <!-- L'admin choisit librement l'agence à laquelle le commercial est affecté -->
         <div style="margin-bottom: 20px;">
             <label for="id_agence">Affectation à une agence du réseau :</label><br>
             <select id="id_agence" name="id_agence" required style="width: 100%;">
@@ -46,19 +38,11 @@
             </select>
         </div>
     {% else %}
-        <!-- Un commercial ne peut créer un collègue que dans sa propre agence (sécurité automatique) -->
         <input type="hidden" name="id_agence" value="{{ id_agence }}">
         <div style="margin-bottom: 20px;">
-            <p><strong>Agence assignée par défaut :</strong> Identifiant d'agence #{{ id_agence }} (Votre agence actuelle)</p>
+            <p><strong>Agence assignée par défaut :</strong> Identifiant d'agence #{{ id_agence }}</p>
         </div>
     {% endif %}
-
-    <button type="submit" style="background-color: #27ae60; color: white; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer;">
-        💾 Valider et Générer le Matricule Commercial
-    </button>
+    <button type="submit" style="background-color: #27ae60; color: white; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer;">Valider le compte</button>
 </form>
-
-<div style="margin-top: 20px;">
-    <a href="/dashboard">← Annuler et retourner au Dashboard</a>
-</div>
 {% endblock %}

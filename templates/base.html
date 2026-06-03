@@ -7,13 +7,15 @@
 <body>
     <nav style="background: #eee; padding: 10px; margin-bottom: 20px;">
         <a href="{{ url_for('agence.accueil') }}">Accueil (Agences)</a> | 
-        <a href="{{ url_for('bien.liste_biens') }}">Tous les Biens</a> 
-        
+        <a href="{{ url_for('bien.liste_biens') }}">Biens de mon Agence</a>
+                 
         {% if session.get('user_id') %}
             | <a href="{{ url_for('auth.voir_profil') }}">Mon Profil</a>
-            {% if session.get('role') in ['commercial', 'admin'] %}
+            {% if session.get('role') == 'commercial' %}
                 | <a href="{{ url_for('chat.boite_reception') }}">Messagerie</a>
-                | <a href="{{ url_for('dashboard.voir_dashboard') }}">Dashboard Analytique</a>
+                | <a href="{{ url_for('dashboard.voir_dashboard') }}">Dashboard</a>
+            {% elif session.get('role') == 'admin' %}
+                | <a href="{{ url_for('dashboard.voir_dashboard') }}">Panneau Dashboard Admin</a>
             {% else %}
                 | <a href="{{ url_for('chat.boite_reception') }}">Mes Discussions Chat</a>
             {% endif %}
@@ -24,7 +26,6 @@
             | <a href="{{ url_for('auth.inscription') }}">Inscription</a>
         {% endif %}
     </nav>
-
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div style="padding: 10px; margin-bottom: 20px; border: 1px solid #ccc;">
@@ -36,7 +37,6 @@
             </div>
         {% endif %}
     {% endwith %}
-
     <main>
         {% block content %}{% endblock %}
     </main>

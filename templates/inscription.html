@@ -1,27 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}YMMO - Créer un compte client{% endblock %}
-
 {% block content %}
 <h2>Création de compte Client</h2>
 <form method="POST" action="{{ url_for('auth.inscription') }}" style="max-width: 400px;">
     <label>Prénom :</label><br>
     <input type="text" name="fname" required style="width:100%; margin-bottom:10px;"><br>
-    
+         
     <label>Nom :</label><br>
     <input type="text" name="lname" required style="width:100%; margin-bottom:10px;"><br>
-    
+         
     <label>Adresse Email :</label><br>
     <input type="email" name="email" required style="width:100%; margin-bottom:10px;"><br>
-    
+         
     <label>Mot de passe :</label><br>
     <input type="password" name="password" required style="width:100%; margin-bottom:10px;"><br>
-    
+
+    <label>Confirmez votre mot de passe :</label><br>
+    <input type="password" name="confirm_password" required style="width:100%; margin-bottom:10px;"><br>
+         
     <label>Téléphone :</label><br>
     <input type="text" name="phone" required style="width:100%; margin-bottom:10px;"><br>
-    
-    <label>Votre Budget Maximum d'Achat (€) :</label><br>
+         
+    <label>Votre Budget Maximum d'Achat :</label><br>
     <input type="number" name="budget" value="0" required style="width:100%; margin-bottom:15px;"><br>
-    
+         
     <button type="submit">Créer mon compte Client</button>
 </form>
 {% endblock %}

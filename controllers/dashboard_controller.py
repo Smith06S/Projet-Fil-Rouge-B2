@@ -13,9 +13,8 @@ db_manager = Database()
 def voir_dashboard():
     conn = db_manager.get_connection()
     analyses_predictions = []
-    
+          
     with conn.cursor() as cur:
-        # 1. Calcul des zones intéressantes et prédictions basées sur les favoris
         cur.execute("""
             SELECT 
                 b.ville as zone_geographique,
@@ -30,23 +29,21 @@ def voir_dashboard():
             ORDER BY indice_popularite DESC
         """)
         analyses_predictions = cur.fetchall()
-        
-        # Statistiques générales consolidées
+                  
         cur.execute("SELECT COUNT(*) FROM bien WHERE statut = 'Disponible'")
         biens_actifs = cur.fetchone()[0]
-        
+                  
         cur.execute("SELECT COALESCE(SUM(prix), 0) FROM bien WHERE statut = 'Vendu'")
         ca_total = cur.fetchone()[0]
-        
+                  
         cur.execute("SELECT COUNT(*) FROM bien WHERE statut = 'Vendu'")
         total_ventes = cur.fetchone()[0]
-
-        # Récupération de la liste des utilisateurs pour la gestion SCRUM de l'admin
+        
         cur.execute("SELECT id_utilisateur, nom, prenom, email, telephone, role FROM utilisateur")
         utilisateurs_list = cur.fetchall()
-        
+              
     conn.close()
-    
+          
     return render_template(
         'dashboard_stats.html', 
         statistiques=analyses_predictions,
@@ -62,22 +59,28 @@ def ajouter_commercial():
     conn = db_manager.get_connection()
     repo_user = UtilisateurRepository(conn)
     repo_agence = AgenceRepository(conn)
-    
+          
     if request.method == 'POST':
         nom = request.form.get('lname')
         prenom = request.form.get('fname')
         email = request.form.get('email')
         password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password') # Double vérification
         telephone = request.form.get('phone')
-        
-        # Attribution de l'agence selon les droits
+                  
+        if password != confirm_password:
+            flash("Erreur : Le mot de passe de confirmation diffère du premier saisi.", "error")
+            agences = repo_agence.find_all()
+            conn.close()
+            return render_template('ajouterCommercial.html', agences=agences, id_agence=session.get('id_agence'))
+
         if session.get('role') == 'admin':
             id_agence = request.form.get('id_agence', type=int)
         else:
             id_agence = session.get('id_agence')
-            
+                      
         matricule = f"MAT-{random.randint(1000, 9999)}"
-        
+                  
         try:
             repo_user.create_commercial(nom, prenom, email, password, telephone, id_agence, matricule)
             flash(f"Le commercial {prenom} {nom} a été créé avec le matricule {matricule}.", "success")
@@ -85,7 +88,7 @@ def ajouter_commercial():
         except Exception as e:
             conn.rollback()
             flash(f"Erreur de création du compte : {e}", "error")
-            
+                  
     agences = repo_agence.find_all()
     conn.close()
     return render_template('ajouterCommercial.html', agences=agences, id_agence=session.get('id_agence'))
