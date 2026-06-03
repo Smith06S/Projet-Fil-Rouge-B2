@@ -56,14 +56,14 @@
                 <a href="{{ url_for('profil') }}" class="{% if request.endpoint == 'profil' %}active{% endif %}">
                     <span class="nav-text">Mon Profil</span>
                 </a>
-                <a href="{{ url_for('deconnexion') }}" class="{% if request.endpoint == 'deconnexion' %}active{% endif %}">
+                <a href="{{ url_for('deconnexion') }}">
                     <span class="nav-text">Déconnexion</span>
                 </a>
             {% else %}
-                <a href="{{ url_for('connexion') }}" class="{% if request.endpoint == 'connexion' %}active{% endif %}">
+                <a href="{{ url_for('connexion') }}">
                     <span class="nav-text">Connexion</span>
                 </a>
-                <a href="{{ url_for('inscription') }}" class="{% if request.endpoint == 'inscription' %}active{% endif %}">
+                <a href="{{ url_for('inscription') }}">
                     <span class="nav-text">Inscription</span>
                 </a>
             {% endif %}
