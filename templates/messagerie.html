@@ -10,21 +10,27 @@
     .message-bubble { padding: 8px 12px; margin-bottom: 8px; border-radius: 5px; max-width: 70%; word-wrap: break-word; }
     .msg-me { background-color: #dcf8c6; margin-left: auto; text-align: right; }
     .msg-other { background-color: #eceff1; margin-right: auto; text-align: left; }
-    .discussion-item { display: block; padding: 10px; margin-bottom: 5px; border: 1px solid #ddd; text-decoration: none; color: #333; }
+    .discussion-item { display: block; padding: 10px; margin-bottom: 5px; border: 1px solid #ddd; text-decoration: none; color: #333; position: relative; }
     .discussion-active { background-color: #e3f2fd; border-color: #2196f3; }
 </style>
 
-<h1>Messagerie Privée & Suivi Clientèle</h1>
+<h1>Messagerie Privée</h1>
 
 <div class="messaging-container">
-    
     <div class="discussions-sidebar">
-        <h3>Fils de discussion</h3>
+        <h3>Conversations</h3>
         {% for d in discussions %}
-            <a href="?discussion_id={{ d.id_discussion }}" class="discussion-item {% if active_discussion and active_discussion.id_discussion == d.id_discussion %}discussion-active{% endif %}">
-                <strong>{{ d.titre }}</strong><br>
-                <small>Créé le {{ d.date_creation }}</small>
-            </a>
+            <div class="discussion-item {% if active_discussion and active_discussion.id_discussion == d.id_discussion %}discussion-active{% endif %}">
+                <a href="?discussion_id={{ d.id_discussion }}" style="text-decoration: none; color: inherit; display: block; margin-bottom: 5px;">
+                    <strong>{{ d.titre }}</strong>
+                </a>
+                
+                {% if session.get('role') == 'commercial' %}
+                    <form method="POST" action="{{ url_for('chat.supprimer_discussion', id_discussion=d.id_discussion) }}" onsubmit="return confirm('Supprimer définitivement cette conversation ?');">
+                        <button type="submit" style="background: red; color: white; border: none; font-size: 0.75em; padding: 3px; cursor: pointer;">✕ Supprimer le tchat</button>
+                    </form>
+                {% endif %}
+            </div>
         {% else %}
             <p>Aucune conversation active.</p>
         {% endfor %}
@@ -32,8 +38,7 @@
 
     <div class="chat-area">
         {% if active_discussion %}
-            <h3>Fil de discussion actif : {{ active_discussion.titre }}</h3>
-            
+            <h3>Discussion : {{ active_discussion.titre }}</h3>
             <div class="messages-history">
                 {% for m in messages %}
                     <div class="message-bubble {% if m.id_expediteur == session.get('user_id') %}msg-me{% else %}msg-other{% endif %}">
@@ -41,8 +46,6 @@
                         <p style="margin: 4px 0;">{{ m.message }}</p>
                         <span style="font-size: 0.7em; color: #666;">{{ m.date_heure }}</span>
                     </div>
-                {% else %}
-                    <p style="text-align: center; color: #999;">Aucun message dans cette discussion. Prenez l'initiative d'écrire !</p>
                 {% endfor %}
             </div>
 
@@ -50,13 +53,9 @@
                 <input type="text" name="contenu_message" placeholder="Saisissez votre message ici..." required style="flex-grow: 1; padding: 8px;">
                 <button type="submit" style="background: #27ae60; color: white; border: none; padding: 8px 15px; cursor: pointer;">Envoyer</button>
             </form>
-
         {% else %}
-            <div style="text-align: center; margin-top: 150px; color: #7f8c8d;">
-                <p>← Veuillez sélectionner un fil de discussion à gauche pour afficher les échanges et répondre.</p>
-            </div>
+            <p style="text-align: center; margin-top: 150px; color: #7f8c8d;">Sélectionnez une discussion à gauche.</p>
         {% endif %}
     </div>
-
 </div>
 {% endblock %}

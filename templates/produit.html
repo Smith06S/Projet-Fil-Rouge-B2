@@ -24,7 +24,7 @@
 
         <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}" style="background: #27ae60; color: white; padding: 10px; text-decoration: none; font-weight: bold; display: inline-block;">💬 Contacter le commercial dédié</a>
     {% else %}
-        <p><em>Les comptes professionnels (Commerciaux / Admin) ne peuvent pas ajouter de biens en favoris ni ouvrir de tchat acheteur.</em></p>
+        <p><em>Les comptes professionnels (Commerciaux / Admin) ne peuvent pas initier de tchat acheteur.</em></p>
     {% endif %}
 {% else %}
     <p><strong>Intéressé par ce bien ?</strong> Vous devez être connecté pour interagir.</p>

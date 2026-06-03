@@ -11,13 +11,17 @@ db_manager = Database()
 def liste_biens():
     id_agence = session.get('selected_agence_id')
     if not id_agence:
-        flash("Veuillez d'abord sélectionner une agence de référence.", "error")
+        flash("Veuillez d'abord sélectionner une agence.", "error")
         return redirect(url_for('agence.selection_agence'))
+
+    ville = request.args.get('ville')
+    prix_max = request.args.get('prix_max')
+    type_bien = request.args.get('type_bien')
 
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
-    # Récupère exclusivement les biens de cette agence
-    biens = repo.find_all_by_agence(id_agence)
+    # Exécute le filtrage sécurisé interne à l'agence courante
+    biens = repo.find_by_filter(id_agence, ville, prix_max, type_bien)
     conn.close()
     return render_template('listeBien.html', biens=biens)
 

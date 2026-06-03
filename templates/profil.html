@@ -6,27 +6,40 @@
 <ul>
     <li><strong>Nom complet :</strong> {{ utilisateur.prenom }} {{ utilisateur.nom }}</li>
     <li><strong>Adresse Email :</strong> {{ utilisateur.email }}</li>
-    <li><strong>Numéro de téléphone :</strong> {{ utilisateur.telephone }}</li>
-    <li><strong>Habilitation du compte :</strong> Rôle unique [{{ utilisateur.role|upper }}]</li>
+    <li><strong>Téléphone :</strong> {{ utilisateur.telephone }}</li>
+    <li><strong>Habilitation :</strong> [{{ utilisateur.role|upper }}]</li>
 </ul>
 
 <hr>
 
+{% if session.get('role') == 'admin' %}
+    <div style="background: #fdeaea; border: 1px solid #f5c6cb; padding: 20px; margin-top: 30px;">
+        <h2 style="color: #721c24; margin-top: 0;">🛡️ Zone Administration : Modération des comptes</h2>
+        <p>Saisissez l'adresse de messagerie d'un utilisateur pour révoquer son accès et effacer son profil en cascade.</p>
+        
+        <form method="POST" action="/utilisateur/supprimer" onsubmit="return confirm('Confirmer la purge définitive de ce compte utilisateur ?');" style="max-width: 400px;">
+            <label><strong>Email de l'utilisateur à détruire :</strong></label><br>
+            <input type="email" name="email" placeholder="lola@gmail.com" required style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+            <button type="submit" style="background: #d9534f; color: white; border: none; padding: 10px; font-weight: bold; cursor: pointer; width: 100%;">🔥 Supprimer définitivement l'utilisateur</button>
+        </form>
+    </div>
+    <hr>
+{% endif %}
+
 {% if session.get('role') == 'client' %}
-    <h2>⭐ Vos Biens Immobiliers Coups de Cœur (Favoris)</h2>
+    <h2>⭐ Vos Favoris</h2>
     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
         {% for item in favoris %}
             <div style="border: 1px solid #f39c12; padding: 15px; width: 250px;">
                 <h4>{{ item.type_bien }} - {{ item.ville }}</h4>
                 <p>{{ item.prix }} €</p>
-                <a href="{{ url_for('bien.bien_detail', id_bien=item.id_bien) }}">Consulter l'annonce</a>
-                <br><br>
+                <a href="{{ url_for('bien.bien_detail', id_bien=item.id_bien) }}">Consulter</a><br><br>
                 <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=item.id_bien) }}">
-                    <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 5px; cursor: pointer;">✕ Retirer des favoris</button>
+                    <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 5px; cursor: pointer;">✕ Retirer</button>
                 </form>
             </div>
         {% else %}
-            <p>Vous n'avez pas encore de biens enregistrés dans vos favoris.</p>
+            <p>Aucun bien enregistré.</p>
         {% endfor %}
     </div>
 {% endif %}

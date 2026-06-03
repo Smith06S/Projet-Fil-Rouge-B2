@@ -16,11 +16,6 @@ class BienRepository:
     def __init__(self, db_connection):
         self.db = db_connection
 
-    def find_all(self):
-        with self.db.cursor() as cur:
-            cur.execute("SELECT * FROM bien WHERE statut = 'Disponible'")
-            return [Bien(**row) for row in cur.fetchall()]
-
     def find_all_by_agence(self, id_agence):
         with self.db.cursor() as cur:
             cur.execute("SELECT * FROM bien WHERE id_agence = %s AND statut = 'Disponible'", (id_agence,))
@@ -45,29 +40,30 @@ class BienRepository:
             cur.execute("DELETE FROM bien WHERE id_bien = %s", (id_bien,))
         self.db.commit()
 
-    def find_by_filter(self, ville=None, prix_max=None, type_bien=None):
+    # --- REPRATION DU MOTEUR DE RECHERCHE FILTRÉ ---
+    def find_by_filter(self, id_agence, ville=None, prix_max=None, type_bien=None):
         with self.db.cursor() as cur:
-            query = "SELECT * FROM bien WHERE statut = 'Disponible'"
-            params = []
-            if ville:
+            # Force la recherche uniquement dans l'agence sélectionnée en session
+            query = "SELECT * FROM bien WHERE id_agence = %s AND statut = 'Disponible'"
+            params = [id_agence]
+            
+            # On n'applique les filtres que s'ils contiennent une vraie valeur (non vide)
+            if ville and ville.strip() != "":
                 query += " AND ville ILIKE %s"
                 params.append(f"%{ville}%")
-            if prix_max:
+            if prix_max and str(prix_max).strip() != "":
                 query += " AND prix <= %s"
-                params.append(prix_max)
-            if type_bien:
+                params.append(float(prix_max))
+            if type_bien and type_bien.strip() != "":
                 query += " AND type_bien = %s"
                 params.append(type_bien)
+                
             cur.execute(query, params)
             return [Bien(**row) for row in cur.fetchall()]
 
-    # --- Gestion de la table Favoris ---
     def add_favoris(self, id_client, id_bien):
         with self.db.cursor() as cur:
-            cur.execute("""
-                INSERT INTO favoris (id_client, id_bien) VALUES (%s, %s)
-                ON CONFLICT DO NOTHING
-            """, (id_client, id_bien))
+            cur.execute("INSERT INTO favoris (id_client, id_bien) VALUES (%s, %s) ON CONFLICT DO NOTHING", (id_client, id_bien))
         self.db.commit()
 
     def remove_favoris(self, id_client, id_bien):

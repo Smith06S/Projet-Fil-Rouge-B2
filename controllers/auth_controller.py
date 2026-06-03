@@ -14,12 +14,12 @@ def inscription():
         prenom = request.form.get('fname')
         email = request.form.get('email')
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password') # Double vérification
+        confirm_password = request.form.get('confirm_password')
         telephone = request.form.get('phone')
-        budget = request.form.get('budget', 0, type=float)
+        budget = 0.00 # Plus de saisie utilisateur, forcé à 0 par défaut en B2
         
         if password != confirm_password:
-            flash("Erreur : Les deux mots de passe saisis ne sont pas identiques.", "error")
+            flash("Erreur : Les deux mots de passe ne correspondent pas.", "error")
             return render_template('inscription.html')
             
         conn = db_manager.get_connection()
@@ -83,21 +83,21 @@ def supprimer_utilisateur():
     
     if email_a_supprimer == session.get('email'):
         flash("Action impossible : Vous ne pouvez pas vous révoquer vous-même.", "error")
-        return redirect(url_for('dashboard.voir_dashboard'))
+        return redirect(url_for('auth.voir_profil'))
              
     conn = db_manager.get_connection()
     try:
         with conn.cursor() as cur:
             cur.execute("DELETE FROM utilisateur WHERE email = %s", (email_a_supprimer,))
         conn.commit()
-        flash(f"L'utilisateur {email_a_supprimer} a été supprimé du système en cascade.", "success")
+        flash(f"L'utilisateur {email_a_supprimer} a été supprimé avec succès.", "success")
     except Exception as e:
         conn.rollback()
         flash(f"Erreur lors de la suppression : {e}", "error")
     finally:
         conn.close()
              
-    return redirect(url_for('dashboard.voir_dashboard'))
+    return redirect(url_for('auth.voir_profil'))
 
 @auth_bp.route('/deconnexion')
 def deconnexion():

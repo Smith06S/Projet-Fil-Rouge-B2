@@ -17,6 +17,7 @@ class Message:
         self.nom = nom
         self.prenom = prenom
 
+
 class MessagerieRepository:
     def __init__(self, db_connection):
         self.db = db_connection
@@ -65,3 +66,9 @@ class MessagerieRepository:
             cur.execute("SELECT * FROM discussion WHERE id_discussion = %s", (id_discussion,))
             row = cur.fetchone()
             return Discussion(**row) if row else None
+
+    # --- AJOUT DE LA SUPPRESSION DU CHAT ---
+    def delete_discussion(self, id_discussion):
+        with self.db.cursor() as cur:
+            cur.execute("DELETE FROM discussion WHERE id_discussion = %s", (id_discussion,))
+        self.db.commit()
