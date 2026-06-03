@@ -129,12 +129,12 @@ body {
 }
 
 #banner-image {
-    width: 150%;
+    width: 130%;
     max-width: 300rem;
     height: auto;
     margin-bottom: 1.25rem;
     margin-top: -4.5rem;
-    margin-left: -4.5rem;
+    margin-left: -6.5rem;
 }
 
 .container {
