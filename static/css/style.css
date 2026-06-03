@@ -130,10 +130,10 @@ body {
 
 #banner-image {
     width: 100%;
-    max-width: 100rem;
+    max-width: 150rem;
     height: auto;
     margin-bottom: 1.25rem;
-    margin-top: -2.5rem;
+    margin-top: -4.5rem;
 }
 
 .container {
