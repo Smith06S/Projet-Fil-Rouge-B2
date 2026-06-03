@@ -56,7 +56,7 @@
                 <a href="{{ url_for('profil') }}" class="{% if request.endpoint == 'profil' %}active{% endif %}">
                     <span class="nav-text">Mon Profil</span>
                 </a>
-                <a href="{{ url_for('deconnexion') }}" style="color: #ff4d4d" class="{% if request.endpoint == 'deconnexion' %}active{% endif %}">
+                <a href="{{ url_for('deconnexion') }}" class="{% if request.endpoint == 'deconnexion' %}active{% endif %}">
                     <span class="nav-text">Déconnexion</span>
                 </a>
             {% else %}
