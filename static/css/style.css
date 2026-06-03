@@ -129,12 +129,12 @@ body {
 }
 
 #banner-image {
-    width: 130%;
+    width: 114%;
     max-width: 300rem;
     height: auto;
     margin-bottom: 1.25rem;
-    margin-top: -4.5rem;
-    margin-left: -12.5rem;
+    margin-top: -9.5rem;
+    margin-left: -2.4rem;
 }
 
 .container {
@@ -222,6 +222,15 @@ body {
 
     .navbar-links .nav-auth:hover {
         background-color: #333;
+    }
+
+    #banner-image {
+        width: 131%;
+        max-width: 300rem;
+        height: auto;
+        margin-bottom: 1.25rem;
+        margin-top: -9.5rem;
+        margin-left: -14.9rem;
     }
 
     .container {
