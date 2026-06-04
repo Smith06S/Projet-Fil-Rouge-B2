@@ -1,16 +1,15 @@
 import psycopg2
+from psycopg2.extras import DictCursor
 
 class Database:
     def __init__(self):
-        self.host = 'localhost'  # Cambia se necessario
-        self.database = 'ymmodb'  # Nome del tuo database
-        self.user = 'postgres'    # Cambia se necessario
-        self.password = 'ymmo123'  # Cambia con la tua password
+        self.config = {
+            'dbname': 'ymmo',
+            'user': 'postgres',
+            'password': 'ymmo123',
+            'host': 'localhost',
+            'port': 5432
+        }
 
     def get_connection(self):
-        return psycopg2.connect(
-            host=self.host,
-            database=self.database,
-            user=self.user,
-            password=self.password
-        )
+        return psycopg2.connect(**self.config, cursor_factory=DictCursor)

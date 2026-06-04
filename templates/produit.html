@@ -1,77 +1,33 @@
 {% extends 'base.html' %}
-{% block title %}YMMO - {{ bien.type_bien|capitalize }} {{ bien.ville }}{% endblock %}
+{% block title %}YMMO - {{ bien.type_bien }} à {{ bien.ville }}{% endblock %}
 
 {% block content %}
-<article>
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px;">
-        <h1>{{ bien.type_bien|capitalize }} : {{ bien.surface }} m² - {{ bien.ville }}</h1>
-        <h2 style="color: #27ae60; margin: 0;">{{ bien.prix }} €</h2>
-    </div>
+<h1>Fiche Technique : {{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h1>
+<p><strong>Localisation :</strong> {{ bien.adresse }}, {{ bien.ville }}</p>
+<p><strong>Prix de commercialisation :</strong> <strong style="color: green; font-size: 1.3em;">{{ bien.prix }} €</strong></p>
+<p><strong>Nombre de pièces :</strong> {{ bien.nbr_pieces }}</p>
+<p><strong>Description :</strong></p>
+<p style="background: #fafafa; padding: 10px; border-left: 3px solid #007BFF;">{{ bien.description }}</p>
 
-    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 20px;">
-        <div>
-            <h3>Description du bien</h3>
-            <p style="line-height: 1.6; text-align: justify;">{{ bien.description }}</p>
+<p>
+    <a href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}" style="background: #e67e22; color: white; padding: 8px; text-decoration: none; font-weight: bold;">🗺️ Voir la localisation exacte sur la carte</a>
+</p>
 
-            <h3>Fiche Technique</h3>
-            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold;">Adresse</td><td style="padding:10px;">{{ bien.adresse }}</td></tr>
-                <tr><td style="padding:10px; font-weight:bold;">Étage / Vue</td><td style="padding:10px;">Étage {{ bien.etage }} - Vue {{ bien.vue }}</td></tr>
-                <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold;">Exposition</td><td style="padding:10px;">{{ bien.exposition }}</td></tr>
-                <tr><td style="padding:10px; font-weight:bold;">État du logement</td><td style="padding:10px;">{{ bien.etat_logement }}</td></tr>
-                <tr style="background:#f9f9f9;"><td style="padding:10px; font-weight:bold;">Chauffage</td><td style="padding:10px;">{{ bien.type_chauffage }} ({{ bien.energie_chauffage }})</td></tr>
-            </table>
+<hr>
 
-            <h3>Agencement intérieur (Détail des pièces)</h3>
-            {% if pieces %}
-                <table style="width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background-color: #2c3e50; color: white;">
-                            <th style="padding: 10px; text-align: left;">Nom de la pièce</th>
-                            <th style="padding: 10px; text-align: left;">Étage</th>
-                            <th style="padding: 10px; text-align: left;">Superficie</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for p in pieces %}
-                            <tr style="border-bottom: 1px solid #ddd;">
-                                <td style="padding: 10px;">{{ p.nom_piece }}</td>
-                                <td style="padding: 10px;">{{ p.etage }}</td>
-                                <td style="padding: 10px;">{{ p.metre_carre_piece }} m²</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p style="color: #7f8c8d; font-style: italic;">La répartition précise des pièces n'a pas encore été renseignée pour ce bien.</p>
-            {% endif %}
-        </div>
+<h3>Actions & Prise de contact</h3>
+{% if session.get('user_id') %}
+    {% if session.get('role') == 'client' %}
+        <form method="POST" action="{{ url_for('bien.ajouter_favoris', id_bien=bien.id_bien) }}" style="display: inline-block; margin-right: 10px;">
+            <button type="submit" style="background: #f39c12; color: white; padding: 10px; border: none; cursor: pointer; font-weight: bold;">⭐ Ajouter aux Favoris</button>
+        </form>
 
-        <div>
-            <div style="background: #e8f4f8; padding: 20px; border-radius: 6px; text-align: center; margin-bottom: 20px;">
-                <h3>Ce bien vous intéresse ?</h3>
-                <p>Discutez immédiatement avec un conseiller dédié à cette offre.</p>
-                <a href="/messagerie/creer?id_bien={{ bien.id }}" style="display: inline-block; background: #2980b9; color: white; padding: 12px 20px; border-radius: 4px; text-decoration: none; font-weight: bold;">
-                     Contacter l'agence
-                </a>
-            </div>
-
-            <div style="background: #fdf2e9; padding: 20px; border-radius: 6px; border-left: 5px solid #e67e22;">
-                <h3 style="color: #e67e22; margin-top: 0;"> Analyse Prédictive IA</h3>
-                {% if statistiques %}
-                    <p style="font-size: 0.9em; margin-bottom: 15px;">Données analytiques pour la zone : <strong>{{ statistiques.zone_geographique }}</strong></p>
-                    <ul style="padding-left: 20px; font-size: 0.95em; line-height: 1.5;">
-                        <li><strong>Prix moyen m² :</strong> {{ statistiques.prix_moyen_m2 }} € / m²</li>
-                        <li><strong>Popularité de la zone :</strong> {{ statistiques.indice_popularite }}/10</li>
-                        <li><strong>Volume des ventes annuel :</strong> {{ statistiques.volume_vente_estime }} transactions</li>
-                        <li><strong>Indice de confiance IA :</strong> {{ statistiques.precision_evolution_prix }}%</li>
-                    </ul>
-                    <p style="font-size:0.8em; color:#7f8c8d; margin-top:10px;">Dernière mise à jour : {{ statistiques.date_analyse }}</p>
-                {% else %}
-                    <p style="font-style: italic; font-size: 0.9em; color:#666;">Pas d'analyses statistiques prédictives disponibles pour la ville de {{ bien.ville }} actuellement.</p>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</article>
+        <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}" style="background: #27ae60; color: white; padding: 10px; text-decoration: none; font-weight: bold; display: inline-block;">💬 Contacter le commercial dédié</a>
+    {% else %}
+        <p><em>Les comptes professionnels (Commerciaux / Admin) ne peuvent pas initier de tchat acheteur.</em></p>
+    {% endif %}
+{% else %}
+    <p><strong>Intéressé par ce bien ?</strong> Vous devez être connecté pour interagir.</p>
+    <a href="{{ url_for('auth.connexion') }}">Se connecter</a> ou <a href="{{ url_for('auth.inscription') }}">Créer un compte client</a>
+{% endif %}
 {% endblock %}

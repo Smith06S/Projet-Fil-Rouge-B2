@@ -1,22 +1,43 @@
 class Agence:
-    """Représente une agence (Entité)"""
-    def __init__(self, id, nom, ville, code_postal):
-        self.id = id
+    def __init__(self, id_agence, nom, ville, adresse, image_url=None, nb_favoris=0):
+        self.id_agence = id_agence
         self.nom = nom
         self.ville = ville
-        self.code_postal = code_postal
+        self.adresse = adresse
+        self.image_url = image_url or 'static/images/default_agence.jpg'
+        self.nb_favoris = nb_favoris # Vous pouvez maintenant stocker le nombre de favoris !
 
 class AgenceRepository:
-    """Gère la communication avec la table 'agence'"""
-    def __init__(self, db_connexion):
-        self.db = db_connexion
+    def __init__(self, db_connection):
+        self.db = db_connection
 
     def find_all(self):
-        cur = self.db.cursor()
-        cur.execute("SELECT id_agence, nom_agence, ville, code_postal FROM agence")
-        rows = cur.fetchall()
+        with self.db.cursor() as cur:
+            cur.execute("SELECT id_agence, nom, ville, adresse, image_url FROM agence")
+            return [Agence(**row) for row in cur.fetchall()]
 
-        agences = [Agence(r[0], r[1], r[2], r[3]) for r in rows]
+    def get_by_id(self, id_agence):
+        with self.db.cursor() as cur:
+            cur.execute("SELECT id_agence, nom, ville, adresse, image_url FROM agence WHERE id_agence = %s", (id_agence,))
+            row = cur.fetchone()
+            return Agence(**row) if row else None
 
-        cur.close()
-        return agences
+    def get_top_5_agences_favoris(self):
+        with self.db.cursor() as cur:
+            cur.execute("""
+                SELECT a.id_agence, a.nom, a.ville, a.adresse, a.image_url, COUNT(f.id_favoris) as nb_favoris
+                FROM agence a
+                LEFT JOIN bien b ON a.id_agence = b.id_agence
+                LEFT JOIN favoris f ON b.id_bien = f.id_bien
+                GROUP BY a.id_agence, a.nom, a.ville, a.adresse, a.image_url
+                ORDER BY nb_favoris DESC
+                LIMIT 5
+            """)
+            
+            agences = []
+            for row in cur.fetchall():
+                row_dict = dict(row)
+                row_dict.pop('nb_favoris', None) 
+                agences.append(Agence(**row_dict))
+                
+            return agences

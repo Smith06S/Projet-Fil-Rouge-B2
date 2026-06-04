@@ -1,9 +1,8 @@
 import bcrypt
 
 class Utilisateur:
-    """Représente un utilisateur (Entité)"""
-    def __init__(self, id, nom, prenom, email, mdp, telephone, role):
-        self.id = id
+    def __init__(self, id_utilisateur, nom, prenom, email, mdp, telephone, role):
+        self.id_utilisateur = id_utilisateur
         self.nom = nom
         self.prenom = prenom
         self.email = email
@@ -11,85 +10,66 @@ class Utilisateur:
         self.telephone = telephone
         self.role = role
 
+class Client(Utilisateur):
+    def __init__(self, id_utilisateur, nom, prenom, email, mdp, telephone, role, id_client, type_client, budget_max):
+        super().__init__(id_utilisateur, nom, prenom, email, mdp, telephone, role)
+        self.id_client = id_client
+        self.type_client = type_client
+        self.budget_max = budget_max
+
+class Commercial(Utilisateur):
+    def __init__(self, id_utilisateur, nom, prenom, email, mdp, telephone, role, id_commercial, date_embauche, matricule, id_agence):
+        super().__init__(id_utilisateur, nom, prenom, email, mdp, telephone, role)
+        self.id_commercial = id_commercial
+        self.date_embauche = date_embauche
+        self.matricule = matricule
+        self.id_agence = id_agence
+
 class UtilisateurRepository:
+    def __init__(self, db_connection):
+        self.db = db_connection
+
+    def hash_password(self, password):
+        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    def verifier_password(self, password_propose, password_hache):
+        return bcrypt.checkpw(password_propose.encode('utf-8'), password_hache.encode('utf-8'))
+
     def get_by_email(self, email):
-        cur = self.db.cursor()
-        cur.execute("SELECT id_utilisateur, nom, prenom, email, mdp, telephone, role FROM utilisateur WHERE email = %s", (email,))
-        row = cur.fetchone()
-        cur.close()
-        if row:
-            return Utilisateur(*row)
-        return None
-
-    def get_by_id(self, user_id):
-        cur = self.db.cursor()
-        cur.execute("SELECT id_utilisateur, nom, prenom, email, mdp, telephone, role FROM utilisateur WHERE id_utilisateur = %s", (user_id,))
-        row = cur.fetchone()
-        cur.close()
-        if row:
-            return Utilisateur(*row)
-        return None
-
-    """Gère la communication avec la table 'utilisateur'"""
-    def __init__(self, db_connexion):
-        self.db = db_connexion
-
-    def find_all(self):
-        cur = self.db.cursor()
-        # On sélectionne exactement les colonnes dans l'ordre du __init__
-        cur.execute("SELECT id_utilisateur, nom, prenom, email, mdp, telephone, role FROM utilisateur")
-        rows = cur.fetchall()
-
-        # On crée une liste d'objets 'Utilisateur' (en français)
-        utilisateurs = [Utilisateur(r[0], r[1], r[2], r[3], r[4], r[5], r[6]) for r in rows]
-
-        cur.close()
-        return utilisateurs
+        with self.db.cursor() as cur:
+            cur.execute("SELECT * FROM utilisateur WHERE email = %s", (email,))
+            row = cur.fetchone()
+            return Utilisateur(**row) if row else None
     
-    def hashPassword(self, mdp_clair):
-        sel = bcrypt.gensalt()
-        mdp_hache = bcrypt.hashpw(mdp_clair.encode('utf-8'), sel)
-        return mdp_hache.decode('utf-8')
+    def get_by_id(self, id_utilisateur):
+        with self.db.cursor() as cur:
+            cur.execute("SELECT * FROM utilisateur WHERE id_utilisateur = %s", (id_utilisateur,))
+            row = cur.fetchone()
+            return Utilisateur(**row) if row else None
 
-    def verifieMdp(self, mdp_propose, email):
-        cur = self.db.cursor()
-        cur.execute("SELECT mdp FROM utilisateur WHERE email = %s", (email,))
-        row = cur.fetchone()
-        cur.close()
-        if row is None:
-            return False
-        mdp_hache_db = row[0]
-        return bcrypt.checkpw(mdp_propose.encode('utf-8'), mdp_hache_db.encode('utf-8'))
-
-    def createUtilisateur(self, nom, prenom, email, mdp_clair, telephone, role):
-        mdp_hache = self.hashPassword(mdp_clair)
-        cur = self.db.cursor()
-        cur.execute("INSERT INTO utilisateur (nom, prenom, email, mdp, telephone, role) VALUES (%s, %s, %s, %s, %s, %s)", (nom, prenom, email, mdp_hache, telephone, role))
+    def create_client(self, nom, prenom, email, mdp_clair, telephone, budget_max):
+        mdp_hache = self.hash_password(mdp_clair)
+        with self.db.cursor() as cur:
+            cur.execute("""INSERT INTO utilisateur (nom, prenom, email, mdp, telephone, role) VALUES (%s, %s, %s, %s, %s, 'client') RETURNING id_utilisateur""", (nom, prenom, email, mdp_hache, telephone))
+            id_user = cur.fetchone()['id_utilisateur']
+            cur.execute("""INSERT INTO client (type_client, budget_max, id_utilisateur) VALUES ('Particulier', %s, %s)""", (budget_max, id_user))
         self.db.commit()
-        cur.close()
 
-    def find_profil(self, id):
-        cur = self.db.cursor()
-        cur.execute("SELECT nom, prenom, email, mdp, telephone, role FROM utilisateur WHERE id_utilisateur = %s", (id,))
-        row = cur.fetchone()
-        cur.close()
-        if row:
-            return Utilisateur(*row)
-        else:
-            return None
-        
-
-    def is_Admin(self, id_user):
-        cur = self.db.cursor()
-        cur.execute("SELECT 1 FROM utilisateur WHERE id_utilisateur = %s AND role = 'admin'", (id_user,))
-        result = cur.fetchone()
-        cur.close()
-        return result is not None
-
-
-    def delete_User(self, id_user):
-        cur = self.db.cursor() 
-        cur.execute("DELETE FROM utilisateur WHERE id_utilisateur = %s", (id_user,))
+    def create_commercial(self, nom, prenom, email, mdp_clair, telephone, id_agence, matricule):
+        mdp_hache = self.hash_password(mdp_clair)
+        with self.db.cursor() as cur:
+            cur.execute("""INSERT INTO utilisateur (nom, prenom, email, mdp, telephone, role) VALUES (%s, %s, %s, %s, %s, 'commercial') RETURNING id_utilisateur""", (nom, prenom, email, mdp_hache, telephone))
+            id_user = cur.fetchone()['id_utilisateur']   
+            cur.execute("""INSERT INTO commercial (matricule, id_agence, id_utilisateur) VALUES (%s, %s, %s)""", (matricule, id_agence, id_user))
         self.db.commit()
-        cur.close()
 
+    def get_client_id(self, id_utilisateur):
+        with self.db.cursor() as cur:
+            cur.execute("SELECT id_client FROM client WHERE id_utilisateur = %s", (id_utilisateur,))
+            row = cur.fetchone()
+            return row['id_client'] if row else None
+
+    def get_commercial_details(self, id_utilisateur):
+        with self.db.cursor() as cur:
+            cur.execute("SELECT id_commercial, id_agence FROM commercial WHERE id_utilisateur = %s", (id_utilisateur,))
+            return cur.fetchone()

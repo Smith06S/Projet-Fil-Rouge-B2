@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Fiche Agence {{ agence.nom }}{% endblock %}
+
+{% block content %}
+<h1>{{ agence.nom }}</h1>
+<p><strong>Identifiant Agence :</strong> #{{ agence.id_agence }}</p>
+<p><strong>Ville d'implantation :</strong> {{ agence.ville }}</p>
+<p><strong>Adresse :</strong> {{ agence.adresse }}</p>
+
+<hr>
+
+<!-- GESTION DES ÉQUIPES / CRÉATION DE COMMERCIAL -->
+{% if session.get('role') in ['admin', 'commercial'] %}
+    <div style="background: #eaf2f8; padding: 15px; border: 1px solid #2980b9; margin-top: 20px; margin-bottom: 20px;">
+        <h3>Espace Professionnel : Gestion des équipes</h3>
+        {% if session.get('role') == 'admin' %}
+            <p>En tant d'administrateur, vous pouvez créer un compte commercial et <strong>choisir son agence d'affectation</strong>.</p>
+        {% else %}
+            <p>En tant que commercial, vous pouvez créer un collègue qui sera <strong>automatiquement rattaché à votre propre agence (Agence #{{ session.get('id_agence') }})</strong>.</p>
+        {% endif %}
+        <a href="{{ url_for('dashboard.ajouter_commercial') }}" style="background: #2980b9; color: white; padding: 10px 15px; text-decoration: none; font-weight: bold; display: inline-block; border-radius: 4px;">
+            ➕ Créer un nouveau compte Commercial
+        </a>
+    </div>
+    <hr>
+{% endif %}
+
+<h2>Catalogue des biens de cette agence</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+    {% for bien in biens %}
+        <div style="border: 1px solid #ccc; padding: 15px; width: 280px; position: relative;">
+            <h3>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h3>
+            <p><strong>Ville :</strong> {{ bien.ville }}</p>
+            <p style="color: green; font-weight: bold;">{{ bien.prix }} €</p>
+            <p><em>{{ bien.nbr_pieces }} pièces</em></p>
+            
+            <div style="margin-top: 10px;">
+                <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}" style="background: #007BFF; color: white; padding: 5px; text-decoration: none; font-size: 0.9em;">Détails & Pièces</a>
+                
+                {% if session.get('role') == 'admin' or (session.get('role') == 'commercial' and session.get('id_agence') == bien.id_agence) %}
+                    <form method="POST" action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}" style="display: inline; margin-left: 5px;" onsubmit="return confirm('Confirmer la suppression définitive de ce bien ?');">
+                        <button type="submit" style="background: red; color: white; border: none; padding: 5px; cursor: pointer; font-size: 0.9em;">Supprimer</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <p>Aucun bien immobilier n'est actuellement disponible ou en vente dans cette agence.</p>
+    {% endfor %}
+</div>
+{% endblock %}
