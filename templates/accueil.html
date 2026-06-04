@@ -18,7 +18,7 @@
             <h4>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h4>
             <p><strong>Prix :</strong> {{ bien.prix }} €</p>
             <p><em>{{ bien.ville }}</em></p>
-            <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}" style="display:inline-block; background:#f39c12; color:white; padding:5px 10px; text-decoration:none; font-size:0.9em;">Consulter l'annonce</a>
+            <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" style="display:inline-block; background:#f39c12; color:white; padding:5px 10px; text-decoration:none; font-size:0.9em;">Consulter l'annonce</a>
         </div>
     {% else %}
         <p>Aucun bien de cette agence n'a encore été mis en favoris par les clients.</p>
