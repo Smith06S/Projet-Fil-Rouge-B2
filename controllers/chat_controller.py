@@ -40,19 +40,16 @@ def initier_tchat(id_bien):
         conn.close()
         return "Bien introuvable", 404
         
-    # VERIFICATION DU CHAT DEJA EXISTANT : renvoie vers la discussion si elle existe
     discussion_existante = repo_chat.find_existing_discussion(id_bien, session.get('id_client'))
     if discussion_existante:
         conn.close()
         return redirect(url_for('chat.boite_reception', discussion_id=discussion_existante.id_discussion))
         
-    # Sinon, création d'un nouveau chat propre
-    titre = f"Discussion - {bien.type_bien} à {bien.ville}"
-    id_disc = repo_chat.create_discussion(titre, id_bien, session.get('id_client'), bien.id_commercial)
+    titre = f"Discussion - {bien['type_bien']} à {bien['ville']}"
+    id_disc = repo_chat.create_discussion(titre, id_bien, session.get('id_client'), bien['id_commercial'])
     conn.close()
     return redirect(url_for('chat.boite_reception', discussion_id=id_disc))
 
-# --- ROUTE DE SUPPRESSION EXCLUSIVE POUR LE COMMERCIAL ---
 @chat_bp.route('/messagerie/discussion/<int:id_discussion>/supprimer', methods=['POST'])
 @role_required(['commercial'])
 def supprimer_discussion(id_discussion):

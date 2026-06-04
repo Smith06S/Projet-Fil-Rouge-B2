@@ -141,7 +141,8 @@ def supprimer_bien(id_bien):
         flash("Bien introuvable.", "error")
         return redirect(url_for('agence.accueil'))
               
-    if session.get('role') == 'commercial' and session.get('id_agence') != bien_obj.id_agence:
+    # CORRECTION : Accès par dictionnaire avec les crochets []
+    if session.get('role') == 'commercial' and session.get('id_agence') != bien_obj['id_agence']:
         conn.close()
         flash("Action non autorisée sur les biens d'une autre agence.", "error")
         return redirect(url_for('agence.accueil'))
@@ -149,7 +150,7 @@ def supprimer_bien(id_bien):
     repo.delete(id_bien)
     conn.close()
     flash("Le bien a été supprimé avec succès.", "success")
-    return redirect(url_for('agence.agence_detail', id_agence=bien_obj.id_agence))
+    return redirect(url_for('agence.agence_detail', id_agence=bien_obj['id_agence']))
 
 @bien_bp.route('/bien/<int:id_bien>/add_favoris', methods=['POST'])
 @role_required(['client'])
@@ -159,7 +160,8 @@ def ajouter_favoris(id_bien):
     repo.add_favoris(session.get('id_client'), id_bien)
     conn.close()
     flash("Bien ajouté à vos favoris !", "success")
-    return redirect(url_for('bien.bien_detail', id_bien=id_bien))
+    # CORRECTION : Redirection vers 'bien.detail_bien'
+    return redirect(url_for('bien.detail_bien', id_bien=id_bien))
 
 @bien_bp.route('/bien/<int:id_bien>/remove_favoris', methods=['POST'])
 @role_required(['client'])

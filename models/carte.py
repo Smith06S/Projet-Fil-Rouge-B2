@@ -14,12 +14,12 @@ def obtenir_coordonnees(adresse, ville):
     return 46.5, 2.5  # Centre de la France par défaut si erreur
 
 def generer_carte_un_bien(bien):
-    lat, lon = obtenir_coordonnees(bien.adresse, bien.ville)
+    lat, lon = obtenir_coordonnees(bien['adresse'], bien['ville'])
     m = folium.Map(location=[lat, lon], zoom_start=14, tiles="OpenStreetMap")
-    popup_content = f"<b>{bien.type_bien}</b><br>{bien.adresse}<br>{bien.ville}<br>{bien.prix} €"
+    popup_content = f"<b>{bien['type_bien']}</b><br>{bien['adresse']}<br>{bien['ville']}<br>{bien['prix']} €"
     folium.Marker(
         location=[lat, lon],
         popup=folium.Popup(popup_content, max_width=300),
         icon=folium.Icon(color="red", icon="home")
     ).add_to(m)
-    return m._repr_html_() # Retourne le code HTML directement incrustable dans un iframe
+    return m._repr_html_()
