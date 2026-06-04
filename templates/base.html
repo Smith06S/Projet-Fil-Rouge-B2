@@ -41,7 +41,7 @@
             <a href="{{ url_for('agence.accueil') }}" class="{% if request.endpoint == 'accueil' %}active{% endif %}">
                 <span class="nav-text">Accueil</span>
             </a>
-            <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}"
+            <a href="{{ url_for('agence.agence_detail', id_agence=session.get('selected_agence_id')) }}"
                 class="{% if request.endpoint == 'agence' %}active{% endif %}">
                 <span class="nav-text">Notre agence</span>
             </a>
