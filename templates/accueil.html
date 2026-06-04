@@ -1,47 +1,54 @@
-{% extends 'base.html' %}
-{% block title %}YMMO - Accueil de l'agence{% endblock %}
-
-{% block content %}
-<div>
+{% extends 'base.html' %} {% block title %}YMMO - Accueil de l'agence{% endblock
+%} {% block content %}
+<header class="banner-container">
+  <img src="{{ agence.image_url }}" alt="Bannière {{ agence.nom }}" class="banner-image" />
+  <div class="banner-text">
     <h1>Bienvenue chez {{ agence.nom }}</h1>
-    <p><strong>Votre agence de référence :</strong> {{ honest_adresse }}, {{ agence.ville }}</p>
-    
-    <img id="banner-image"src="{{ agence.image_url }}" alt="Bannière {{ agence.nom }}">
-</div>
+    <p>
+      <strong>Votre agence de référence :</strong> {{ agence.adresse }}, {{
+      agence.ville }}
+    </p>
+  </div>
+</header>
 
-<hr>
+<hr />
 
 <h2>Les 5 Biens les plus populaires de notre agence</h2>
 <div>
-    {% for bien in top_biens %}
-        <div>
-            <h4>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h4>
-            <p><strong>Prix :</strong> {{ bien.prix }} €</p>
-            <p><em>{{ bien.ville }}</em></p>
-            <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}">Consulter l'annonce</a>
-        </div>
-    {% else %}
-        <p>Aucun bien de cette agence n'a encore été mis en favoris par les clients.</p>
-    {% endfor %}
+  {% for bien in top_biens %}
+  <div>
+    <h4>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h4>
+    <p><strong>Prix :</strong> {{ bien.prix }} €</p>
+    <p><em>{{ bien.ville }}</em></p>
+    <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}">Consulter l'annonce</a>
+  </div>
+  {% else %}
+  <p>
+    Aucun bien de cette agence n'a encore été mis en favoris par les clients.
+  </p>
+  {% endfor %}
 </div>
 
-<hr>
+<hr />
 
 <h2>Où nous trouver ?</h2>
 <div>
-    <h3>{{ agence.nom }}</h3>
-    <p><strong>Adresse de l'antenne :</strong> {{ agence.adresse }}, {{ agence.ville }}</p>
-    
-    <div>
-        <em>[Carte de localisation de l'agence : {{ agence.nom }}]</em>
-    </div>
-    
-    <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}">
-        Voir la fiche détaillée de l'agence & tous ses biens
-    </a>
+  <h3>{{ agence.nom }}</h3>
+  <p>
+    <strong>Adresse de l'antenne :</strong> {{ agence.adresse }}, {{
+    agence.ville }}
+  </p>
+
+  <div>
+    <em>[Carte de localisation de l'agence : {{ agence.nom }}]</em>
+  </div>
+
+  <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}">
+    Voir la fiche détaillée de l'agence & tous ses biens
+  </a>
 </div>
 
 <p>
-    <a href="{{ url_for('agence.selection_agence') }}">← Choisir une autre agence territoriale YMMO</a>
+  <a href="{{ url_for('agence.selection_agence') }}">← Choisir une autre agence territoriale YMMO</a>
 </p>
 {% endblock %}
