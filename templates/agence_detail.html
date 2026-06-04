@@ -26,7 +26,7 @@
             <p><em>{{ bien.nbr_pieces }} pièces</em></p>
             
             <div style="margin-top: 10px;">
-                <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}" style="background: #007BFF; color: white; padding: 5px; text-decoration: none; font-size: 0.9em;">Détails & Pièces</a>
+                <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" style="background: #007BFF; color: white; padding: 5px; text-decoration: none; font-size: 0.9em;">Détails & Pièces</a>
                 
                 {% if session.get('role') == 'admin' or (session.get('role') == 'commercial' and session.get('id_agence') == bien.id_agence) %}
                     <form method="POST" action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}" style="display: inline; margin-left: 5px;" onsubmit="return confirm('Confirmer la suppression définitive de ce bien ?');">
