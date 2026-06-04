@@ -23,7 +23,7 @@ def liste_biens():
     # Exécute le filtrage sécurisé interne à l'agence courante
     biens = repo.find_by_filter(id_agence, ville, prix_max, type_bien)
     conn.close()
-    return render_template('listeBien.html', biens=biens)
+    return render_template('listeBien.html', biens=biens, id_agence=id_agence)
 
 @bien_bp.route('/bien/<int:id_bien>')
 def bien_detail(id_bien):
