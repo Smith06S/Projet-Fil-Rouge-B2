@@ -2,7 +2,7 @@
 {% block title %}YMMO - Accueil de l'agence{% endblock %}
 
 {% block content %}
-<div style="border: 1px solid #ccc; padding: 20px; background: #f9f9f9; margin-bottom: 30px;">
+<div>
     <h1>Bienvenue chez {{ agence.nom }}</h1>
     <p><strong>Votre agence de référence :</strong> {{ honest_adresse }}, {{ agence.ville }}</p>
     
@@ -11,14 +11,14 @@
 
 <hr>
 
-<h2>⭐ Les 5 Biens les plus populaires de notre agence</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px;">
+<h2>Les 5 Biens les plus populaires de notre agence</h2>
+<div>
     {% for bien in top_biens %}
-        <div style="border: 1px solid #f39c12; padding: 15px; width: 250px;">
+        <div>
             <h4>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h4>
             <p><strong>Prix :</strong> {{ bien.prix }} €</p>
             <p><em>{{ bien.ville }}</em></p>
-            <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}" style="display:inline-block; background:#f39c12; color:white; padding:5px 10px; text-decoration:none; font-size:0.9em;">Consulter l'annonce</a>
+            <a href="{{ url_for('bien.bien_detail', id_bien=bien.id_bien) }}">Consulter l'annonce</a>
         </div>
     {% else %}
         <p>Aucun bien de cette agence n'a encore été mis en favoris par les clients.</p>
@@ -27,21 +27,21 @@
 
 <hr>
 
-<h2>📍 Où nous trouver ?</h2>
-<div style="border: 2px solid #2c3e50; padding: 20px; background: #edf2f7; max-width: 500px;">
+<h2>Où nous trouver ?</h2>
+<div>
     <h3>{{ agence.nom }}</h3>
     <p><strong>Adresse de l'antenne :</strong> {{ agence.adresse }}, {{ agence.ville }}</p>
     
-    <div style="background: #fff; border: 1px dashed #666; padding: 15px; text-align: center; margin: 15px 0;">
-        🗺️ <em>[Carte de localisation de l'agence : {{ agence.nom }}]</em>
+    <div>
+        <em>[Carte de localisation de l'agence : {{ agence.nom }}]</em>
     </div>
     
-    <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}" style="display: block; text-align: center; background: #2c3e50; color: white; padding: 10px; text-decoration: none; font-weight: bold;">
+    <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}">
         Voir la fiche détaillée de l'agence & tous ses biens
     </a>
 </div>
 
-<p style="margin-top: 40px;">
+<p>
     <a href="{{ url_for('agence.selection_agence') }}">← Choisir une autre agence territoriale YMMO</a>
 </p>
 {% endblock %}
