@@ -19,11 +19,25 @@ def liste_biens():
     ville = request.args.get('ville')
     prix_max = request.args.get('prix_max')
     type_bien = request.args.get('type_bien')
+    nbr_chambres_min = request.args.get('nbr_chambres_min')
+    type_chauffage = request.args.get('type_chauffage')
+    etat_logement = request.args.get('etat_logement')
+    avec_balcon = request.args.get('avec_balcon') == 'on'
+    avec_parking = request.args.get('avec_parking') == 'on'
+    avec_ascenseur = request.args.get('avec_ascenseur') == 'on'
 
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
-    # Exécute le filtrage sécurisé interne à l'agence courante
-    biens = repo.find_by_filter(id_agence, ville, prix_max, type_bien)
+    
+    biens = repo.find_by_filter(
+        id_agence, ville, prix_max, type_bien, 
+        nbr_chambres_min=nbr_chambres_min, 
+        avec_balcon=avec_balcon, 
+        avec_parking=avec_parking,
+        type_chauffage=type_chauffage,
+        avec_ascenseur=avec_ascenseur,
+        etat_logement=etat_logement
+    )
     conn.close()
     return render_template('listeBien.html', biens=biens)
 
@@ -63,6 +77,13 @@ def creation_bien():
         conn = db_manager.get_connection()
         repo = BienRepository(conn)
         try:
+            a_balcon = True if request.form.get('a_balcon') == 'on' else False
+            a_parking = True if request.form.get('a_parking') == 'on' else False
+            a_ascenseur = True if request.form.get('a_ascenseur') == 'on' else False
+
+            annee = request.form.get('annee_construction')
+            annee_val = int(annee) if annee and annee.strip() != "" else None
+
             id_bien = repo.create(
                 ville=request.form.get('ville'),
                 adresse=request.form.get('adresse'),
@@ -72,30 +93,29 @@ def creation_bien():
                 type_bien=request.form.get('typeBien'),
                 prix=request.form.get('prix', type=float),
                 id_commercial=session.get('id_commercial'),
-                id_agence=session.get('id_agence')
+                id_agence=session.get('id_agence'),
+                nbr_chambres=request.form.get('nbrChambres', default=0, type=int),
+                a_balcon=a_balcon,
+                a_parking=a_parking,
+                type_chauffage=request.form.get('type_chauffage'),
+                etage=request.form.get('etage'),
+                a_ascenseur=a_ascenseur,
+                etat_logement=request.form.get('etat_logement'),
+                annee_construction=annee_val
             )
             
             if 'photos' in request.files:
                 files = request.files.getlist('photos')
-                
-                # S'assurer que le dossier de stockage existe localement
                 upload_folder = os.path.join('static', 'uploads')
                 if not os.path.exists(upload_folder):
                     os.makedirs(upload_folder)
                 
                 for file in files:
                     if file and allowed_file(file.filename):
-                        # Sécuriser le nom du fichier pour éviter les failles
                         filename = secure_filename(file.filename)
-                        # Optionnel : Préfixer avec l'ID du bien pour éviter les collisions de noms de fichiers identiques
                         unique_filename = f"bien_{id_bien}_{filename}"
-                        
                         file_path = os.path.join(upload_folder, unique_filename)
-                        
-                        # Sauvegarder le fichier physique sur le disque dur local
                         file.save(file_path)
-                        
-                        # Enregistrer le chemin relatif (accessible par le web) dans la BDD
                         web_path = f"static/uploads/{unique_filename}"
                         repo.add_photo(id_bien, web_path)
 
@@ -107,6 +127,7 @@ def creation_bien():
         finally:
             conn.close()
     return render_template('miseEnVente.html')
+
 
 @bien_bp.route('/bien/<int:id_bien>/supprimer', methods=['POST'])
 @role_required(['commercial', 'admin'])
