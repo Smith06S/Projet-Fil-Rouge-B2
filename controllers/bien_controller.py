@@ -170,3 +170,60 @@ def retirer_favoris(id_bien):
     conn.close()
     flash("Bien retiré de vos favoris.", "info")
     return redirect(url_for('auth.voir_profil'))
+
+
+@bien_bp.route('/bien/<int:id_bien>/modifier', methods=['GET', 'POST'])
+@role_required(['commercial', 'admin'])
+def modifier_bien(id_bien):
+    conn = db_manager.get_connection()
+    repo = BienRepository(conn)
+    bien_obj = repo.get_by_id(id_bien)
+    
+    if not bien_obj:
+        conn.close()
+        flash("Bien introuvable.", "error")
+        return redirect(url_for('agence.accueil'))
+        
+    # Vérification stricte des permissions d'édition
+    is_admin = session.get('role') == 'admin'
+    is_same_agency = session.get('role') == 'commercial' and session.get('id_agence') == bien_obj['id_agence']
+    
+    if not (is_admin or is_same_agency):
+        conn.close()
+        flash("Action non autorisée : vous n'avez pas le droit de modifier les biens de cette agence.", "error")
+        return redirect(url_for('agence.accueil'))
+
+    if request.method == 'POST':
+        try:
+            a_balcon = True if request.form.get('a_balcon') == 'on' else False
+            a_parking = True if request.form.get('a_parking') == 'on' else False
+            a_ascenseur = True if request.form.get('a_ascenseur') == 'on' else False
+            annee = request.form.get('annee_construction')
+            annee_val = int(annee) if annee and annee.strip() != "" else None
+
+            repo.update(
+                id_bien=id_bien,
+                ville=request.form.get('ville'),
+                adresse=request.form.get('adresse'),
+                description=request.form.get('description'),
+                nbr_pieces=request.form.get('nbrPieces', type=int),
+                surface=request.form.get('surface', type=float),
+                type_bien=request.form.get('typeBien'),
+                prix=request.form.get('prix', type=float),
+                nbr_chambres=request.form.get('nbrChambres', default=0, type=int),
+                a_balcon=a_balcon,
+                a_parking=a_parking,
+                type_chauffage=request.form.get('type_chauffage'),
+                etage=request.form.get('etage'),
+                a_ascenseur=a_ascenseur,
+                etat_logement=request.form.get('etat_logement'),
+                annee_construction=annee_val
+            )
+            flash("L'annonce a été modifiée avec succès !", "success")
+            return redirect(url_for('bien.detail_bien', id_bien=id_bien))
+        except Exception as e:
+            flash(f"Erreur lors de la modification : {e}", "error")
+        finally:
+            conn.close()
+            
+    return render_template('modifier_bien.html', bien=bien_obj)

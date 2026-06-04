@@ -7,6 +7,10 @@
     <li><strong>Nom complet :</strong> {{ utilisateur.prenom }} {{ utilisateur.nom }}</li>
     <li><strong>Adresse Email :</strong> {{ utilisateur.email }}</li>
     <li><strong>Téléphone :</strong> {{ utilisateur.telephone }}</li>
+    <p>
+        <a href="{{ url_for('auth.modifier_profil') }}"
+            style="display: inline-block; background: #34495e; color: white; padding: 8px 15px; text-decoration: none; font-weight: bold; border-radius: 4px;">Modifier mon profil</a>
+    </p>
     <li><strong>Habilitation :</strong> [{{ utilisateur.role|upper }}]</li>
 </ul>
 
@@ -14,51 +18,61 @@
 
 <!-- BLOC RE-LOCALISÉ : GESTION DES ÉQUIPES / CRÉATION DE COMMERCIAL -->
 {% if session.get('role') in ['admin', 'commercial'] %}
-    <div style="background: #eaf2f8; padding: 15px; border: 1px solid #2980b9; margin-top: 20px; margin-bottom: 20px;">
-        <h3>Espace Professionnel : Gestion des équipes</h3>
-        {% if session.get('role') == 'admin' %}
-            <p>En tant d'administrateur, vous pouvez créer un compte commercial et <strong>choisir son agence d'affectation</strong>.</p>
-        {% else %}
-            <p>En tant que commercial, vous pouvez créer un collègue qui sera <strong>automatiquement rattaché à votre propre agence (Agence #{{ session.get('id_agence') }})</strong>.</p>
-        {% endif %}
-        <a href="{{ url_for('dashboard.ajouter_commercial') }}" style="background: #2980b9; color: white; padding: 10px 15px; text-decoration: none; font-weight: bold; display: inline-block; border-radius: 4px;">
-            ➕ Créer un nouveau compte Commercial
-        </a>
-    </div>
-    <hr>
+<div style="background: #eaf2f8; padding: 15px; border: 1px solid #2980b9; margin-top: 20px; margin-bottom: 20px;">
+    <h3>Espace Professionnel : Gestion des équipes</h3>
+    {% if session.get('role') == 'admin' %}
+    <p>En tant d'administrateur, vous pouvez créer un compte commercial et <strong>choisir son agence
+            d'affectation</strong>.</p>
+    {% else %}
+    <p>En tant que commercial, vous pouvez créer un collègue qui sera <strong>automatiquement rattaché à votre propre
+            agence (Agence #{{ session.get('id_agence') }})</strong>.</p>
+    {% endif %}
+    <a href="{{ url_for('dashboard.ajouter_commercial') }}"
+        style="background: #2980b9; color: white; padding: 10px 15px; text-decoration: none; font-weight: bold; display: inline-block; border-radius: 4px;">
+        ➕ Créer un nouveau compte Commercial
+    </a>
+</div>
+<hr>
 {% endif %}
 
 <!-- SECTION PRIVILÈGE ADMIN : MODÉRATION DES COMPTES PAR EMAIL -->
 {% if session.get('role') == 'admin' %}
-    <div style="background: #fdeaea; border: 1px solid #f5c6cb; padding: 20px; margin-top: 20px; margin-bottom: 20px;">
-        <h2 style="color: #721c24; margin-top: 0;">🛡️ Zone Administration : Modération des comptes</h2>
-        <p>Saisissez l'adresse de messagerie d'un utilisateur pour révoquer son accès et effacer son profil en cascade.</p>
-        
-        <form method="POST" action="/utilisateur/supprimer" onsubmit="return confirm('Confirmer la purge définitive de ce compte utilisateur ?');" style="max-width: 400px;">
-            <label><strong>Email de l'utilisateur à détruire :</strong></label><br>
-            <input type="email" name="email" placeholder="lola@gmail.com" required style="width: 100%; padding: 8px; margin: 10px 0;"><br>
-            <button type="submit" style="background: #d9534f; color: white; border: none; padding: 10px; font-weight: bold; cursor: pointer; width: 100%;">🔥 Supprimer définitivement l'utilisateur</button>
-        </form>
-    </div>
-    <hr>
+<div style="background: #fdeaea; border: 1px solid #f5c6cb; padding: 20px; margin-top: 20px; margin-bottom: 20px;">
+    <h2 style="color: #721c24; margin-top: 0;">🛡️ Zone Administration : Modération des comptes</h2>
+    <p>Saisissez l'adresse de messagerie d'un utilisateur pour révoquer son accès et effacer son profil en cascade.</p>
+
+    <form method="POST" action="/utilisateur/supprimer"
+        onsubmit="return confirm('Confirmer la purge définitive de ce compte utilisateur ?');"
+        style="max-width: 400px;">
+        <label><strong>Email de l'utilisateur à détruire :</strong></label><br>
+        <input type="email" name="email" placeholder="lola@gmail.com" required
+            style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+        <button type="submit"
+            style="background: #d9534f; color: white; border: none; padding: 10px; font-weight: bold; cursor: pointer; width: 100%;">🔥
+            Supprimer définitivement l'utilisateur</button>
+    </form>
+</div>
+<hr>
 {% endif %}
 
 <!-- SECTION CLIENTS : FAVORIS -->
 {% if session.get('role') == 'client' %}
-    <h2>⭐ Vos Favoris</h2>
-    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-        {% for item in favoris %}
-            <div style="border: 1px solid #f39c12; padding: 15px; width: 250px;">
-                <h4>{{ item.type_bien }} - {{ item.ville }}</h4>
-                <p>{{ item.prix }} €</p>
-                <a href="{{ url_for('bien.detail_bien', id_bien=item.id_bien) }}">Consulter</a><br><br>
-                <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=item.id_bien) }}">
-                    <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 5px; cursor: pointer;">✕ Retirer</button>
-                </form>
-            </div>
-        {% else %}
-            <p>Aucun bien enregistré dans vos favoris.</p>
-        {% endfor %}
+<h2>⭐ Vos Favoris</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+    {% for item in favoris %}
+    <div style="border: 1px solid #f39c12; padding: 15px; width: 250px;">
+        <h4>{{ item.type_bien }} - {{ item.ville }}</h4>
+        <p>{{ item.prix }} €</p>
+        <a href="{{ url_for('bien.detail_bien', id_bien=item.id_bien) }}">Consulter</a><br><br>
+        <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=item.id_bien) }}">
+            <button type="submit"
+                style="background: #e74c3c; color: white; border: none; padding: 5px; cursor: pointer;">✕
+                Retirer</button>
+        </form>
     </div>
+    {% else %}
+    <p>Aucun bien enregistré dans vos favoris.</p>
+    {% endfor %}
+</div>
 {% endif %}
 {% endblock %}

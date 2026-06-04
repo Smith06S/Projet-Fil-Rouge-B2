@@ -109,3 +109,14 @@ class BienRepository:
         with self.db.cursor() as cur:
             cur.execute("SELECT b.* FROM bien b JOIN favoris f ON b.id_bien = f.id_bien WHERE f.id_client = %s", (id_client,))
             return [Bien(**row) for row in cur.fetchall()]
+        
+    def update(self, id_bien, ville, adresse, description, nbr_pieces, surface, type_bien, prix, nbr_chambres, a_balcon, a_parking, type_chauffage, etage, a_ascenseur, etat_logement, annee_construction):
+        with self.db.cursor() as cur:
+            cur.execute("""
+                UPDATE bien 
+                SET ville = %s, adresse = %s, description = %s, nbr_pieces = %s, surface = %s, 
+                    type_bien = %s, prix = %s, nbr_chambres = %s, a_balcon = %s, a_parking = %s, 
+                    type_chauffage = %s, etage = %s, a_ascenseur = %s, etat_logement = %s, annee_construction = %s
+                WHERE id_bien = %s
+            """, (ville, adresse, description, nbr_pieces, surface, type_bien, prix, nbr_chambres, a_balcon, a_parking, type_chauffage, etage, a_ascenseur, etat_logement, annee_construction, id_bien))
+        self.db.commit()
