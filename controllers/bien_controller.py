@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, current_app
 from database import Database
 from models.bien import BienRepository
 from models.carte import generer_carte_un_bien
 from helpers.auth_helper import role_required
+import os
+from werkzeug.utils import secure_filename
 
 bien_bp = Blueprint('bien', __name__)
 db_manager = Database()
@@ -26,14 +28,15 @@ def liste_biens():
     return render_template('listeBien.html', biens=biens)
 
 @bien_bp.route('/bien/<int:id_bien>')
-def bien_detail(id_bien):
+def detail_bien(id_bien):
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
-    bien_obj = repo.get_by_id(id_bien)
+    bien = repo.get_by_id(id_bien)
     conn.close()
-    if not bien_obj:
-        return "Bien introuvable", 404
-    return render_template('produit.html', bien=bien_obj)
+    if not bien:
+        flash("Ce bien n'existe pas.", "error")
+        return redirect(url_for('agence.liste_biens'))        
+    return render_template('produit.html', bien=bien)
 
 @bien_bp.route('/carte/<int:id_bien>')
 def voir_carte_bien(id_bien):
@@ -47,6 +50,12 @@ def voir_carte_bien(id_bien):
     carte_html = generer_carte_un_bien(bien_obj)
     return render_template('carte_bien.html', bien=bien_obj, carte_html=carte_html)
 
+# Définir les extensions autorisées
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @bien_bp.route('/creation_bien', methods=['GET', 'POST'])
 @role_required(['commercial'])
 def creation_bien():
@@ -54,7 +63,7 @@ def creation_bien():
         conn = db_manager.get_connection()
         repo = BienRepository(conn)
         try:
-            repo.create(
+            id_bien = repo.create(
                 ville=request.form.get('ville'),
                 adresse=request.form.get('adresse'),
                 description=request.form.get('description'),
@@ -65,9 +74,35 @@ def creation_bien():
                 id_commercial=session.get('id_commercial'),
                 id_agence=session.get('id_agence')
             )
-            flash("Le bien a été publié avec succès !", "success")
+            
+            if 'photos' in request.files:
+                files = request.files.getlist('photos')
+                
+                # S'assurer que le dossier de stockage existe localement
+                upload_folder = os.path.join('static', 'uploads')
+                if not os.path.exists(upload_folder):
+                    os.makedirs(upload_folder)
+                
+                for file in files:
+                    if file and allowed_file(file.filename):
+                        # Sécuriser le nom du fichier pour éviter les failles
+                        filename = secure_filename(file.filename)
+                        # Optionnel : Préfixer avec l'ID du bien pour éviter les collisions de noms de fichiers identiques
+                        unique_filename = f"bien_{id_bien}_{filename}"
+                        
+                        file_path = os.path.join(upload_folder, unique_filename)
+                        
+                        # Sauvegarder le fichier physique sur le disque dur local
+                        file.save(file_path)
+                        
+                        # Enregistrer le chemin relatif (accessible par le web) dans la BDD
+                        web_path = f"static/uploads/{unique_filename}"
+                        repo.add_photo(id_bien, web_path)
+
+            flash("Le bien ainsi que ses illustrations ont été publiés avec succès !", "success")
             return redirect(url_for('agence.agence_detail', id_agence=session.get('id_agence')))
         except Exception as e:
+            conn.rollback()
             flash(f"Erreur lors de l'ajout : {e}", "error")
         finally:
             conn.close()

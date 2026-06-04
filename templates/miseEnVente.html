@@ -5,7 +5,7 @@
 <h1>Fiche d'enregistrement de bien (Mise en vente / Location)</h1>
 <p style="color: red;">Zone restreinte : Votre publication sera automatiquement enregistrée au catalogue de l'agence ID : {{ session.get('id_agence') }}</p>
 
-<form method="POST" action="{{ url_for('bien.creation_bien') }}" style="background: #fafafa; padding: 20px; border: 1px solid #ccc; max-width: 600px;">
+<form method="POST" action="{{ url_for('bien.creation_bien') }}" enctype="multipart/form-data" style="background: #fafafa; padding: 20px; border: 1px solid #ccc; max-width: 600px;">
     <div>
         <label>Ville d'implantation :</label><br>
         <input type="text" name="ville" required style="width: 100%; margin-bottom: 10px;">
@@ -38,6 +38,12 @@
     <div>
         <label>Prix Final Attendu (€) :</label><br>
         <input type="number" step="0.01" name="prix" required style="width: 100%; margin-bottom: 15px; font-weight: bold;">
+    </div>
+    
+    <div style="margin-bottom: 20px; border: 1px dashed #7f8c8d; padding: 10px; background: #fff;">
+        <label><strong>Ajouter des photos du bien (Illimité) :</strong></label><br>
+        <input type="file" name="photos" accept="image/*" multiple style="margin-top: 5px;">
+        <br><small style="color: #7f8c8d;">Formats acceptés : JPG, PNG, WEBP</small>
     </div>
     
     <button type="submit" style="background: #007BFF; color: white; padding: 10px 20px; border: none; font-size: 1em; cursor: pointer;">💾 Enregistrer et publier officiellement l'annonce</button>

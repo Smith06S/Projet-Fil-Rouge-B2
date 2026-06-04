@@ -13,6 +13,16 @@
     <a href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}" style="background: #e67e22; color: white; padding: 8px; text-decoration: none; font-weight: bold;">🗺️ Voir la localisation exacte sur la carte</a>
 </p>
 
+<div class="carousel-photos">
+    {% if bien['photos'] %}
+        {% for photo_path in bien['photos'] %}
+            <img src="{{ url_for('static', filename=photo_path.replace('static/', '')) }}" alt="Photo du bien" style="max-width: 100%; height: auto; margin-bottom: 10px;">
+        {% endfor %}
+    {% else %}
+        <img src="{{ url_for('static', filename='images/default_agence.jpg') }}" alt="Aucune photo disponible">
+    {% endif %}
+</div>
+
 <hr>
 
 <h3>Actions & Prise de contact</h3>
