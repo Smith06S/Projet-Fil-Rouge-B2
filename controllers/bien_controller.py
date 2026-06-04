@@ -57,11 +57,15 @@ def voir_carte_bien(id_bien):
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
     bien_obj = repo.get_by_id(id_bien)
-    conn.close()
+    
     if not bien_obj:
+        conn.close()
         return "Bien introuvable", 404
                
-    carte_html = generer_carte_un_bien(bien_obj)
+    # CORRECTION : On passe 'conn' en paramètre à la fonction
+    carte_html = generer_carte_un_bien(bien_obj, conn)
+    conn.close()
+    
     return render_template('carte_bien.html', bien=bien_obj, carte_html=carte_html)
 
 # Définir les extensions autorisées
