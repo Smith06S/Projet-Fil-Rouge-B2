@@ -201,25 +201,43 @@ body {
 }
 
 .bien-card {
-    flex: 0 0 15.625rem;
+    flex: 0 0 16rem;
     background-color: var(--orange-clair);
-    padding: 1.25rem;
+    padding: 1.5rem;
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    border: 2px solid var(--orange-grise-pastel);
+    box-shadow: 0 4px 10px rgba(83, 78, 71, 0.2);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.2s ease;
-    border: 1px solid var(--orange-grise-pastel);
+    transition: transform 0.2s ease, border-color 0.2s;
 }
 
 .bien-card:hover {
     transform: translateY(-5px);
+    border-color: var(--orange-grise);
 }
 
 .bien-card h4 {
-    margin: 0 0 0.625rem 0;
+    margin: 0 0 0.5rem 0;
     color: var(--gris-fonce);
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--orange-grise-pastel);
+    padding-bottom: 0.5rem;
+}
+
+.bien-card p {
+    margin: 0.5rem 0;
+    color: var(--marron-grise);
+    font-size: 0.95rem;
+}
+
+.bien-card strong {
+    color: var(--gris-fonce);
+}
+
+.bien-card em {
+    color: var(--orange-grise);
+    font-style: italic;
 }
 
 .btn-card {
@@ -231,12 +249,12 @@ body {
     font-size: 0.85rem;
     text-align: center;
     text-decoration: none;
-    margin-top: 1rem;
+    margin-top: auto;
     transition: background-color 0.3s;
 }
 
 .btn-card:hover {
-    background-color: #333;
+    background-color: var(--marron-grise);
     color: var(--orange-clair);
 }
 
