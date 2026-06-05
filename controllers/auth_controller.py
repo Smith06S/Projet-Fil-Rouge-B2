@@ -27,6 +27,7 @@ def inscription():
         try:
             repo.create_client(nom, prenom, email, password, telephone, budget)
             flash("Inscription réussie, connectez-vous !", "success")
+            connexion(email=email, password=password)
             return redirect(url_for('agence.accueil'))
         except Exception as e:
             conn.rollback()
@@ -36,7 +37,7 @@ def inscription():
     return render_template('inscription.html')
 
 @auth_bp.route('/connexion', methods=['GET', 'POST'])
-def connexion():
+def connexion(email=None, password=None):
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
