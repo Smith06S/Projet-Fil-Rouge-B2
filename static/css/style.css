@@ -257,7 +257,7 @@ body {
         margin-top: -2rem;
     }
 
-    #banner-image {
+    .banner-image {
         width: 100%;
         height: auto;
         object-fit: cover;
