@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Modifier l'Annonce{% endblock %}
+{% block content %}
+<h1>Modifier l'Annonce Immobilière</h1>
+<form method="POST" action="{{ url_for('bien.modifier_bien', id_bien=bien.id_bien) }}" style="background: #fafafa; padding: 20px; border: 1px solid #ccc; max-width: 650px; display: grid; gap: 12px;">
+    <div>
+        <label>Ville d'implantation :</label>
+        <input type="text" name="ville" value="{{ bien.ville }}" required style="width: 100%;">
+    </div>
+    <div>
+        <label>Adresse Complète :</label>
+        <input type="text" name="adresse" value="{{ bien.adresse }}" required style="width: 100%;">
+    </div>
+    <div>
+        <label>Description Commerciale :</label>
+        <textarea name="description" rows="4" required style="width: 100%;">{{ bien.description }}</textarea>
+    </div>
+    
+    <div style="display: flex; gap: 15px;">
+        <div style="flex:1;">
+            <label>Nombre de pièces :</label>
+            <input type="number" name="nbrPieces" value="{{ bien.nbr_pieces }}" min="1" required style="width: 100%;">
+        </div>
+        <div style="flex:1;">
+            <label>Nombre de chambres :</label>
+            <input type="number" name="nbrChambres" value="{{ bien.nbr_chambres }}" min="0" required style="width: 100%;">
+        </div>
+        <div style="flex:1;">
+            <label>Superficie (m²) :</label>
+            <input type="number" step="0.01" name="surface" value="{{ bien.surface }}" required style="width: 100%;">
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 15px;">
+        <div style="flex:1;">
+            <label>Type de bien :</label>
+            <select name="typeBien" style="width: 100%;">
+                <option value="Maison" {% if bien.type_bien == 'Maison' %}selected{% endif %}>Maison</option>
+                <option value="Appartement" {% if bien.type_bien == 'Appartement' %}selected{% endif %}>Appartement</option>
+                <option value="Bureau" {% if bien.type_bien == 'Bureau' %}selected{% endif %}>Bureau</option>
+                <option value="Local" {% if bien.type_bien == 'Local' %}selected{% endif %}>Local</option>
+            </select>
+        </div>
+        <div style="flex:1;">
+            <label>Étage :</label>
+            <input type="text" name="etage" value="{{ bien.etage }}" style="width: 100%;">
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 15px;">
+        <div style="flex:1;">
+            <label>Type de chauffage :</label>
+            <select name="type_chauffage" style="width: 100%;">
+                <option value="Individuel Électrique" {% if bien.type_chauffage == 'Individuel Électrique' %}selected{% endif %}>Individuel Électrique</option>
+                <option value="Collectif Gaz" {% if bien.type_chauffage == 'Collectif Gaz' %}selected{% endif %}>Collectif Gaz</option>
+                <option value="Pompe à chaleur" {% if bien.type_chauffage == 'Pompe à chaleur' %}selected{% endif %}>Pompe à chaleur</option>
+                <option value="Non renseigné" {% if bien.type_chauffage == 'Non renseigné' %}selected{% endif %}>Autre / Non renseigné</option>
+            </select>
+        </div>
+        <div style="flex:1;">
+            <label>État du logement :</label>
+            <select name="etat_logement" style="width: 100%;">
+                <option value="Neuf" {% if bien.etat_logement == 'Neuf' %}selected{% endif %}>Neuf</option>
+                <option value="Bon état" {% if bien.etat_logement == 'Bon état' %}selected{% endif %}>Bon état</option>
+                <option value="À rafraîchir" {% if bien.etat_logement == 'À rafraîchir' %}selected{% endif %}>À rafraîchir</option>
+                <option value="À rénover" {% if bien.etat_logement == 'À rénover' %}selected{% endif %}>À rénover</option>
+            </select>
+        </div>
+        <div style="flex:1;">
+            <label>Année Construction :</label>
+            <input type="number" name="annee_construction" value="{{ bien.annee_construction or '' }}" style="width: 100%;">
+        </div>
+    </div>
+
+    <div style="background: #fff; padding: 12px; border: 1px dashed #bbb; display: flex; gap: 20px; border-radius: 4px;">
+        <label><input type="checkbox" name="a_balcon" {% if bien.a_balcon %}checked{% endif %}> Balcon / Terrasse</label>
+        <label><input type="checkbox" name="a_parking" {% if bien.a_parking %}checked{% endif %}> Parking / Garage</label>
+        <label><input type="checkbox" name="a_ascenseur" {% if bien.a_ascenseur %}checked{% endif %}> Ascenseur</label>
+    </div>
+
+    <div>
+        <label>Prix Final Attendu (€) :</label>
+        <input type="number" step="0.01" name="prix" value="{{ bien.prix }}" required style="width: 100%; font-weight: bold; font-size: 1.1em;">
+    </div>
+    
+    <button type="submit" style="background: #e67e22; color: white; padding: 12px; border: none; font-size: 1.1em; cursor: pointer; font-weight: bold; border-radius: 4px;">💾 Mettre à jour l'annonce</button>
+</form>
+{% endblock %}
