@@ -103,7 +103,7 @@ def supprimer_utilisateur():
 def deconnexion():
     session.clear()
     flash("Déconnexion réussie.", "info")
-    return redirect(url_for('auth.connexion'))
+    return redirect(url_for('selection_agence'))
 
 
 @auth_bp.route('/profil/modifier', methods=['GET', 'POST'])
