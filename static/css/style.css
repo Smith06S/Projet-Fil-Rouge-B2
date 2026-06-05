@@ -160,10 +160,10 @@ body {
     justify-content: center;
     align-items: center;
     color: var(--orange-clair);
-    background-color: var(--gris-fonce);
+    background-color: rgba(0, 0, 0, 0.4);
     padding: 20px;
     text-align: center;
-    text-shadow: 0 2px 4px var(--gris-fonce);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     font-size: 0.9rem;
 }
 
@@ -198,7 +198,7 @@ body {
     background-color: var(--orange-clair);
     padding: 0.9375rem;
     border-radius: 0.5rem;
-    box-shadow: 0 0.125rem 0.3125rem var(--gris-fonce);
+    box-shadow: 0 0.125rem 0.3125rem rgba(0,0,0,0.2);
 }
 
 .grid {
@@ -316,6 +316,13 @@ body {
         max-width: 90rem;
         padding: 2.5rem 3.75rem;
         margin-left: -2rem;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px inset #eee;
+        margin: 0.5em auto;
+        width: 100%;
     }
 
     .grid {
