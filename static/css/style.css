@@ -130,16 +130,15 @@ body {
 
 .nav-status {
     color: var(--gris-fonce);
-    font-size: 0.9rem;
     font-weight: bold;
     white-space: nowrap;
 }
 
 .banner-container {
     position: relative;
-    width: 113%;
+    width: 114%;
     overflow: hidden;
-    margin-left: -2.5rem;
+    margin-left: -1.4rem;
     margin-top: -6.5rem;
 }
 
@@ -172,7 +171,7 @@ body {
     width: 100%;
     padding: 1.25rem 0.9375rem;
     margin-right: auto;
-    margin-left: auto;
+    margin-left: -1rem;
 }
 
 .grid {
@@ -256,7 +255,7 @@ body {
     }
 
     .banner-container {
-        margin-left: -4.4rem;
+        margin-left: -2.4rem;
         width: 105%;
         max-height: 30rem;
         overflow: hidden;
@@ -289,6 +288,7 @@ body {
     .container {
         max-width: 90rem;
         padding: 2.5rem 3.75rem;
+        margin-left: -2rem;
     }
 
     .grid {
