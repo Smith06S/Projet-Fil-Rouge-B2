@@ -76,7 +76,7 @@
             <strong>Connecté ({{ session.get('role') }})</strong>
 
             <a href="{{ url_for('auth.deconnexion') }}"
-                class="nav-auth {% if request.endpoint == 'deconnexion' %}active{% endif %}">
+                class="nav-auth">
                 <span class="nav-text">Déconnexion</span>
             </a>
             {% else %}

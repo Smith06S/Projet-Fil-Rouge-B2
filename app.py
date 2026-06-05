@@ -18,5 +18,6 @@ app.register_blueprint(dashboard_bp)
 def ymmo_global_redirect():
     return redirect(url_for('agence.accueil'))
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
