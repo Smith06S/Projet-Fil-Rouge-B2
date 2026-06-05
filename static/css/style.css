@@ -180,7 +180,7 @@ body {
 
 .popular-section {
     background-color: var(--orange-clair);
-    padding: 2rem 0.625rem 2rem;
+    padding: 0.1rem 0.625rem 2rem;
     margin-left: -1.4rem;
     width: 108%;
     border-top: 2px solid var(--gris-fonce);
@@ -231,14 +231,14 @@ body {
 
 .btn-card {
     display: inline-block;
-    background-color: var(--orange-grise-pastel);
+    background-color: var(--orange-clair);
     color: var(--gris-fonce);
     border-radius: var(--radius);
     padding: 0.6rem 1rem;
     text-align: center;
     text-decoration: none;
     font-weight: bold;
-    margin-top: auto;
+    margin-top: 1rem;
     transition: background-color 0.3s;
 }
 
