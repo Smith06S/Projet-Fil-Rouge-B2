@@ -39,7 +39,7 @@ def liste_biens():
         etat_logement=etat_logement
     )
     conn.close()
-    return render_template('listeBien.html', biens=biens)
+    return render_template('listeBien.html', biens=biens, id_agence=id_agence)
 
 @bien_bp.route('/bien/<int:id_bien>')
 def detail_bien(id_bien):
