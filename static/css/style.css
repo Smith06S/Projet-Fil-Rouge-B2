@@ -31,7 +31,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: var(--orange-clair);
+    background-color: var(--orange-grise-pastel);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -160,10 +160,10 @@ body {
     justify-content: center;
     align-items: center;
     color: var(--orange-clair);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: var(--gris-fonce);
     padding: 20px;
     text-align: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 4px var(--gris-fonce);
     font-size: 0.9rem;
 }
 
@@ -172,6 +172,41 @@ body {
     padding: 1.25rem 0.9375rem;
     margin-right: auto;
     margin-left: -1rem;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--orange-grise);
+    margin: 20px 0;
+    width: 100%;
+    display: block;
+}
+
+.popular-section {
+    background-color: var(--marron-grise);
+    padding: 1.25rem 0.625rem;
+    margin-top: 1.25rem;
+}
+
+.popular-section h2 {
+    color: var(--orange-clair);
+    margin-bottom: 0.9375rem;
+}
+
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.9375rem;
+    padding-bottom: 0.625rem;
+    scrollbar-width: thin;
+}
+
+.bien-card {
+    flex: 0 0 15.625rem;
+    background-color: var(--orange-clair);
+    padding: 0.9375rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.3125rem var(--gris-fonce);
 }
 
 .grid {
@@ -289,6 +324,14 @@ body {
         max-width: 90rem;
         padding: 2.5rem 3.75rem;
         margin-left: -2rem;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px inset #eee;
+        margin: 0.5em auto;
+        width: 100%;
+        display: none;
     }
 
     .grid {
