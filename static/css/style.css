@@ -179,15 +179,15 @@ body {
 }
 
 .popular-section {
-    background-color: var(--marron-grise);
-    padding: 0 0.625rem 1.25rem;
+    background-color: var(--orange-clair);
+    padding: 2rem 0.625rem 2rem;
     margin-left: -1.4rem;
     width: 108%;
     border-top: 2px solid var(--gris-fonce);
 }
 
 .popular-section h2 {
-    color: var(--orange-clair);
+    color: var(--gris-fonce);
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -202,60 +202,48 @@ body {
 
 .bien-card {
     flex: 0 0 16rem;
-    background-color: var(--orange-clair);
+    background-color: var(--marron-grise);
     padding: 1.5rem;
     border-radius: var(--radius);
-    border: 2px solid var(--orange-grise-pastel);
-    box-shadow: 0 4px 10px rgba(83, 78, 71, 0.2);
+    color: var(--orange-clair);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease, border-color 0.2s;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
 }
 
 .bien-card:hover {
     transform: translateY(-5px);
-    border-color: var(--orange-grise);
 }
 
 .bien-card h4 {
     margin: 0 0 0.5rem 0;
-    color: var(--gris-fonce);
-    font-size: 1.2rem;
-    border-bottom: 1px solid var(--orange-grise-pastel);
+    color: var(--orange-clair);
+    border-bottom: 1px solid var(--orange-grise);
     padding-bottom: 0.5rem;
 }
 
 .bien-card p {
     margin: 0.5rem 0;
-    color: var(--marron-grise);
-    font-size: 0.95rem;
-}
-
-.bien-card strong {
-    color: var(--gris-fonce);
-}
-
-.bien-card em {
-    color: var(--orange-grise);
-    font-style: italic;
+    color: var(--orange-grise-pastel);
 }
 
 .btn-card {
     display: inline-block;
-    background-color: var(--gris-fonce);
-    color: var(--orange-clair);
-    border-radius: 0.75rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
+    background-color: var(--orange-grise-pastel);
+    color: var(--gris-fonce);
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
     text-align: center;
     text-decoration: none;
+    font-weight: bold;
     margin-top: auto;
     transition: background-color 0.3s;
 }
 
 .btn-card:hover {
-    background-color: var(--marron-grise);
-    color: var(--orange-clair);
+    background-color: var(--orange-clair);
 }
 
 .grid {
