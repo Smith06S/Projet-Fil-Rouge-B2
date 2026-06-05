@@ -174,14 +174,6 @@ body {
     margin-left: -1rem;
 }
 
-hr {
-    border: 0;
-    border-top: 1px solid var(--orange-grise);
-    margin: 20px 0;
-    width: 100%;
-    display: block;
-}
-
 .popular-section {
     background-color: var(--marron-grise);
     padding: 1.25rem 0.625rem;
@@ -324,14 +316,6 @@ hr {
         max-width: 90rem;
         padding: 2.5rem 3.75rem;
         margin-left: -2rem;
-    }
-
-    hr {
-        border: none;
-        border-top: 1px inset #eee;
-        margin: 0.5em auto;
-        width: 100%;
-        display: none;
     }
 
     .grid {
