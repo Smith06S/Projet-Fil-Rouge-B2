@@ -1,4 +1,4 @@
-﻿﻿from flask import Blueprint, render_template, session, redirect, url_for, request
+﻿from flask import Blueprint, render_template, session, redirect, url_for, request
 from database import Database
 from models.agence import AgenceRepository
 from models.bien import BienRepository
