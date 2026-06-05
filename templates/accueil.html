@@ -14,19 +14,21 @@
 <hr id="popular-section-hr" />
 
 <section class="popular-section">
-    <h2>Les 5 Biens les plus populaires de notre agence</h2>
-    <div class="scroll-container">
-        {% for bien in top_biens %}
-        <article class="bien-card">
-            <h4>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h4>
-            <p><strong>Prix :</strong> {{ bien.prix }} €</p>
-            <p><em>{{ bien.ville }}</em></p>
-            <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}">Consulter</a>
-        </article>
-        {% else %}
-        <p>Aucun bien de cette agence n'a encore été mis en favoris.</p>
-        {% endfor %}
-    </div>
+  <h2>Les 5 Biens les plus populaires</h2>
+  <div class="scroll-container">
+    {% for bien in top_biens %}
+    <article class="bien-card">
+      <div>
+        <h4>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h4>
+        <p><strong>Prix :</strong> {{ bien.prix }} €</p>
+        <p><em>{{ bien.ville }}</em></p>
+      </div>
+      <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" class="btn-card">Consulter l'annonce</a>
+    </article>
+    {% else %}
+    <p>Aucun bien de cette agence n'a encore été mis en favoris.</p>
+    {% endfor %}
+  </div>
 </section>
 
 <hr />

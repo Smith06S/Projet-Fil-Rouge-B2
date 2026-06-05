@@ -180,13 +180,16 @@ body {
 
 .popular-section {
     background-color: var(--marron-grise);
-    padding: 1.25rem 0.625rem;
-    margin-top: 1.25rem;
+    padding: 0 0.625rem 1.25rem;
+    margin-left: -1.4rem;
+    width: 108%;
+    border-top: 2px solid var(--gris-fonce);
 }
 
 .popular-section h2 {
     color: var(--orange-clair);
-    margin-bottom: 0.9375rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
 }
 
 .scroll-container {
@@ -200,9 +203,41 @@ body {
 .bien-card {
     flex: 0 0 15.625rem;
     background-color: var(--orange-clair);
-    padding: 0.9375rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.125rem 0.3125rem rgba(0,0,0,0.2);
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
+    border: 1px solid var(--orange-grise-pastel);
+}
+
+.bien-card:hover {
+    transform: translateY(-5px);
+}
+
+.bien-card h4 {
+    margin: 0 0 0.625rem 0;
+    color: var(--gris-fonce);
+}
+
+.btn-card {
+    display: inline-block;
+    background-color: var(--gris-fonce);
+    color: var(--orange-clair);
+    border-radius: 0.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-card:hover {
+    background-color: #333;
+    color: var(--orange-clair);
 }
 
 .grid {
