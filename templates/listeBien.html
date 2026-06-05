@@ -63,6 +63,13 @@
     </div>
 </form>
 
+{% if session.get('role') == 'commercial' and session.get('id_agence') == id_agence %}
+    <div style="background: #e9f7ef; padding: 15px; border: 1px solid #27ae60; margin-bottom: 20px;">
+        <h3>Publier un nouveau bien</h3>
+        <a href="{{ url_for('bien.creation_bien') }}" style="background: #27ae60; color: white; padding: 10px; text-decoration: none; font-weight: bold;">➕ Créer / Publier un nouveau bien</a>
+    </div>
+{% endif %}
+
 <h2>Résultats de la recherche</h2>
 <div style="display: flex; flex-wrap: wrap; gap: 15px;">
     {% for b in biens %}
