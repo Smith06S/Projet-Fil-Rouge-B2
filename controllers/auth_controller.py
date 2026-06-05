@@ -28,7 +28,6 @@ def inscription():
             repo.create_client(nom, prenom, email, password, telephone, budget)
             flash("Inscription réussie, connectez-vous !", "success")
             connexion(email=email, password=password)
-            return redirect(url_for('agence.accueil'))
         except Exception as e:
             conn.rollback()
             flash(f"Erreur d'inscription : {e}", "error")
