@@ -249,21 +249,33 @@ body {
     }
 
     .banner-container {
-        width: 107%;
-        margin-left: -5.2rem;
+        margin-left: -4.4rem;
+        width: 105%;
+        max-height: 30rem;
+        overflow: hidden;
+        border-radius: 9rem;
+        margin-top: -2rem;
     }
 
     #banner-image {
-        width: 131%;
-        max-width: 300rem;
+        width: 100%;
         height: auto;
-        margin-bottom: 1.25rem;
-        margin-top: -4.5rem;
-        margin-left: -14.9rem;
+        object-fit: cover;
+        display: block;
+        margin-top: -8rem;
+    }
+
+    .banner-text {
+        width: 100%;
+        height: 100%;
     }
 
     .banner-text h1 {
-        font-size: 1.5rem;
+        font-size: 2.9rem;
+    }
+
+    .banner-text p {
+        font-size: 1.4rem;
     }
 
     .container {
