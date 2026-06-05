@@ -9,37 +9,23 @@
 
 <hr>
 
-<!-- GESTION DES ÉQUIPES / CRÉATION DE COMMERCIAL -->
-{% if session.get('role') in ['admin', 'commercial'] %}
-    <div style="background: #eaf2f8; padding: 15px; border: 1px solid #2980b9; margin-top: 20px; margin-bottom: 20px;">
-        <h3>Espace Professionnel : Gestion des équipes</h3>
-        {% if session.get('role') == 'admin' %}
-            <p>En tant d'administrateur, vous pouvez créer un compte commercial et <strong>choisir son agence d'affectation</strong>.</p>
-        {% else %}
-            <p>En tant que commercial, vous pouvez créer un collègue qui sera <strong>automatiquement rattaché à votre propre agence (Agence #{{ session.get('id_agence') }})</strong>.</p>
-        {% endif %}
-        <a href="{{ url_for('dashboard.ajouter_commercial') }}" style="background: #2980b9; color: white; padding: 10px 15px; text-decoration: none; font-weight: bold; display: inline-block; border-radius: 4px;">
-            ➕ Créer un nouveau compte Commercial
-        </a>
-    </div>
-    <hr>
-{% endif %}
-
 <h2>Catalogue des biens de cette agence</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
     {% for bien in biens %}
-        <div style="border: 1px solid #ccc; padding: 15px; width: 280px; position: relative;">
-            <h3>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h3>
+        <div style="border: 1px solid #ccc; padding: 15px; width: 280px; background: white; border-radius: 4px;">
+            <h3>{{ bien.type_bien|capitalize }}</h3>
             <p><strong>Ville :</strong> {{ bien.ville }}</p>
-            <p style="color: green; font-weight: bold;">{{ bien.prix }} €</p>
-            <p><em>{{ bien.nbr_pieces }} pièces</em></p>
+            <p><strong>Prix :</strong> <strong style="color: green;">{{ bien.prix }} €</strong></p>
+            <p><em>{{ bien.surface }} m² — {{ bien.nbr_pieces }} pièces</em></p>
             
-            <div style="margin-top: 10px;">
-                <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" style="background: #007BFF; color: white; padding: 5px; text-decoration: none; font-size: 0.9em;">Détails & Pièces</a>
+            <div style="margin-top: 15px; display: flex; gap: 5px; flex-wrap: wrap;">
+                <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" style="background: #007BFF; color: white; padding: 5px 8px; text-decoration: none; font-size: 0.9em; border-radius: 3px;">Détails & Pièces</a>
                 
                 {% if session.get('role') == 'admin' or (session.get('role') == 'commercial' and session.get('id_agence') == bien.id_agence) %}
-                    <form method="POST" action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}" style="display: inline; margin-left: 5px;" onsubmit="return confirm('Confirmer la suppression définitive de ce bien ?');">
-                        <button type="submit" style="background: red; color: white; border: none; padding: 5px; cursor: pointer; font-size: 0.9em;">Supprimer</button>
+                    <a href="{{ url_for('bien.modifier_bien', id_bien=bien.id_bien) }}" style="background: #e67e22; color: white; padding: 5px 8px; text-decoration: none; font-size: 0.9em; border-radius: 3px;">Modifier</a>
+                    
+                    <form method="POST" action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}" style="display: inline;" onsubmit="return confirm('Confirmer la suppression définitive de ce bien ?');">
+                        <button type="submit" style="background: red; color: white; border: none; padding: 5px 8px; cursor: pointer; font-size: 0.9em; border-radius: 3px;">Supprimer</button>
                     </form>
                 {% endif %}
             </div>
