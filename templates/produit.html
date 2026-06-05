@@ -4,14 +4,72 @@
 {% block content %}
 <h1>Fiche Technique : {{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h1>
 <p><strong>Localisation :</strong> {{ bien.adresse }}, {{ bien.ville }}</p>
-<p><strong>Prix de commercialisation :</strong> <strong style="color: green; font-size: 1.3em;">{{ bien.prix }} €</strong></p>
-<p><strong>Nombre de pièces :</strong> {{ bien.nbr_pieces }}</p>
-<p><strong>Description :</strong></p>
-<p style="background: #fafafa; padding: 10px; border-left: 3px solid #007BFF;">{{ bien.description }}</p>
+<p><strong>Prix de commercialisation :</strong> <strong style="color: green; font-size: 1.4em;">{{ bien.prix }} €</strong></p>
+
+<!-- TABLEAU DES CARACTÉRISTIQUES AVANCÉES -->
+<div style="margin: 20px 0; max-width: 550px;">
+    <h3>📋 Caractéristiques détaillées de l'habitation</h3>
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; background: #fff; text-align: left; border: 1px solid #ddd;">
+        <tr style="background: #fdfefe;">
+            <th>Nombre de pièces (Total)</th>
+            <td>{{ bien.nbr_pieces }} pièces</td>
+        </tr>
+        <tr>
+            <th>Nombre de chambres</th>
+            <td>{{ bien.nbr_chambres }} chambre(s)</td>
+        </tr>
+        <tr style="background: #fdfefe;">
+            <th>Étage</th>
+            <td>{{ bien.etage }}</td>
+        </tr>
+        <tr>
+            <th>État général</th>
+            <td><strong>{{ bien.etat_logement }}</strong></td>
+        </tr>
+        <tr style="background: #fdfefe;">
+            <th>Type de chauffage</th>
+            <td>{{ bien.type_chauffage }}</td>
+        </tr>
+        <tr>
+            <th>Année de construction</th>
+            <td>{{ bien.annee_construction or 'Non spécifiée' }}</td>
+        </tr>
+        <tr style="background: #fdfefe;">
+            <th>Ascenseur</th>
+            <td>{% if bien.a_ascenseur %} Oui 🛗 {% else %} Non ✕ {% endif %}</td>
+        </tr>
+        <tr>
+            <th>Balcon / Terrasse</th>
+            <td>{% if bien.a_balcon %} Oui ☀️ {% else %} Non ✕ {% endif %}</td>
+        </tr>
+        <tr style="background: #fdfefe;">
+            <th>Stationnement / Parking</th>
+            <td>{% if bien.a_parking %} Oui 🚗 {% else %} Non ✕ {% endif %}</td>
+        </tr>
+        <tr>
+            <th>Statut de l'offre</th>
+            <td><span style="color: #3498db; font-weight: bold;">{{ bien.statut }}</span></td>
+        </tr>
+    </table>
+</div>
+
+<p><strong>Description de l'annonceur :</strong></p>
+<p style="background: #fafafa; padding: 15px; border-left: 4px solid #007BFF; max-width: 550px; white-space: pre-line; line-height: 1.6;">{{ bien.description }}</p>
 
 <p>
-    <a href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}" style="background: #e67e22; color: white; padding: 8px; text-decoration: none; font-weight: bold;">🗺️ Voir la localisation exacte sur la carte</a>
+    <a href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}" style="background: #e67e22; color: white; padding: 10px; text-decoration: none; font-weight: bold; display: inline-block;">🗺️ Voir la localisation exacte sur la carte</a>
 </p>
+
+<h3>📸 Galerie Photos de l'annonce</h3>
+<div class="carousel-photos" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;">
+    {% if bien['photos'] %}
+        {% for photo_path in bien['photos'] %}
+            <img src="{{ url_for('static', filename=photo_path.replace('static/', '')) }}" alt="Photo du bien" style="max-width: 260px; height: 180px; object-fit: cover; border: 1px solid #ccc; border-radius: 4px;">
+        {% endfor %}
+    {% else %}
+        <img src="{{ url_for('static', filename='images/default_agence.jpg') }}" alt="Aucune photo disponible" style="max-width: 300px;">
+    {% endif %}
+</div>
 
 <hr>
 
