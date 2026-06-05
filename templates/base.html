@@ -73,7 +73,7 @@
                     <span class="nav-text">Mes discussions</span>
                 </a>
             {% endif %}
-            <strong>Connecté ({{ session.get('role') }})</strong>
+            <span class="nav-status">Connecté ({{ session.get('role') }})</span>
 
             <a href="{{ url_for('auth.deconnexion') }}"
                 class="nav-auth">

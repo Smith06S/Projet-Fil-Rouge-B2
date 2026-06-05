@@ -39,7 +39,7 @@ body {
     gap: 0.625rem;
     box-sizing: border-box;
     z-index: 1000;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1.7px solid var(--gris-fonce);
 }
 
 .navbar-container {
@@ -126,6 +126,13 @@ body {
 
 .navbar-links a.nav-logout {
     color: var(--gris-fonce);
+}
+
+.nav-status {
+    color: var(--gris-fonce);
+    font-size: 0.9rem;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 .banner-container {
