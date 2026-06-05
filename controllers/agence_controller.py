@@ -1,4 +1,4 @@
-﻿from flask import Blueprint, render_template, session, redirect, url_for, request
+﻿﻿from flask import Blueprint, render_template, session, redirect, url_for, request
 from database import Database
 from models.agence import AgenceRepository
 from models.bien import BienRepository
@@ -39,7 +39,6 @@ def choisir_agence(id_agence):
     return redirect(url_for('agence.accueil'))
 
 
-# --- 2. PAGE D'ACCUEIL DE L'AGENCE SÉLECTIONNÉE (AVEC NAVBAR) ---
 @agence_bp.route('/accueil')
 def accueil():
     id_agence = session.get('selected_agence_id')
@@ -57,7 +56,7 @@ def accueil():
         session.pop('selected_agence_id', None)
         return redirect(url_for('agence.selection_agence'))
         
-    # Calculer le Top 5 des biens DE CETTE AGENCE les plus présents dans les favoris
+    # NOUVELLE REQUÊTE : Sélectionne le Top 5 en complétant si nécessaire
     with conn.cursor() as cur:
         cur.execute("""
             SELECT b.*, COUNT(f.id_favoris) as nb_favoris
@@ -65,19 +64,28 @@ def accueil():
             LEFT JOIN favoris f ON b.id_bien = f.id_bien
             WHERE b.id_agence = %s AND b.statut = 'Disponible'
             GROUP BY b.id_bien
-            ORDER BY nb_favoris DESC
+            ORDER BY nb_favoris DESC, b.id_bien DESC
             LIMIT 5
         """, (id_agence,))
-        # Transformation des dictionnaires SQL en objets Bien
+        
         from models.bien import Bien
         columns = [desc[0] for desc in cur.description]
         top_biens = []
         for row in cur.fetchall():
             row_dict = dict(zip(columns, row))
-            row_dict.pop('nb_favoris', None) # Retire l'alias pour ne pas bloquer le constructeur
+            
+            # Suppression de toutes les colonnes calculées ou absentes du constructeur de Bien
+            row_dict.pop('nb_favoris', None) 
+            
             top_biens.append(Bien(**row_dict))
             
     conn.close()
+    
+    return render_template(
+        'accueil.html',
+        agence=agence_choisie,
+        top_biens=top_biens
+    )
     
     return render_template(
         'accueil.html',

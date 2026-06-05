@@ -104,3 +104,33 @@ def deconnexion():
     session.clear()
     flash("Déconnexion réussie.", "info")
     return redirect(url_for('auth.connexion'))
+
+
+@auth_bp.route('/profil/modifier', methods=['GET', 'POST'])
+@role_required(['client', 'commercial', 'admin'])
+def modifier_profil():
+    conn = db_manager.get_connection()
+    repo = UtilisateurRepository(conn)
+    id_user = session.get('user_id')
+    
+    if request.method == 'POST':
+        nom = request.form.get('lname')
+        prenom = request.form.get('fname')
+        email = request.form.get('email')
+        telephone = request.form.get('phone')
+        
+        try:
+            repo.update_profil(id_user, nom, prenom, email, telephone)
+            session['nom_complet'] = f"{prenom} {nom}"
+            session['email'] = email
+            flash("Votre profil a été mis à jour avec succès !", "success")
+            return redirect(url_for('auth.voir_profil'))
+        except Exception as e:
+            conn.rollback()
+            flash(f"Erreur lors de la mise à jour : {e}", "error")
+        finally:
+            conn.close()
+            
+    utilisateur = repo.get_by_id(id_user)
+    conn.close()
+    return render_template('modifier_profil.html', utilisateur=utilisateur)

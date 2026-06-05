@@ -73,3 +73,12 @@ class UtilisateurRepository:
         with self.db.cursor() as cur:
             cur.execute("SELECT id_commercial, id_agence FROM commercial WHERE id_utilisateur = %s", (id_utilisateur,))
             return cur.fetchone()
+        
+    def update_profil(self, id_utilisateur, nom, prenom, email, telephone):
+        with self.db.cursor() as cur:
+            cur.execute("""
+                UPDATE utilisateur 
+                SET nom = %s, prenom = %s, email = %s, telephone = %s
+                WHERE id_utilisateur = %s
+            """, (nom, prenom, email, telephone, id_utilisateur))
+        self.db.commit()
