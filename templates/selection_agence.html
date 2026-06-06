@@ -11,14 +11,14 @@
     
     <div class="grid">
         {% for a in agences %}
-        <article class="bien-card">
+        <article class="selection-card">
             <div>
-                <img src="{{ a.image_url }}" alt="Photo de {{ a.nom }}" class="bien-image" />
+                <img src="{{ a.image_url }}" alt="Photo de {{ a.nom }}" class="selection-image" />
                 <h4>{{ a.nom }}</h4>
                 <p><strong>Ville :</strong> {{ a.ville }}</p>
                 <p><strong>Adresse :</strong> {{ a.adresse }}</p>
             </div>
-            <a href="{{ url_for('agence.choisir_agence', id_agence=a.id_agence) }}" class="btn-card">
+            <a href="{{ url_for('agence.choisir_agence', id_agence=a.id_agence) }}" class="btn-selection-card">
                 Entrer dans cette agence
             </a>
         </article>
