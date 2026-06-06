@@ -60,7 +60,7 @@
       <em>Localisation : {{ agence.adresse }}, {{ agence.ville }}</em>
 
       <a
-        href="{{ url_for('carte.index') }}?adresse={{ agence.adresse|urlencode }}+{{ agence.ville|urlencode }}"
+        href="{{ url_for('carte.index_root') }}?adresse={{ agence.adresse|urlencode }}+{{ agence.ville|urlencode }}"
         class="btn-map"
       >
         Voir sur la carte
