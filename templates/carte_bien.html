@@ -1,23 +1,21 @@
-{% extends 'base.html' %}
-{% block title %}YMMO - Plan de localisation{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}YMMO - Plan de localisation{%
+endblock %} {% block content %}
 <h1>Géolocalisation du bien</h1>
 <p><strong>Propriété :</strong> {{ bien.type_bien }} - {{ bien.prix }} €</p>
-<p><strong>Adresse de référence :</strong> {{ bien.adresse }}, {{ bien.ville }}</p>
+<p>
+  <strong>Adresse de référence :</strong> {{ bien.adresse }}, {{ bien.ville }}
+</p>
 
-<div style="margin-top: 20px; border: 2px solid #333;">
-    {{ carte_html|safe }}
+<div style="margin-top: 20px; border: 2px solid #333">
+  {{ carte_html|safe }}
 </div>
 
-{{if bien.id_bien == 0}}
-    <p style="margin-top: 20px;">
-        <a href="{{ url_for('agence.id_agence', id_agence=agence.id_agence) }}">← Retourner sur la page de l'agence</a>
-    </p>
-{{else}}
-    <p style="margin-top: 20px;">
-        <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}">← Retourner à la fiche technique du bien</a>
-    </p>
-{{endif}}
+<p style="margin-top: 20px">
+  {% if from_agence %}
+    <a href="{{ url_for('agence.agence_detail', id_agence=id_agence) }}">← Retourner à l'accueil</a>
+  {% else %}
+    <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}">← Retourner à la fiche technique du bien</a>
+  {% endif %}
+</p>
 
 {% endblock %}

@@ -43,15 +43,8 @@
       <strong>Adresse de l'antenne :</strong> {{ agence.adresse }}, {{
       agence.ville }}
     </p>
-
     <p>Localisation : {{ agence.adresse }}, {{ agence.ville }}</p>
-
-    <div class="map-agence">
-      <a href="{{ url_for('bien.voir_carte_bien', id_bien=0) }}?agence={{ agence.id_agence }}" class="btn-map">
-        Voir sur la carte
-      </a>
-    </div>
-
+    
     <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}" class="btn-link">
       Voir la fiche détaillée de l'agence & tous ses biens
     </a>
