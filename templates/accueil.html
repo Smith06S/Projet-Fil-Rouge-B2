@@ -52,7 +52,23 @@
   </div>
 </section>
 
-<p>
-  <a href="{{ url_for('agence.selection_agence') }}">← Choisir une autre agence territoriale YMMO</a>
-</p>
+<section class="contact-section">
+  <h2>Contactez-nous</h2>
+  <p>
+    Vous avez des questions ou souhaitez prendre rendez-vous ? N'hésitez pas à
+    nous contacter :
+  </p>
+  <ul>
+    <li><strong>Téléphone :</strong> {{ agence.telephone }}</li>
+    <li><strong>Email :</strong> <a href="mailto:{{ agence.email }}">{{ agence.email }}</a></li>
+  </ul>
+  <a href="{{ url_for('contact') }}" class="btn-link">Formulaire de contact</a>
+</section>
+
+<section class="selection-agence">
+  <p>
+    <a href="{{ url_for('agence.selection_agence') }}">← Choisir une autre agence territoriale YMMO</a>
+  </p>
+</section>
+
 {% endblock %}
