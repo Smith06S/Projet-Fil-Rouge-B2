@@ -252,7 +252,7 @@ body {
 }
 
 .btn-card:hover {
-    background-color: var(--orange-clair);
+    background-color: var(--orange-grise-pastel);
 }
 
 #agence-info-hr {
@@ -275,39 +275,42 @@ body {
 
 .btn-map {
     display: inline-block;
-    padding: 0.6rem 1.2rem;
-    background-color: var(--orange-fonce);
-    color: white;
-    text-decoration: none;
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
     border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+    text-align: center;
+    text-decoration: none;
     font-weight: bold;
-    transition: background-color 0.3s ease;
     margin-top: 1rem;
+    transition: background-color 0.3s;
 }
 
 .btn-map:hover {
-    background-color: var(--orange-grise);
+    background-color: var(--orange-grise-pastel);
 }
 
 .map-agence {
-    background-color: var(--orange-clair);
-    border: 1px solid var(--marron-grise);
-    padding: 1.5rem;
     text-align: center;
-    border-radius: var(--radius);
-    margin: 1rem 0;
-    color: var(--marron-grise);
     display: flex;
-    flex-direction: column;
     align-items: center;
 }
 
 .btn-link {
     display: inline-block;
-    color: var(--marron-grise);
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+    text-align: center;
+    text-decoration: none;
     font-weight: bold;
-    text-decoration: underline;
     margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-link:hover {
+    background-color: var(--orange-grise-pastel);
 }
 
 .grid {
