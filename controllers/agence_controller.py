@@ -74,10 +74,14 @@ def accueil():
         for row in cur.fetchall():
             row_dict = dict(zip(columns, row))
             
-            # Suppression de toutes les colonnes calculées ou absentes du constructeur de Bien
             row_dict.pop('nb_favoris', None) 
             
-            top_biens.append(Bien(**row_dict))
+            bien = Bien(**row_dict)
+            
+            cur.execute("SELECT image_url FROM photo_bien WHERE id_bien = %s", (bien.id_bien,))
+            bien.images = [p['image_url'] for p in cur.fetchall()]
+            
+            top_biens.append(bien)
             
     conn.close()
     
