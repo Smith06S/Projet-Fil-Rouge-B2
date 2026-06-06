@@ -16,7 +16,7 @@
 
 ## 📚 Index de la Documentation
 
-### 1. **[cahier-charges-technique-infra.md](Md%20-%20Copy/cahier-charges-technique-infra.md)** 📋
+### 1. **[cahier-charges-technique-infra.md](Markdowns/cahier-charges-technique-infra.md)** 📋
 **Document principal du projet**
 
 Contient le cahier des charges complet avec :
@@ -32,7 +32,7 @@ Contient le cahier des charges complet avec :
 
 ---
 
-### 2. **[plan-adressage-ip.md](Md%20-%20Copy/plan-adressage-ip.md)** 🌐
+### 2. **[plan-adressage-ip.md](Markdowns/plan-adressage-ip.md)** 🌐
 **Plan réseau complet et exhaustif**
 
 Contient le détail de chaque adresse IP :
@@ -47,7 +47,7 @@ Contient le détail de chaque adresse IP :
 
 ---
 
-### 3. **[liste-services-deployer.md](Md%20-%20Copy/liste-services-deployer.md)** 🔧
+### 3. **[liste-services-deployer.md](Markdowns/liste-services-deployer.md)** 🔧
 **Inventaire détaillé de tous les services**
 
 Énumère les 18 services à déployer
@@ -55,7 +55,7 @@ Contient le détail de chaque adresse IP :
 
 ---
 
-### 4. **[guide-configuration-serveurs.md](Md%20-%20Copy/guide-configuration-serveurs.md)** 🛠️
+### 4. **[guide-configuration-serveurs.md](Markdowns/guide-configuration-serveurs.md)** 🛠️
 **Guide pratique d'installation et configuration**
 
 Procédures pas-à-pas pour configurer :
@@ -70,7 +70,7 @@ Procédures pas-à-pas pour configurer :
 
 ---
 
-### 5. **[guide-deploiement.md](Md%20-%20Copy/guide-deploiement.md)** 🚀
+### 5. **[guide-deploiement.md](Markdowns/guide-deploiement.md)** 🚀
 **Plan de déploiement détaillé et checklists**
 
 Contient :
@@ -86,7 +86,7 @@ Contient :
 
 ---
 
-### 6. **[specifications-techniques.md](Md%20-%20Copy/specifications-techniques.md)** ⚙️
+### 6. **[specifications-techniques.md](Markdowns/specifications-techniques.md)** ⚙️
 **Spécifications techniques exhaustives**
 
 Document de référence contenant :
@@ -103,7 +103,7 @@ Document de référence contenant :
 
 ---
 
-### 7. **[politique-securite.md](Md%20-%20Copy/politique-securite.md)** 🔒
+### 7. **[politique-securite.md](Markdowns/politique-securite.md)** 🔒
 **Politique de sécurité informatique complète**
 
 Couvre tous les aspects de sécurité :
@@ -122,7 +122,7 @@ Couvre tous les aspects de sécurité :
 
 ---
 
-### 8. **[matrice-droits-acces.md](Md%20-%20Copy/matrice-droits-acces.md)** 👥
+### 8. **[matrice-droits-acces.md](Markdowns/matrice-droits-acces.md)** 👥
 **Matrice complète des droits d'accès par rôle**
 
 Détaille les permissions pour :
@@ -141,7 +141,7 @@ Détaille les permissions pour :
 
 ---
 
-### 9. **[plan-sauvegarde-supervision.md](Md%20-%20Copy/plan-sauvegarde-supervision.md)** 💾
+### 9. **[plan-sauvegarde-supervision.md](Markdowns/plan-sauvegarde-supervision.md)** 💾
 **Plan de sauvegarde, supervision et continuité**
 
 Stratégie complète avec :
@@ -162,7 +162,7 @@ Stratégie complète avec :
 
 ---
 
-### 10. **[solution-cloud.md](Md%20-%20Copy/solution-cloud.md)** ☁️
+### 10. **[solution-cloud.md](Markdowns/solution-cloud.md)** ☁️
 **Analyse comparative : On-Premise vs Cloud**
 
 Propose une alternative cloud avec :
@@ -249,13 +249,13 @@ Propose une alternative cloud avec :
 
 ## 🚀 Guide de Démarrage
 
-1. **Comprendre le projet** → Lire [cahier-charges-technique-infra.md](Md%20-%20Copy/cahier-charges-technique-infra.md)
-2. **Vérifier l'adressage** → Consulter [plan-adressage-ip.md](Md%20-%20Copy/plan-adressage-ip.md)
-3. **Planifier le déploiement** → Suivre [guide-deploiement.md](Md%20-%20Copy/guide-deploiement.md)
-4. **Configurer les serveurs** → Utiliser [guide-configuration-serveurs.md](Md%20-%20Copy/guide-configuration-serveurs.md)
-5. **Mettre en place la sécurité** → Appliquer [politique-securite.md](Md%20-%20Copy/politique-securite.md)
-6. **Configurer les droits** → Implémenter [matrice-droits-acces.md](Md%20-%20Copy/matrice-droits-acces.md)
-7. **Valider la supervision** → Vérifier [plan-sauvegarde-supervision.md](Md%20-%20Copy/plan-sauvegarde-supervision.md)
+1. **Comprendre le projet** → Lire [cahier-charges-technique-infra.md](Markdowns/cahier-charges-technique-infra.md)
+2. **Vérifier l'adressage** → Consulter [plan-adressage-ip.md](Markdowns/plan-adressage-ip.md)
+3. **Planifier le déploiement** → Suivre [guide-deploiement.md](Markdowns/guide-deploiement.md)
+4. **Configurer les serveurs** → Utiliser [guide-configuration-serveurs.md](Markdowns/guide-configuration-serveurs.md)
+5. **Mettre en place la sécurité** → Appliquer [politique-securite.md](Markdowns/politique-securite.md)
+6. **Configurer les droits** → Implémenter [matrice-droits-acces.md](Markdowns/matrice-droits-acces.md)
+7. **Valider la supervision** → Vérifier [plan-sauvegarde-supervision.md](Markdowns/plan-sauvegarde-supervision.md)
 
 ---
 
