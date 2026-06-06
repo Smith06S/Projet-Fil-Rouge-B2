@@ -435,16 +435,17 @@ body {
 }
 
 .selection-card {
-    flex: 0 0 16rem;
-    background-color: var(--marron-grise);
-    padding: 1.5rem;
-    border-radius: 1.7rem;
-    color: var(--orange-clair);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: var(--marron-grise);
+    padding: 2rem;
+    border-radius: 1.7rem;
+    color: var(--orange-clair);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .selection-card:hover {
@@ -461,33 +462,37 @@ body {
 }
 
 .selection-card h4 {
-    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
     color: var(--orange-clair);
-    border-bottom: 1px solid var(--orange-grise);
-    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--orange-grise);
+    padding-bottom: 0.75rem;
 }
 
 .selection-card p {
+    font-size: 1.1rem;
     margin: 0.5rem 0;
     color: var(--orange-grise-pastel);
 }
 
 .btn-selection-card {
-    display: inline-block;
+    display: block;
     background-color: var(--orange-clair);
     color: var(--gris-fonce);
-    border-radius: var(--radius);
-    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    padding: 1rem;
     text-align: center;
     text-decoration: none;
     font-weight: bold;
-    margin-top: 1rem;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
     transition: background-color 0.3s;
 }
 
 .btn-selection-card:hover {
     background-color: var(--orange-grise-pastel);
 }
+
 .card {
     background: var(--orange-clair);
     border-radius: var(--radius);
