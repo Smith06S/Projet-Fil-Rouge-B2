@@ -136,7 +136,7 @@ body {
 
 .banner-container {
     position: relative;
-    width: 114%;
+    width: 117%;
     overflow: hidden;
     margin-left: -1.4rem;
     margin-top: -6.5rem;
@@ -182,7 +182,7 @@ body {
     background-color: var(--orange-clair);
     padding: 0.1rem 0.625rem 2rem;
     margin-left: -1.4rem;
-    width: 111%;
+    width: 114%;
     border-top: 2px solid var(--gris-fonce);
 }
 
@@ -263,7 +263,7 @@ body {
     background-color: var(--marron-grise);
     padding: 0.1rem 2rem 1.25rem;
     margin-left: -1.4rem;
-    width: 95%;
+    width: 99%;
     border-top: 2px solid var(--gris-fonce);
     text-align: center;
 }
@@ -338,7 +338,7 @@ body {
     background-color: var(--orange-clair);
     padding: 2rem 1.25rem;
     margin-left: -1.4rem;
-    width: 102%;
+    width: 106%;
     text-align: center;
     color: var(--gris-fonce);
     border-top: 2px solid var(--gris-fonce);
@@ -370,13 +370,12 @@ body {
     background-color: #333;
 }
 
-.selection-agence-section {
+footer {
     background-color: var(--orange-clair);
-    padding: 0.1rem 2rem 1.25rem;
-    margin-left: -1.4rem;
-    width: 95%;
-    text-align: center;
     color: var(--gris-fonce);
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
 }
 
 .grid {
