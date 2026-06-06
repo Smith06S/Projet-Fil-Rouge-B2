@@ -19,7 +19,7 @@
     {% for bien in top_biens %}
     <article class="bien-card">
       <div>
-        <img src="{{ bien.images[0] if bien.images else 'static/images/default_bien.jpg' }}" alt="Photo du {{ bien.type_bien }} à {{ bien.ville }}" class="bien-image" />
+        <img class="bien-image" src="{{ bien.images[0] if bien.images else 'static/images/default_bien.jpg' }}" alt="Photo du {{ bien.type_bien }} à {{ bien.ville }}" class="bien-image" />
         <h4>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h4>
         <p><strong>Prix :</strong> {{ bien.prix }} €</p>
         <p><em>{{ bien.ville }}</em></p>
