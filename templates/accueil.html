@@ -32,24 +32,25 @@
   </div>
 </section>
 
-<hr />
+<hr id="agence-info-hr" />
 
-<h2>Où nous trouver ?</h2>
-<div>
-  <h3>{{ agence.nom }}</h3>
-  <p>
-    <strong>Adresse de l'antenne :</strong> {{ agence.adresse }}, {{
-    agence.ville }}
-  </p>
+<section class="agence-info-section">
+  <h2>Où nous trouver ?</h2>
+  <div class="agence-info-content">
+    <h3>{{ agence.nom }}</h3>
+    <p>
+      <strong>Adresse de l'antenne :</strong> {{ agence.adresse }}, {{ agence.ville }}
+    </p>
 
-  <div>
-    <em>[Carte de localisation de l'agence : {{ agence.nom }}]</em>
+    <div class="map-placeholder">
+      <em>[Carte de localisation de l'agence : {{ agence.nom }}]</em>
+    </div>
+
+    <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}" class="btn-link">
+      Voir la fiche détaillée de l'agence & tous ses biens
+    </a>
   </div>
-
-  <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}">
-    Voir la fiche détaillée de l'agence & tous ses biens
-  </a>
-</div>
+</section>
 
 <p>
   <a href="{{ url_for('agence.selection_agence') }}">← Choisir une autre agence territoriale YMMO</a>

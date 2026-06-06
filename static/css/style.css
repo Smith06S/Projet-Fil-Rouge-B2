@@ -255,6 +255,42 @@ body {
     background-color: var(--orange-clair);
 }
 
+#agence-info-hr {
+    display: none;
+}
+
+.agence-info-section {
+    background-color: var(--orange-grise-pastel);
+    padding: 2rem 1.25rem;
+    margin-left: -1.4rem;
+    width: 108%;
+    border-top: 2px solid var(--gris-fonce);
+}
+
+.agence-info-content {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--gris-fonce);
+}
+
+.map-placeholder {
+    background-color: var(--orange-clair);
+    border: 1px solid var(--marron-grise);
+    padding: 2rem;
+    text-align: center;
+    border-radius: var(--radius);
+    margin: 1rem 0;
+    color: var(--marron-grise);
+}
+
+.btn-link {
+    display: inline-block;
+    color: var(--marron-grise);
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 1rem;
+}
+
 .grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -373,6 +409,13 @@ body {
     }
 
     #popular-section-hr {
+        display: block;
+        border: none;
+        border-top: 1px solid var(--gris-fonce);
+        margin: 2.5rem 0;
+    }
+
+    #agence-info-hr {
         display: block;
         border: none;
         border-top: 1px solid var(--gris-fonce);
