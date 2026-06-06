@@ -355,13 +355,15 @@ body {
 }
 
 .btn-contact {
+    display: inline-block;
     background-color: var(--gris-fonce);
     color: var(--orange-clair);
-    border-radius: 0.75rem;
-    padding: 0.375rem 0.875rem;
-    font-size: 0.8rem;
-    border-bottom: none;
-    text-align: center;
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 0.3rem;
+    transition: background-color 0.3s;
 }
 
 .btn-contact:hover {
