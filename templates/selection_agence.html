@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>YMMO - Sélection de votre agence</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
+
 <body>
-    <h1>Bienvenue sur la plateforme YMMO</h1>
-    <p>Veuillez sélectionner l'agence de votre choix :</p>
-    
-    <div class="grid">
+    <section class="agence-selection-section">
+        <h1>Bienvenue sur la plateforme YMMO</h1>
+        <p>Veuillez sélectionner l'agence de votre choix :</p>
+    </section>
+
+    <section class="grid">
         {% for a in agences %}
         <article class="selection-card">
             <div>
@@ -25,6 +29,7 @@
         {% else %}
         <p>Aucune agence n'est enregistrée pour le moment.</p>
         {% endfor %}
-    </div>
+    </section>
 </body>
+
 </html>
