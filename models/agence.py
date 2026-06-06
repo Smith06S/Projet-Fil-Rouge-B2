@@ -5,7 +5,7 @@ class Agence:
         self.ville = ville
         self.adresse = adresse
         self.image_url = image_url or 'static/images/default_agence.jpg'
-        self.nb_favoris = nb_favoris # Vous pouvez maintenant stocker le nombre de favoris !
+        self.nb_favoris = nb_favoris
 
 class AgenceRepository:
     def __init__(self, db_connection):
