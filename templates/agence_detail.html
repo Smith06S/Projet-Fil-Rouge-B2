@@ -4,8 +4,7 @@
 {% block content %}
 <section class="agence-detail-header">
     <h1>{{ agence.nom }}</h1>
-    <img src="{{ url_for('static', filename=agence.image_url) }}" alt="Photo de {{ agence.nom }}"
-        class="agence-image" />
+    <img src="{{ a.image_url }}" alt="Photo de {{ a.nom }}" class="agence-image" />
     <div class="agence-info-details">
         <p><strong>Numéro d'agence :</strong> {{ agence.id_agence }}</p>
         <p><strong>Ville :</strong> {{ agence.ville }}</p>
@@ -28,21 +27,19 @@
         <article class="bien-card">
             <div>
                 <img class="bien-image" src="{{ bien.images[0] if bien.images else 'static/images/default_bien.jpg' }}"
-                    alt="Photo du {{ bien.type_bien }} à {{ bien.ville }}" />
+                    alt="Photo du {{ bien.type_bien }} à {{ bien.ville }}"/>
                 <h4>{{ bien.type_bien|capitalize }}</h4>
                 <p><strong>Ville :</strong> {{ bien.ville }}</p>
                 <p><strong>Prix :</strong> {{ bien.prix }} €</p>
                 <p><em>{{ bien.surface }} m² — {{ bien.nbr_pieces }} pièces</em></p>
             </div>
-
+            
             <div class="card-actions">
                 <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" class="btn-card">Détails & Pièces</a>
 
-                {% if session.get('role') == 'admin' or (session.get('role') == 'commercial' and
-                session.get('id_agence') == bien.id_agence) %}
+                {% if session.get('role') == 'admin' or (session.get('role') == 'commercial' and session.get('id_agence') == bien.id_agence) %}
                 <a href="{{ url_for('bien.modifier_bien', id_bien=bien.id_bien) }}" class="btn-card">Modifier</a>
-                <form method="POST" action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}"
-                    onsubmit="return confirm('Confirmer la suppression ?');">
+                <form method="POST" action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}" onsubmit="return confirm('Confirmer la suppression ?');">
                     <button type="submit" class="btn-card">Supprimer</button>
                 </form>
                 {% endif %}
