@@ -260,27 +260,46 @@ body {
 }
 
 .agence-info-section {
-    background-color: var(--orange-grise-pastel);
+    background-color: var(--marron-grise);
     padding: 2rem 1.25rem;
     margin-left: -1.4rem;
-    width: 108%;
+    width: 100%;
     border-top: 2px solid var(--gris-fonce);
 }
 
 .agence-info-content {
     max-width: 800px;
     margin: 0 auto;
-    color: var(--gris-fonce);
+    color: var(--orange-clair);
 }
 
-.map-placeholder {
+.btn-map {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--orange-fonce);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius);
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn-map:hover {
+    background-color: var(--orange-grise);
+}
+
+.map-agence {
     background-color: var(--orange-clair);
     border: 1px solid var(--marron-grise);
-    padding: 2rem;
+    padding: 1.5rem;
     text-align: center;
     border-radius: var(--radius);
     margin: 1rem 0;
     color: var(--marron-grise);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .btn-link {
