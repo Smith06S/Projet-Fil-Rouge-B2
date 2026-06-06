@@ -261,16 +261,32 @@ body {
 
 .agence-info-section {
     background-color: var(--marron-grise);
-    padding: 2rem 1.25rem;
+    padding: 0.1rem 2rem 1.25rem;
     margin-left: -1.4rem;
-    width: 100%;
+    width: 93%;
     border-top: 2px solid var(--gris-fonce);
+    text-align: center;
 }
 
 .agence-info-section h2 {
     color: var(--orange-clair);
-    text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.1rem;
+}
+
+.agence-info-section h3 {
+    color: var(--orange-clair);
+    font-size: 1.2rem;
+    border-top: 1px solid;
+    padding-top: 1.1rem;
+}
+
+.agence-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: block;
 }
 
 .agence-info-content {
@@ -308,7 +324,6 @@ body {
     color: var(--gris-fonce);
     border-radius: var(--radius);
     padding: 0.6rem 1rem;
-    text-align: center;
     text-decoration: none;
     font-weight: bold;
     margin-top: 1rem;
