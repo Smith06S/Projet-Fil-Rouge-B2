@@ -57,6 +57,15 @@ def voir_carte_bien(id_bien):
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
     bien_obj = repo.get_by_id(id_bien)
+
+    if id_bien == 0:
+        id_agence = request.args.get('agence')
+        from models.agence import AgenceRepository
+        repo_agence = AgenceRepository(conn)
+        bien_obj = repo_agence.get_by_id(id_agence)
+        bien_obj = {'adresse': bien_obj.adresse, 'ville': bien_obj.ville, 'id_agence': bien_obj.id_agence, 'id_bien': 0}
+    else:
+        bien_obj = repo.get_by_id(id_bien)
     
     if not bien_obj:
         conn.close()
