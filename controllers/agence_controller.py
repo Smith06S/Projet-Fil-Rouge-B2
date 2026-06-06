@@ -113,13 +113,11 @@ def agence_detail(id_agence):
     if not agence_obj:
         conn.close()
         return 'Agence non trouvée', 404
+    
+    if agence_obj.image_url and not agence_obj.image_url.startswith('static/'):
+        agence_obj.image_url = 'images/' + agence_obj.image_url
 
     biens = repo_bien.find_all_by_agence(id_agence)
-
-    with conn.cursor() as cur:
-        for bien in biens:
-            cur.execute("SELECT image_url FROM photo_bien WHERE id_bien = %s", (bien.id_bien,))
-            bien.images = [p['image_url'] for p in cur.fetchall()]
     conn.close()
 
     return render_template('agence_detail.html', agence=agence_obj, biens=biens)
