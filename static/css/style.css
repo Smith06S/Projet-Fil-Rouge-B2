@@ -182,7 +182,7 @@ body {
     background-color: var(--orange-clair);
     padding: 0.1rem 0.625rem 2rem;
     margin-left: -1.4rem;
-    width: 108%;
+    width: 111%;
     border-top: 2px solid var(--gris-fonce);
 }
 
@@ -263,7 +263,7 @@ body {
     background-color: var(--marron-grise);
     padding: 0.1rem 2rem 1.25rem;
     margin-left: -1.4rem;
-    width: 93%;
+    width: 95%;
     border-top: 2px solid var(--gris-fonce);
     text-align: center;
 }
@@ -338,7 +338,7 @@ body {
     background-color: var(--orange-grise-pastel);
     padding: 2rem 1.25rem;
     margin-left: -1.4rem;
-    width: 108%;
+    width: 102%;
     text-align: center;
     color: var(--gris-fonce);
     border-top: 2px solid var(--gris-fonce);
@@ -352,6 +352,20 @@ body {
 .contact-section p {
     color: var(--marron-grise);
     margin-bottom: 1.5rem;
+}
+
+.btn-contact {
+    background-color: var(--gris-fonce);
+    color: var(--orange-clair);
+    border-radius: 0.75rem;
+    padding: 0.375rem 0.875rem;
+    font-size: 0.8rem;
+    border-bottom: none;
+    text-align: center;
+}
+
+.btn-contact:hover {
+    background-color: #333;
 }
 
 .grid {
