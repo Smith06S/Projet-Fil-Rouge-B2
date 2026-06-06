@@ -62,7 +62,7 @@
     <li><strong>Téléphone :</strong> {{ agence.telephone }}</li>
     <li><strong>Email :</strong> <a href="mailto:{{ agence.email }}">{{ agence.email }}</a></li>
   </ul>
-  <a href="contact.html" class="btn-link">Formulaire de contact</a>
+  <a href="{{ url_for('agence.contact') }}" class="btn-link">Formulaire de contact</a>
 </section>
 
 <section class="selection-agence">

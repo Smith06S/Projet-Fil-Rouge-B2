@@ -97,6 +97,12 @@ def accueil():
         top_biens=top_biens
     )
 
+@agence_bp.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        pass
+    return render_template('contact.html')
+
 @agence_bp.route('/agence/<int:id_agence>')
 def agence_detail(id_agence):
     conn = db_manager.get_connection()
