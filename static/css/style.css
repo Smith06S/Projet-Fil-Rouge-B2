@@ -182,7 +182,7 @@ body {
     background-color: var(--orange-clair);
     padding: 0.1rem 0.625rem 2rem;
     margin-left: -1.4rem;
-    width: 114%;
+    width: 111%;
     border-top: 2px solid var(--gris-fonce);
 }
 
@@ -263,7 +263,7 @@ body {
     background-color: var(--marron-grise);
     padding: 0.1rem 2rem 1.25rem;
     margin-left: -1.4rem;
-    width: 99%;
+    width: 95%;
     border-top: 2px solid var(--gris-fonce);
     text-align: center;
 }
@@ -371,14 +371,16 @@ body {
 }
 
 .footer-separator {
-    margin: 2rem 0 0 0;
+    margin: 0;
 }
 
 .site-footer {
-    background-color: var(--orange-grise-pastel);
+    background-color: var(--orange-clair);
     padding: 2rem 1.25rem;
     color: var(--gris-fonce);
     text-align: center;
+    width: 102%;
+    margin-left: -1.4rem;
 }
 
 .footer-container {
@@ -390,8 +392,9 @@ body {
 }
 
 .footer-logo {
-    width: 100px;
+    width: 40%;
     margin-bottom: 0.5rem;
+    margin-left: 1.5rem;
 }
 
 .footer-links {
@@ -420,7 +423,7 @@ body {
     margin-top: 2rem;
     font-size: 0.8rem;
     color: var(--marron-grise);
-    border-top: 1px solid var(--orange-clair);
+    border-top: 1px solid var(--orange-grise-pastel);
     padding-top: 1rem;
 }
 
