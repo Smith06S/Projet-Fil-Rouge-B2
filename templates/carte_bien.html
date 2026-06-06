@@ -12,7 +12,7 @@ endblock %} {% block content %}
 
 <p style="margin-top: 20px">
   {% if from_agence %}
-    <a href="{{ url_for('agence.agence_detail', id_agence=id_agence) }}">← Retourner à l'accueil</a>
+    <a href="{{ url_for('agence.agence_detail', id_agence=id_agence) }}">← Retourner à la fiche de l'agence</a>
   {% else %}
     <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}">← Retourner à la fiche technique du bien</a>
   {% endif %}
