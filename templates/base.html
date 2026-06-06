@@ -105,12 +105,26 @@
 
     <main class="container">{% block content %}{% endblock %}</main>
 
-    <hr />
+    <hr class="footer-separator">
 
-    <footer class="footer">
-        <p>&copy; {{ current_year }} YMMO - Tous droits réservés.</p>
-        <p>Contact : <a href="{{ url_for('agence.contact') }}">Formulaire de contact</a></p>
-        <a href="{{ url_for('agence.selection_agence') }}">Retour à la sélection d'agence</a>
+    <hr class="footer-separator" />
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <img src="{{ url_for('static', filename='images/logoYmmo.svg') }}" alt="Logo Ymmo" class="footer-logo">
+                <p>Votre partenaire immobilier de confiance.</p>
+            </div>
+            
+            <div class="footer-links">
+                <a href="{{ url_for('agence.accueil') }}" class="btn-footer">Accueil</a>
+                <a href="{{ url_for('agence.selection_agence') }}" class="btn-footer">Nos Agences</a>
+                <a href="{{ url_for('agence.contact') }}" class="btn-footer">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; {{ current_year }} YMMO - Tous droits réservés.
+        </div>
     </footer>
 
     <script>
