@@ -113,9 +113,6 @@ def agence_detail(id_agence):
     if not agence_obj:
         conn.close()
         return 'Agence non trouvée', 404
-    
-    if agence_obj.image_url and not agence_obj.image_url.startswith('static/'):
-        agence_obj.image_url = 'images/' + agence_obj.image_url
 
     biens = repo_bien.find_all_by_agence(id_agence)
     conn.close()
