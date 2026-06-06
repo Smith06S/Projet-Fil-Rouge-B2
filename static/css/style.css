@@ -338,7 +338,7 @@ body {
     background-color: var(--orange-clair);
     padding: 2rem 1.25rem;
     margin-left: -1.4rem;
-    width: 106%;
+    width: 102%;
     text-align: center;
     color: var(--gris-fonce);
     border-top: 2px solid var(--gris-fonce);
@@ -371,8 +371,6 @@ body {
 }
 
 .footer-separator {
-    border: 0;
-    border-top: 1px solid var(--gris-fonce);
     margin: 2rem 0 0 0;
 }
 
