@@ -204,7 +204,7 @@ body {
     flex: 0 0 16rem;
     background-color: var(--marron-grise);
     padding: 1.5rem;
-    border-radius: var(--radius);
+    border-radius: 1.7rem;
     color: var(--orange-clair);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     display: flex;
