@@ -10,7 +10,14 @@
     {{ carte_html|safe }}
 </div>
 
-<p style="margin-top: 20px;">
-    <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}">← Retourner à la fiche technique du bien</a>
-</p>
+{{if bien.id_bien == 0}}
+    <p style="margin-top: 20px;">
+        <a href="{{ url_for('agence.id_agence', id_agence=agence.id_agence) }}">← Retourner sur la page de l'agence</a>
+    </p>
+{{else}}
+    <p style="margin-top: 20px;">
+        <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}">← Retourner à la fiche technique du bien</a>
+    </p>
+{{endif}}
+
 {% endblock %}
