@@ -427,6 +427,18 @@ body {
     padding-top: 1rem;
 }
 
+.agence-selection-section {
+    padding: -7rem;
+}
+
+.agence-selection-section h2 {
+    font-size: 3.5rem;
+}
+
+.agence-selection-section p {
+    font-size: 2rem;
+}
+
 .grid {
     display: grid;
     grid-template-columns: 1fr !important;
@@ -491,6 +503,29 @@ body {
 
 .btn-selection-card:hover {
     background-color: var(--orange-grise-pastel);
+}
+
+.agence-detail-header {
+    text-align: center;
+    padding: 1rem;
+    color: var(--gris-fonce);
+}
+
+.catalogue-section {
+    padding: 2rem 0;
+}
+
+.catalogue-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--gris-fonce);
+}
+
+.card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
 }
 
 .card {

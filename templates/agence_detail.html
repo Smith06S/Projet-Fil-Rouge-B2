@@ -2,48 +2,52 @@
 {% block title %}YMMO - Fiche Agence {{ agence.nom }}{% endblock %}
 
 {% block content %}
-<h1>{{ agence.nom }}</h1>
-<p><strong>Identifiant Agence :</strong> #{{ agence.id_agence }}</p>
-<p><strong>Ville d'implantation :</strong> {{ agence.ville }}</p>
-<p><strong>Adresse :</strong> {{ agence.adresse }}</p>
+<section class="agence-detail-header">
+    <h1>{{ agence.nom }}</h1>
+    <img src="{{ agence.image_url }}" alt="Photo de {{ agence.nom }}" class="agence-image" />
+    <div class="agence-info-details">
+        <p><strong>Numéro d'agence :</strong> {{ agence.id_agence }}</p>
+        <p><strong>Ville :</strong> {{ agence.ville }}</p>
+        <p><strong>Adresse :</strong> {{ agence.adresse }}</p>
+    </div>
 
-<div class="map-agence">
-    <a href="{{ url_for('bien.voir_carte_bien', id_bien=0) }}?agence={{ agence.id_agence }}" class="btn-map">
-        Voir sur la carte
-    </a>
-</div>
+    <div class="map-agence">
+        <a href="{{ url_for('bien.voir_carte_bien', id_bien=0) }}?agence={{ agence.id_agence }}" class="btn-map">
+            Voir sur la carte
+        </a>
+    </div>
+</section>
 
 <hr>
 
-<h2>Catalogue des biens de cette agence</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 20px;">
-    {% for bien in biens %}
-    <div style="border: 1px solid #ccc; padding: 15px; width: 280px; background: white; border-radius: 4px;">
-        <h3>{{ bien.type_bien|capitalize }}</h3>
-        <p><strong>Ville :</strong> {{ bien.ville }}</p>
-        <p><strong>Prix :</strong> <strong style="color: green;">{{ bien.prix }} €</strong></p>
-        <p><em>{{ bien.surface }} m² — {{ bien.nbr_pieces }} pièces</em></p>
+<section class="catalogue-section">
+    <h2>Catalogue des biens de cette agence</h2>
+    <div class="grid">
+        {% for bien in biens %}
+        <article class="bien-card">
+            <div>
+                <img class="bien-image" src="{{ bien.images[0] if bien.images else 'static/images/default_bien.jpg' }}"
+                    alt="Photo du {{ bien.type_bien }} à {{ bien.ville }}"/>
+                <h4>{{ bien.type_bien|capitalize }}</h4>
+                <p><strong>Ville :</strong> {{ bien.ville }}</p>
+                <p><strong>Prix :</strong> {{ bien.prix }} €</p>
+                <p><em>{{ bien.surface }} m² — {{ bien.nbr_pieces }} pièces</em></p>
+            </div>
+            
+            <div class="card-actions">
+                <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" class="btn-card">Détails & Pièces</a>
 
-        <div style="margin-top: 15px; display: flex; gap: 5px; flex-wrap: wrap;">
-            <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}"
-                style="background: #007BFF; color: white; padding: 5px 8px; text-decoration: none; font-size: 0.9em; border-radius: 3px;">Détails
-                & Pièces</a>
-
-            {% if session.get('role') == 'admin' or (session.get('role') == 'commercial' and session.get('id_agence') ==
-            bien.id_agence) %}
-            <a href="{{ url_for('bien.modifier_bien', id_bien=bien.id_bien) }}"
-                style="background: #e67e22; color: white; padding: 5px 8px; text-decoration: none; font-size: 0.9em; border-radius: 3px;">Modifier</a>
-
-            <form method="POST" action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}"
-                style="display: inline;" onsubmit="return confirm('Confirmer la suppression définitive de ce bien ?');">
-                <button type="submit"
-                    style="background: red; color: white; border: none; padding: 5px 8px; cursor: pointer; font-size: 0.9em; border-radius: 3px;">Supprimer</button>
-            </form>
-            {% endif %}
-        </div>
+                {% if session.get('role') == 'admin' or (session.get('role') == 'commercial' and session.get('id_agence') == bien.id_agence) %}
+                <a href="{{ url_for('bien.modifier_bien', id_bien=bien.id_bien) }}" class="btn-card">Modifier</a>
+                <form method="POST" action="{{ url_for('bien.supprimer_bien', id_bien=bien.id_bien) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+                    <button type="submit" class="btn-card" style="border:none; cursor:pointer; width: 100%;">Supprimer</button>
+                </form>
+                {% endif %}
+            </div>
+        </article>
+        {% else %}
+        <p>Aucun bien immobilier n'est actuellement disponible dans cette agence.</p>
+        {% endfor %}
     </div>
-    {% else %}
-    <p>Aucun bien immobilier n'est actuellement disponible ou en vente dans cette agence.</p>
-    {% endfor %}
-</div>
+</section>
 {% endblock %}
