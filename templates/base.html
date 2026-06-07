@@ -67,8 +67,8 @@
                 class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
                 <span class="nav-text">Panneau Dashboard Admin</span>
             </a>
-            <a href="{{ url_for('auth.liste_utilisateurs') }}"
-                class="{% if request.endpoint == 'auth.liste_utilisateurs' %}active{% endif %}">
+            <a href="{{ url_for('auth.utilisateurs') }}"
+                class="{% if request.endpoint == 'auth.utilisateurs' %}active{% endif %}">
                 <span class="nav-text">Gestion Utilisateurs</span>
             </a>
             {% else %}
