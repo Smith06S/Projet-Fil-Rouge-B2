@@ -1319,8 +1319,8 @@ body {
 .submit-btn {
     width: 100%;
     padding: 1.2rem;
-    background-color: var(--gris-fonce);
-    color: var(--orange-clair);
+    background-color: var(--orange-grise-pastel);
+    color: var(--gris-fonce);
     border: none;
     border-radius: var(--radius);
     font-weight: bold;
@@ -1331,7 +1331,7 @@ body {
 }
 
 .submit-btn:hover {
-    background-color: #333;
+    background-color: var(--orange-clair);
 }
 
 .card {
