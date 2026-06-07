@@ -3,7 +3,7 @@ endblock %} {% block content %}
 <section class="geolocalisation-info">
   <h1>Géolocalisation du bien</h1>
   {% if from_agence %}
-  <p><strong>Agence :</strong> {{ agence.nom }}</p>
+  <p><strong>Agence :</strong> {{ bien.ville }}</p>
   <p>
     <strong>Adresse de référence :</strong> {{ bien.adresse }}, {{ bien.ville }}
   </p>
