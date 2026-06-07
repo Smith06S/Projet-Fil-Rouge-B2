@@ -1124,7 +1124,7 @@ body {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     border-radius: var(--radius);
-    background: var(--orange-clair);
+    background: var(--orange-grise-pastel);
     box-shadow: var(--shadow);
 }
 
