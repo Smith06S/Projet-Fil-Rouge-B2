@@ -56,55 +56,55 @@
     <h3>Description détaillée de l'annonceur</h3>
     <p>{{ bien.description }}</p>
 
-<p>
-    <a href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}">Voir la localisation exacte sur la carte</a>
-</p>
+    <p>
+        <a href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}">Voir la localisation exacte sur la
+            carte</a>
+    </p>
 </section>
 
 <section class="galerie-section">
     <h3>Galerie Photos</h3>
-    <div class="carousel">
-        {% if bien['photos'] %}
+    <div class="carousel-wrapper">
+        <button class="scroll-btn prev" onclick="scrollCarousel(-1)">&#10094;</button>
+        <div class="carousel-container" id="carousel">
+            {% if bien['photos'] %}
             {% for photo_path in bien['photos'] %}
-                <input type="radio" name="slider" id="slide-{{ loop.index }}" {% if loop.first %}checked{% endif %}>
+            <img src="{{ url_for('static', filename=photo_path.replace('static/', '')) }}" alt="Photo {{ loop.index }}">
             {% endfor %}
-            
-            <div class="carousel-inner">
-                {% for photo_path in bien['photos'] %}
-                    <div class="slide">
-                        <img src="{{ url_for('static', filename=photo_path.replace('static/', '')) }}" alt="Photo {{ loop.index }}">
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div class="carousel-controls">
-                {% for photo_path in bien['photos'] %}
-                    <label for="slide-{{ loop.index }}" class="nav-dot"></label>
-                {% endfor %}
-            </div>
-        {% else %}
-            <img src="{{ url_for('static', filename='images/default_bien.jpg') }}" alt="Aucune photo" class="carousel-img-single">
-        {% endif %}
+            {% else %}
+            <img src="{{ url_for('static', filename='images/default_bien.jpg') }}" alt="Aucune photo">
+            {% endif %}
+        </div>
+        <button class="scroll-btn next" onclick="scrollCarousel(1)">&#10095;</button>
     </div>
 </section>
 
 <hr>
 <section class="actions-section">
     <h3>Actions & Prise de contact</h3>
-    
-    {% if session.get('user_id') %}
-        {% if session.get('role') == 'client' %}
-            <form method="POST" action="{{ url_for('bien.ajouter_favoris', id_bien=bien.id_bien) }}">
-                <button type="submit">Ajouter aux Favoris</button>
-            </form>
 
-            <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}">Contacter le commercial dédié</a>
-        {% else %}
-            <p><em>Les comptes professionnels (Commerciaux / Admin) ne peuvent pas initier de tchat acheteur.</em></p>
-        {% endif %}
+    {% if session.get('user_id') %}
+    {% if session.get('role') == 'client' %}
+    <form method="POST" action="{{ url_for('bien.ajouter_favoris', id_bien=bien.id_bien) }}">
+        <button type="submit">Ajouter aux Favoris</button>
+    </form>
+
+    <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}">Contacter le commercial dédié</a>
     {% else %}
-        <p><strong>Intéressé par ce bien ?</strong> Vous devez être connecté pour interagir.</p>
-        <a href="{{ url_for('auth.connexion') }}">Se connecter</a> ou <a href="{{ url_for('auth.inscription') }}">Créer un compte client</a>
+    <p><em>Les comptes professionnels (Commerciaux / Admin) ne peuvent pas initier de tchat acheteur.</em></p>
+    {% endif %}
+    {% else %}
+    <p><strong>Intéressé par ce bien ?</strong> Vous devez être connecté pour interagir.</p>
+    <a href="{{ url_for('auth.connexion') }}">Se connecter</a> ou <a href="{{ url_for('auth.inscription') }}">Créer un
+        compte client</a>
     {% endif %}
 </section>
+
+<script>
+    function scrollCarousel(direction) {
+        const container = document.getElementById('carousel');
+        const scrollAmount = container.clientWidth;
+        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+</script>
 {% endblock %}
