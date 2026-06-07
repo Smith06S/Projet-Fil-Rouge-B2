@@ -192,7 +192,8 @@ def retirer_favoris(id_bien):
     repo.remove_favoris(session.get('id_client'), id_bien)
     conn.close()
     flash("Bien retiré de vos favoris.", "info")
-    return redirect(url_for('auth.voir_profil'))
+    referer = request.headers.get('Referer')
+    return redirect(referer or url_for('auth.voir_profil'))
 
 
 @bien_bp.route('/bien/<int:id_bien>/modifier', methods=['GET', 'POST'])
