@@ -108,3 +108,9 @@ def agence_detail(id_agence):
     conn.close()
 
     return render_template('agence_detail.html', agence=agence_obj, biens=biens)
+
+@agence_bp.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        pass
+    return render_template('contact.html')
