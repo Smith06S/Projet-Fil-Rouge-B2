@@ -1288,7 +1288,7 @@ body {
 
 .form-field label {
     font-weight: 600;
-    color: var(--gris-fonce);
+    color: var(--orange-clair);
     font-size: 0.95rem;
     margin-bottom: 0.4rem;
 }
