@@ -1,13 +1,14 @@
 {% extends 'base.html' %} {% block title %}YMMO - Plan de localisation{%
 endblock %} {% block content %}
 <section class="geolocalisation-info">
-  <h1>Géolocalisation du bien</h1>
   {% if from_agence %}
+  <h1>Géolocalisation de l'agence</h1>
   <p><strong>Agence :</strong> {{ bien.ville }}</p>
   <p>
     <strong>Adresse de référence :</strong> {{ bien.adresse }}, {{ bien.ville }}
   </p>
   {% else %}
+  <h1>Géolocalisation du bien</h1>
   <p><strong>Propriété :</strong> {{ bien.type_bien }} - {{ bien.prix }} €</p>
   <p>
     <strong>Adresse de référence :</strong> {{ bien.adresse }}, {{ bien.ville }}
