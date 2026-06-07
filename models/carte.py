@@ -5,10 +5,10 @@ from flask import url_for
 def obtenir_coordonnees(adresse, ville):
     """Récupère les coordonnées GPS via l'API data.gouv.fr"""
     query = f"{adresse} {ville}"
-    url = f"https://api-adresse.data.gouv.fr/search/?q={query}&limit=1"
+    url = f"https://api-adresse.data.gouv.fr/search/?q={query}&type=housenumber&limit=1"
     try:
         response = requests.get(url, timeout=5).json()
-        if response['features']:
+        if response.get('features'):
             lon, lat = response['features'][0]['geometry']['coordinates']
             return lat, lon
     except Exception as e:
@@ -18,7 +18,7 @@ def obtenir_coordonnees(adresse, ville):
 def generer_carte_un_bien(bien_principal, db_connection):
     lat_principal, lon_principal = obtenir_coordonnees(bien_principal['adresse'], bien_principal['ville'])
     
-    m = folium.Map(location=[lat_principal, lon_principal], zoom_start=15, tiles="OpenStreetMap")
+    m = folium.Map(location=[lat_principal, lon_principal], zoom_start=13, tiles="OpenStreetMap")
 
     with db_connection.cursor() as cur:
         cur.execute("SELECT * FROM bien WHERE id_agence = %s AND statut = 'Disponible'", (bien_principal['id_agence'],))
