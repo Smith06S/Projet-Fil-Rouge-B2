@@ -965,6 +965,23 @@ body {
     letter-spacing: 0.05rem;
 }
 
+.btn-modifier {
+    display: inline-block;
+    background-color: var(--gris-fonce);
+    color: var(--orange-clair);
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-modifier:hover {
+    background-color: #333;
+}
+
 .moderation-section {
     max-width: 600px;
     margin: 2rem auto;

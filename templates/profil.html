@@ -9,6 +9,8 @@
         <p><strong>Adresse Email :</strong> {{ utilisateur.email }}</p>
         <p><strong>Téléphone :</strong> {{ utilisateur.telephone }}</p>
         <p><strong>Habilitation :</strong> {{ utilisateur.role|upper }}</p>
+
+        <a href="{{ url_for('auth.modifier_profil') }}" class="btn-modifier">Modifier mon profil</a>
     </div>
 </section>
 
