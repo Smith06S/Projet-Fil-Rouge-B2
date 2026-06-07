@@ -37,7 +37,7 @@
             {% for item in favoris %}
                 <article class="bien-card">
                     <div>
-                        <img class="bien-image" src="/{{ item.images[0] if item.images else 'static/images/default_bien.jpg' }}"
+                        <img class="bien-image" src="{{ item.images[0] if item.images else 'static/images/default_bien.jpg' }}"
                             alt="Photo du {{ item.type_bien }} à {{ item.ville }}"/>
                         <h4>{{ item.type_bien|capitalize }}</h4>
                         <p><strong>Ville :</strong> {{ item.ville }}</p>
