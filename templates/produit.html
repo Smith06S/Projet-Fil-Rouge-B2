@@ -52,39 +52,47 @@
     </table>
 </section>
 
-<p><strong>Description de l'annonceur :</strong></p>
-<p>{{ bien.description }}</p>
+<section class="description-section">
+    <h3>Description détaillée de l'annonceur</h3>
+    <p>{{ bien.description }}</p>
 
 <p>
     <a href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}">Voir la localisation exacte sur la carte</a>
 </p>
+</section>
 
-<h3>Galerie Photos de l'annonce</h3>
-<div class="carousel-photos">
-    {% if bien['photos'] %}
-        {% for photo_path in bien['photos'] %}
-            <img src="{{ url_for('static', filename=photo_path.replace('static/', '')) }}" alt="Photo du bien">
-        {% endfor %}
-    {% else %}
-        <img src="{{ url_for('static', filename='images/default_agence.jpg') }}" alt="Aucune photo disponible">
-    {% endif %}
-</div>
+<section class="galerie-section">
+    <h3>Galerie Photos</h3>
+    <div class="carousel-container">
+        <div class="carousel-track">
+            {% if bien['photos'] %}
+                {% for photo_path in bien['photos'] %}
+                    <img src="{{ url_for('static', filename=photo_path.replace('static/', '')) }}" alt="Photo du bien" class="carousel-img">
+                {% endfor %}
+            {% else %}
+                <img src="{{ url_for('static', filename='images/default_bien.jpg') }}" alt="Aucune photo disponible" class="carousel-img">
+            {% endif %}
+        </div>
+    </div>
+</section>
 
 <hr>
+<section class="actions-section">
+    <h3>Actions & Prise de contact</h3>
+    
+    {% if session.get('user_id') %}
+        {% if session.get('role') == 'client' %}
+            <form method="POST" action="{{ url_for('bien.ajouter_favoris', id_bien=bien.id_bien) }}">
+                <button type="submit">Ajouter aux Favoris</button>
+            </form>
 
-<h3>Actions & Prise de contact</h3>
-{% if session.get('user_id') %}
-    {% if session.get('role') == 'client' %}
-        <form method="POST" action="{{ url_for('bien.ajouter_favoris', id_bien=bien.id_bien) }}" style="display: inline-block; margin-right: 10px;">
-            <button type="submit" style="background: #f39c12; color: white; padding: 10px; border: none; cursor: pointer; font-weight: bold;">⭐ Ajouter aux Favoris</button>
-        </form>
-
-        <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}" style="background: #27ae60; color: white; padding: 10px; text-decoration: none; font-weight: bold; display: inline-block;">💬 Contacter le commercial dédié</a>
+            <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}">Contacter le commercial dédié</a>
+        {% else %}
+            <p><em>Les comptes professionnels (Commerciaux / Admin) ne peuvent pas initier de tchat acheteur.</em></p>
+        {% endif %}
     {% else %}
-        <p><em>Les comptes professionnels (Commerciaux / Admin) ne peuvent pas initier de tchat acheteur.</em></p>
+        <p><strong>Intéressé par ce bien ?</strong> Vous devez être connecté pour interagir.</p>
+        <a href="{{ url_for('auth.connexion') }}">Se connecter</a> ou <a href="{{ url_for('auth.inscription') }}">Créer un compte client</a>
     {% endif %}
-{% else %}
-    <p><strong>Intéressé par ce bien ?</strong> Vous devez être connecté pour interagir.</p>
-    <a href="{{ url_for('auth.connexion') }}">Se connecter</a> ou <a href="{{ url_for('auth.inscription') }}">Créer un compte client</a>
-{% endif %}
+</section>
 {% endblock %}

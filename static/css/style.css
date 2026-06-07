@@ -722,6 +722,77 @@ body {
     background-color: var(--orange-grise-pastel);
 }
 
+.galerie-section {
+    margin: 2rem 0;
+}
+
+.carousel-container {
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    scrollbar-width: thin;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 1rem;
+}
+
+.carousel-img {
+    flex: 0 0 80%;
+    max-width: 400px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    scroll-snap-align: center;
+    box-shadow: var(--shadow);
+}
+
+.bien-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.bien-details-table th, .bien-details-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--orange-clair);
+}
+
+.bien-details-table th {
+    background-color: var(--orange-grise-pastel);
+    color: var(--gris-fonce);
+    width: 50%;
+}
+
+.actions-section {
+    background: var(--marron-grise);
+    padding: 2rem;
+    border-radius: var(--radius);
+    color: var(--orange-clair);
+    text-align: center;
+}
+
+.actions-section a, .actions-section button {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.8rem 1.5rem;
+    background: var(--orange-clair);
+    color: var(--gris-fonce);
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
 .card {
     background: var(--orange-clair);
     border-radius: var(--radius);
