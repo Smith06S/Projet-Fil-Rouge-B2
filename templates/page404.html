@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Page non trouvée - YMMO{% endblock %}
+
+{% block content %}
+<section class="error-section">
+    <div class="error-container">
+        <h1>404</h1>
+        <h2>Oups ! La page est introuvable.</h2>
+        <p>Il semble que vous ayez suivi un lien brisé ou que la page ait été déplacée.</p>
+        <a href="{{ url_for('agence.accueil') }}" class="btn-retour">Retour à l'accueil</a>
+    </div>
+</section>
+{% endblock %}
