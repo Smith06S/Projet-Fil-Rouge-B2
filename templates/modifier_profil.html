@@ -1,26 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}YMMO - Modifier mon Profil{% endblock %}
 {% block content %}
-<h1>Modifier vos informations personnelles</h1>
-<form method="POST" action="{{ url_for('auth.modifier_profil') }}" style="max-width: 400px;">
-    <div>
-        <label>Prénom :</label><br>
-        <input type="text" name="fname" value="{{ utilisateur.prenom }}" required style="width: 100%; margin-bottom: 10px;">
-    </div>
-    <div>
-        <label>Nom :</label><br>
-        <input type="text" name="lname" value="{{ utilisateur.nom }}" required style="width: 100%; margin-bottom: 10px;">
-    </div>
-    <div>
-        <label>Adresse Email :</label><br>
-        <input type="email" name="email" value="{{ utilisateur.email }}" required style="width: 100%; margin-bottom: 10px;">
-    </div>
-    <div>
-        <label>Numéro de téléphone :</label><br>
-        <input type="text" name="phone" value="{{ utilisateur.telephone or '' }}" style="width: 100%; margin-bottom: 15px;">
-    </div>
-    <button type="submit" style="background: #27ae60; color: white; padding: 10px 20px; border: none; font-weight: bold; cursor: pointer;">Enregistrer les modifications</button>
-</form>
-<br>
-<a href="{{ url_for('auth.voir_profil') }}">Retour à mon espace</a>
+
+<section class="connexion-section">
+    <h1>Modifier vos informations personnelles</h1>
+
+    <form method="POST" action="{{ url_for('auth.modifier_profil') }}" class="connexion-form">
+        <div class="connexion-form-group">
+            <label>Prénom :</label>
+            <input type="text" name="fname" value="{{ utilisateur.prenom }}" required>
+        </div>
+        <div class="connexion-form-group">
+            <label>Nom :</label>
+            <input type="text" name="lname" value="{{ utilisateur.nom }}" required>
+        </div>
+        <div class="connexion-form-group">
+            <label>Adresse Email :</label>
+            <input type="email" name="email" value="{{ utilisateur.email }}" required>
+        </div>
+        <div class="connexion-form-group">
+            <label>Numéro de téléphone :</label>
+            <input type="text" name="phone" value="{{ utilisateur.telephone or '' }}">
+        </div>
+        <button type="submit">Enregistrer les modifications</button>
+    </form>
+    <a href="{{ url_for('auth.voir_profil') }}"  class="connection-btn">Retour à mon espace</a>
+</section>
 {% endblock %}
