@@ -1374,6 +1374,20 @@ body {
     opacity: 0.8;
 }
 
+.btn-retour {
+        display: inline-block;
+        background-color: var(--orange-clair);
+        color: var(--gris-fonce);
+        padding: 0.8rem 1.5rem;
+        border-radius: var(--radius);
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+}
+.btn-retour:hover {
+    background-color: var(--orange-grise-pastel);
+}
+
 .card {
     background: var(--orange-clair);
     border-radius: var(--radius);
