@@ -1030,6 +1030,22 @@ body {
     background-color: var(--orange-clair);
 }
 
+.btn-annuler {
+    display: inline-block;
+    background-color: var(--gris-fonce);
+    color: var(--orange-clair);
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 3rem;
+    transition: background-color 0.3s;
+}
+
+.btn-annuler:hover {
+    background-color: #333;
+}
+
 .card {
     background: var(--orange-clair);
     border-radius: var(--radius);
