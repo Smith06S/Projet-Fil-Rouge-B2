@@ -511,6 +511,14 @@ body {
     text-align: left;
 }
 
+.map-agence {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1.8rem;
+    margin-bottom: 1rem;
+}
+
 .btn-map {
     display: inline-block;
     background-color: var(--gris-fonce);
