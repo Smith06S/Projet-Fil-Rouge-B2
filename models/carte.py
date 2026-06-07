@@ -28,10 +28,10 @@ def generer_carte_un_bien(bien_principal, db_connection):
         
         if est_le_bien_principal:
             couleur_pin = "#534E47"
-            icone_style = "star"
+            icone_style = "fa-star"
         else:
             couleur_pin = "#918575"
-            icone_style = "home"
+            icone_style = "fa-home"
             
         lien_detail = url_for('bien.detail_bien', id_bien=b['id_bien'])
         popup_content = f"""
@@ -45,11 +45,15 @@ def generer_carte_un_bien(bien_principal, db_connection):
                 </a>
             </div>
             """
+        html_icon = f"""
+            <div style="color: {couleur_pin}; font-size: 24px; text-shadow: 0px 0px 3px white;">
+                <i class="fa {icone_style}"></i>
+            </div>"""
         
         folium.Marker(
             location=[lat, lon],
             popup=folium.Popup(popup_content, max_width=300),
-            icon=folium.Icon(color=couleur_pin, icon=icone_style, prefix="fa")
+            icon=folium.Icon(html=html_icon)
         ).add_to(m)
         
     return m._repr_html_()
