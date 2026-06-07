@@ -558,15 +558,8 @@ body {
     padding: 2rem;
     border-radius: 1.7rem;
     color: var(--orange-clair);
-    width: 100%;
     max-width: 600px;
     margin: 0 auto;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
 }
 
 .form-group {
