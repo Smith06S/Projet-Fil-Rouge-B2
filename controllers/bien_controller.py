@@ -46,11 +46,16 @@ def detail_bien(id_bien):
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
     bien = repo.get_by_id(id_bien)
+
+    favoris = []
+    if session.get('role') == 'client':
+        favoris = repo.get_favoris_by_client(session.get('id_client'))
+
     conn.close()
     if not bien:
         flash("Ce bien n'existe pas.", "error")
         return redirect(url_for('agence.liste_biens'))        
-    return render_template('produit.html', bien=bien)
+    return render_template('produit.html', bien=bien, favoris=favoris)
 
 @bien_bp.route('/carte/<int:id_bien>')
 def voir_carte_bien(id_bien):
