@@ -82,6 +82,7 @@
         {% for b in biens %}
             <article class="bien-card">
                 <div>
+                    <img class="bien-image" src="{{ b.images[0] if b.images else 'static/images/default_bien.jpg' }}" alt="Photo du {{ b.type_bien }} à {{ b.ville }}"/>
                     <h4>{{ b.type_bien }} à {{ b.ville }}</h4>
                     <p><strong>Prix :</strong> {{ b.prix }} €</p>
                     <p><strong>Surface :</strong> {{ b.surface }} m²</p>
