@@ -982,28 +982,50 @@ body {
     background-color: var(--orange-grise-pastel);
 }
 
-/* --- Style Administration --- */
-
-/* La section principale */
-.moderation-section {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 2.5rem;
-    background-color: var(--orange-clair);
-    border-radius: 1.7rem;
-    box-shadow: var(--shadow);
+.moderation-container {
+    padding: 1.25rem 0.9375rem;
+    margin-top: -3rem;
 }
 
-.moderation-section h1 {
+.moderation-header {
     text-align: center;
-    color: var(--gris-fonce);
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
 }
 
-.moderation-section hr {
-    border: 0;
-    border-top: 1px solid var(--orange-grise);
-    margin: 2rem 0;
+.card-admin {
+    background-color: var(--marron-grise);
+    color: var(--orange-clair);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+}
+
+.btn-action {
+    display: inline-block;
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.table-title {
+    margin-bottom: 1rem;
+}
+
+.badge {
+    background: var(--orange-grise-pastel);
+    color: var(--gris-fonce);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.admin-actions {
+    margin-top: 2rem;
 }
 
 .utilisateur-table {
@@ -1011,7 +1033,7 @@ body {
     overflow-x: auto;
     margin-top: 1.5rem;
     border-radius: var(--radius);
-    background: white;
+    background: var(--orange-clair);
     box-shadow: var(--shadow);
 }
 
@@ -1032,22 +1054,6 @@ body {
     padding: 1rem;
     border-bottom: 1px solid var(--orange-clair);
     color: var(--gris-fonce);
-}
-
-.btn-supprimer {
-    background-color: var(--gris-fonce);
-    color: var(--orange-clair);
-    border: none;
-    padding: 0.6rem 1rem;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.9rem;
-    transition: background 0.3s;
-}
-
-.btn-supprimer:hover {
-    background-color: var(--marron-grise);
 }
 
 .ajout-commercial {
