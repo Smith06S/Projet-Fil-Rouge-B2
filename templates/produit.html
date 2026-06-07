@@ -92,7 +92,7 @@
 
     {% if session.get('user_id') %}
     {% if session.get('role') == 'client' %}
-    {% if bien in favoris %}
+    {% if bien.id_bien in favoris %}
     <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=bien.id_bien) }}">
         <button type="submit">Retirer des favoris</button>
     </form>
