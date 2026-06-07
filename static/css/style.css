@@ -637,6 +637,12 @@ body {
     text-align: center;
 }
 
+.connexion-section h2 {
+    margin-top: -6.5rem;
+    margin-bottom: 1.8rem;
+    font-size: 1.7rem;
+}
+
 .connexion-form {
     background-color: var(--marron-grise);
     padding: 2.5rem;
