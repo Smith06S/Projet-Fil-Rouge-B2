@@ -983,9 +983,6 @@ body {
 }
 
 .moderation-section {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2.5rem;
     color: var(--gris-fonce);
 }
 
