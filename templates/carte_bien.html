@@ -15,17 +15,20 @@ endblock %} {% block content %}
   {% endif %}
 </section>
 
+<section class="carte-section">
+  <div>
+    {{ carte_html|safe }}
+  </div>
+</section>
 
-<div>
-  {{ carte_html|safe }}
-</div>
-
-<p>
-  {% if from_agence %}
-  <a href="{{ url_for('agence.agence_detail', id_agence=id_agence) }}">← Retourner à la fiche de l'agence</a>
-  {% else %}
-  <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}">← Retourner à la fiche technique du bien</a>
-  {% endif %}
-</p>
+<section class="retour-carte-section">
+  <p>
+    {% if from_agence %}
+    <a href="{{ url_for('agence.agence_detail', id_agence=id_agence) }}" class="btn-map">Retourner à la fiche de l'agence</a>
+    {% else %}
+    <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" class="btn-map">Retourner à la fiche technique du bien</a>
+    {% endif %}
+  </p>
+</section>
 
 {% endblock %}

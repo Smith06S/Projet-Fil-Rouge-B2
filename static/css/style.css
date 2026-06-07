@@ -880,6 +880,36 @@ body {
     background-color: var(--orange-clair);
 }
 
+.carte-section {
+    margin: 2rem auto;
+    max-width: 900px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--marron-grise);
+}
+
+.carte-section div {
+    width: 100%;
+}
+
+.carte-section iframe {
+    width: 100%;
+    height: 500px;
+    display: block;
+    border: none;
+}
+
+.geolocalisation-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.retour-carte-section {
+    text-align: center;
+    margin-top: 1rem;
+}
+
 .card {
     background: var(--orange-clair);
     border-radius: var(--radius);
