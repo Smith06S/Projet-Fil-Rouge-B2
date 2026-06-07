@@ -106,6 +106,15 @@ def deconnexion():
     flash("Déconnexion réussie.", "info")
     return redirect(url_for('agence.selection_agence'))
 
+@auth_bp.route('/utilisateurs')
+@role_required(['admin'])
+def liste_utilisateurs():
+    conn = db_manager.get_connection()
+    repo = UtilisateurRepository(conn)
+    utilisateurs = repo.get_all_users() 
+    conn.close()
+    return render_template('utilisateurs.html', utilisateurs=utilisateurs)
+
 
 @auth_bp.route('/profil/modifier', methods=['GET', 'POST'])
 @role_required(['client', 'commercial', 'admin'])
