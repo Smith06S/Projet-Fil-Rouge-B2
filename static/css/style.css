@@ -139,7 +139,6 @@ body {
     margin-top: -3rem;
 }
 
-
 .banner-container {
     position: relative;
     width: 117%;
@@ -825,6 +824,60 @@ body {
     text-decoration: none;
     font-weight: bold;
     border: none;
+}
+
+.formulaire-contact-section {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background-color: var(--marron-grise);
+    border-radius: 1.7rem;
+    color: var(--orange-clair);
+    box-shadow: var(--shadow);
+}
+
+.formulaire-contact-section h2 {
+    text-align: center;
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+}
+
+.contact-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.contact-form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.contact-form-group input,
+.contact-form-group textarea {
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--orange-grise);
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.formulaire-contact-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--orange-clair);
+    border: none;
+    border-radius: var(--radius);
+    color: var(--gris-fonce);
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.formulaire-contact-btn:hover {
+    background-color: var(--orange-grise-pastel);
 }
 
 .card {

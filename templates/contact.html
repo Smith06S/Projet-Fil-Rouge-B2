@@ -6,19 +6,19 @@
 <section class="formulaire-contact-section">
   <h2>Contactez-nous</h2>
   <form action="{{ url_for('agence.contact') }}" method="post">
-    <div class="form-group">
+    <div class="contact-form-group">
       <label for="nom">Nom :</label>
-      <input type="text" id="nom" name="nom" required>
+      <input type="text" id="nom" placeholder="Entrez votre nom" name="nom" required>
     </div>
-    <div class="form-group">
+    <div class="contact-form-group">
       <label for="email">Email :</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" placeholder="example@domain.com" name="email" required>
     </div>
-    <div class="form-group">
+    <div class="contact-form-group">
       <label for="message">Message :</label>
-      <textarea id="message" name="message" rows="5" required></textarea>
+      <textarea id="message" name="message" placeholder="Entrez votre message" rows="5" required></textarea>
     </div>
-    <button type="submit" class="btn">Envoyer</button>
+    <button type="submit" class="formulaire-contact-btn">Envoyer</button>
   </form>
 </section>
 {% endblock %}
