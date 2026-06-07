@@ -928,7 +928,8 @@ body {
 
 .profil-info-section {
     max-width: 600px;
-    margin: 2rem auto;
+    margin-top: -4rem;
+    margin-bottom: 2.6rem;
     padding: 2.5rem;
     background-color: var(--marron-grise);
     border-radius: 1.7rem;
@@ -962,6 +963,71 @@ body {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.05rem;
+}
+
+.moderation-section {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background-color: var(--marron-grise);
+    border-radius: 1.7rem;
+    color: var(--orange-clair);
+    box-shadow: var(--shadow);
+}
+
+.moderation-section h2 {
+    text-align: center;
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+    color: var(--orange-clair);
+    font-size: 1.7rem;
+}
+
+.moderation-section p {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--orange-grise-pastel);
+    font-size: 1rem;
+}
+
+.moderation-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.moderation-section label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+}
+
+.moderation-section input {
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--orange-grise);
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.moderation-section button {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--gris-fonce);
+    color: var(--orange-clair);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.moderation-section button:hover {
+    background-color: #000;
 }
 
 .card {
