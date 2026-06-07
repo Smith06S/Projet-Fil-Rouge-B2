@@ -1345,7 +1345,6 @@ body {
     align-items: center;
     min-height: 50vh;
     text-align: center;
-    padding: 2rem 1rem;
 }
 
 .error-container {
@@ -1356,6 +1355,7 @@ body {
     box-shadow: var(--shadow);
     max-width: 500px;
     width: 100%;
+    margin-top: -5rem;
 }
 
 .error-container h1 {
@@ -1375,15 +1375,16 @@ body {
 }
 
 .btn-retour {
-        display: inline-block;
-        background-color: var(--orange-clair);
-        color: var(--gris-fonce);
-        padding: 0.8rem 1.5rem;
-        border-radius: var(--radius);
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s;
+    display: inline-block;
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
+
 .btn-retour:hover {
     background-color: var(--orange-grise-pastel);
 }
