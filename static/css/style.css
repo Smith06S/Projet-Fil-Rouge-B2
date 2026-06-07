@@ -1636,6 +1636,10 @@ body {
         margin: 6rem auto;
     }
 
+    .connexion-section h1 {
+        margin-top: -6.5rem;
+    }
+
     .grid {
         grid-template-columns: repeat(3, 1fr);
     }
