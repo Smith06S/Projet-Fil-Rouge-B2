@@ -18,6 +18,22 @@
     </div>
 </section>
 
+{% if session.get('role') in ['admin', 'commercial'] %}
+<hr>
+
+<section class="creation-commercial-section">
+    <h3>Espace Professionnel : Gestion des équipes</h3>
+
+    {% if session.get('role') == 'admin' %}
+    <p>Vous pouvez créer un compte commercial et choisir son agence d'affectation.</p>
+    {% else %}
+    <p>Vous pouvez créer un compte pour un collègue qui sera automatiquement rattaché à votre propre agence (Agence #{{ session.get('id_agence') }}).</p>
+    {% endif %}
+        <a href="{{ url_for('dashboard.ajouter_commercial') }}" class="creation-commercial-btn">
+            Créer un nouveau compte Commercial
+        </a>
+</section>
+
 <hr>
 
 <section class="catalogue-section">

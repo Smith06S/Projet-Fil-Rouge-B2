@@ -536,6 +536,32 @@ body {
     background-color: #333;
 }
 
+.creation-commercial-section {
+    text-align: center;
+}
+
+.creation-commercial-section h3 {
+    font-size: 1.5rem;
+}
+
+.creation-commercial-btn {
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    background-color: var(--gris-fonce);
+    color: var(--orange-clair);
+    border: none;
+    border-radius: var(--radius);
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.creation-commercial-btn:hover {
+    background-color: #333;
+}
+
 .catalogue-section {
     padding: 2rem 0;
 }
@@ -629,6 +655,10 @@ body {
     font-weight: bold;
     cursor: pointer;
     margin-bottom: 1rem;
+}
+
+.creation-bien-btn:hover {
+    background-color: #333;
 }
 
 .connexion-section {
