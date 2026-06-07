@@ -1249,6 +1249,34 @@ body {
     border: 1px solid var(--orange-grise);
 }
 
+.mise-en-vente-section {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--orange-clair);
+    border-radius: 1.7rem;
+    box-shadow: var(--shadow);
+}
+
+.mise-en-vente-section h1 {
+    text-align: center;
+    color: var(--gris-fonce);
+    margin-bottom: 0.5rem;
+}
+
+.mise-en-vente-section p {
+    text-align: center;
+    color: #c0392b;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
 .card {
     background: var(--orange-clair);
     border-radius: var(--radius);
