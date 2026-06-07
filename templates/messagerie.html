@@ -11,15 +11,19 @@
         <h3>Fils de discussion</h3>
         {% for d in discussions %}
             <div class="discussion-item {% if active_discussion and active_discussion.id_discussion == d.id_discussion %}discussion-active{% endif %}">
-                <a href="?discussion_id={{ d.id_discussion }}" style="color: inherit; text-decoration: none;">
-                    <strong>{{ d.titre }}</strong>
+                <a href="?discussion_id={{ d.id_discussion }}">
+                    <strong>{{ d.titre }}</strong><br>
+                    <small>{{ d.date_creation }}</small>
                 </a>
+                
                 {% if session.get('role') == 'commercial' %}
                     <form method="POST" action="{{ url_for('chat.supprimer_discussion', id_discussion=d.id_discussion) }}" onsubmit="return confirm('Confirmer la suppression ?');">
-                        <button type="submit" style="background:none; border:none; color:#e74c3c; font-size: 0.7rem; cursor:pointer;">Supprimer</button>
+                        <button type="submit" class="btn-supprimer">Supprimer la discussion</button>
                     </form>
                 {% endif %}
             </div>
+        {% else %}
+            <p>Aucune conversation active.</p>
         {% endfor %}
     </div>
 
@@ -29,7 +33,7 @@
                 {% for m in messages %}
                     <div class="message-bubble {% if m.id_expediteur == session.get('user_id') %}msg-me{% else %}msg-other{% endif %}">
                         <small><strong>{{ m.prenom }}</strong></small>
-                        <p style="margin: 0;">{{ m.message }}</p>
+                        <p>{{ m.message }}</p>
                     </div>
                 {% endfor %}
             </div>
@@ -39,7 +43,7 @@
                 <button type="submit" class="btn">Envoyer</button>
             </form>
         {% else %}
-            <p style="text-align:center; margin-top: 2rem;">Sélectionnez une discussion pour commencer.</p>
+            <p>Sélectionnez une discussion pour commencer.</p>
         {% endif %}
     </div>
 </section>

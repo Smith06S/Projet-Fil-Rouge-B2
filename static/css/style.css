@@ -1148,21 +1148,50 @@ body {
 
 .discussions-sidebar {
     background: var(--marron-grise);
-    padding: 1rem;
-    border-radius: var(--radius);
+    padding: 1.5rem;
+    border-radius: 1.7rem;
     color: var(--orange-clair);
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .discussion-item {
-    padding: 0.8rem;
-    border-bottom: 1px solid var(--orange-grise);
-    cursor: pointer;
+    background: var(--orange-grise);
+    padding: 1rem;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: background 0.2s;
+}
+
+.discussion-item:hover {
+    background: var(--orange-grise-pastel);
+    color: var(--gris-fonce);
 }
 
 .discussion-active {
-    background: var(--orange-grise);
+    border: 2px solid var(--orange-clair);
+}
+
+.btn-supprimer {
+    background: none;
+    border: 1px solid var(--orange-clair);
+    color: var(--orange-clair);
+    padding: 0.4rem 0.8rem;
     border-radius: var(--radius);
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: all 0.2s;
+}
+
+.btn-supprimer:hover {
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
 }
 
 .chat-area {
