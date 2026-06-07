@@ -4,7 +4,7 @@
 {% block content %}
 <section class="agence-detail-header">
     <h1>{{ agence.nom }}</h1>
-    <img src="{{ agence.image_url }}" alt="Photo de {{ agence.nom }}" class="agence-image" />
+    <img src="/{{ agence.image_url }}" alt="Photo de {{ agence.nom }}" class="agence-image" />
     <div class="agence-info-details">
         <p><strong>Numéro d'agence :</strong> {{ agence.id_agence }}</p>
         <p><strong>Ville :</strong> {{ agence.ville }}</p>
