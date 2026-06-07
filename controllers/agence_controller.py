@@ -1,4 +1,4 @@
-﻿from flask import Blueprint, render_template, session, redirect, url_for, request
+﻿﻿from flask import Blueprint, render_template, session, redirect, url_for, request
 from database import Database
 from models.agence import AgenceRepository
 from models.bien import BienRepository
@@ -74,14 +74,10 @@ def accueil():
         for row in cur.fetchall():
             row_dict = dict(zip(columns, row))
             
+            # Suppression de toutes les colonnes calculées ou absentes du constructeur de Bien
             row_dict.pop('nb_favoris', None) 
             
-            bien = Bien(**row_dict)
-            
-            cur.execute("SELECT image_url FROM photo_bien WHERE id_bien = %s", (bien.id_bien,))
-            bien.images = [p['image_url'] for p in cur.fetchall()]
-            
-            top_biens.append(bien)
+            top_biens.append(Bien(**row_dict))
             
     conn.close()
     
@@ -96,12 +92,6 @@ def accueil():
         agence=agence_choisie,
         top_biens=top_biens
     )
-
-@agence_bp.route('/contact', methods=['GET', 'POST'])
-def contact():
-    if request.method == 'POST':
-        pass
-    return render_template('contact.html')
 
 @agence_bp.route('/agence/<int:id_agence>')
 def agence_detail(id_agence):

@@ -39,7 +39,7 @@ def liste_biens():
         etat_logement=etat_logement
     )
     conn.close()
-    return render_template('listeBien.html', biens=biens)
+    return render_template('listeBien.html', biens=biens, id_agence=id_agence)
 
 @bien_bp.route('/bien/<int:id_bien>')
 def detail_bien(id_bien):
@@ -56,7 +56,19 @@ def detail_bien(id_bien):
 def voir_carte_bien(id_bien):
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
-    bien_obj = repo.get_by_id(id_bien)
+    
+    from_agence = False
+    id_agence = None
+
+    if id_bien == 0:
+        id_agence = request.args.get('agence')
+        from models.agence import AgenceRepository
+        repo_agence = AgenceRepository(conn)
+        bien_obj = repo_agence.get_by_id(id_agence)
+        bien_obj = {'adresse': bien_obj.adresse, 'ville': bien_obj.ville, 'id_agence': bien_obj.id_agence, 'id_bien': 0}
+        from_agence = True
+    else:
+        bien_obj = repo.get_by_id(id_bien)
     
     if not bien_obj:
         conn.close()
@@ -66,7 +78,7 @@ def voir_carte_bien(id_bien):
     carte_html = generer_carte_un_bien(bien_obj, conn)
     conn.close()
     
-    return render_template('carte_bien.html', bien=bien_obj, carte_html=carte_html)
+    return render_template('carte_bien.html', bien=bien_obj, carte_html=carte_html, from_agence=from_agence, id_agence=id_agence)
 
 # Définir les extensions autorisées
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'gif'}
