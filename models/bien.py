@@ -101,7 +101,9 @@ class BienRepository:
             cur.execute(query, params)
             biens = []
             for row in cur.fetchall():
-                bien = Bien(**row)
+                bien_dict = dict(row)
+                bien = Bien(**bien_dict)
+                
                 cur.execute("SELECT image_url FROM photo_bien WHERE id_bien = %s", (bien.id_bien,))
                 bien.images = [p['image_url'] for p in cur.fetchall()]
                 biens.append(bien)
