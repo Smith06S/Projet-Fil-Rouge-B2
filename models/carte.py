@@ -3,30 +3,27 @@ import requests
 from flask import url_for
 
 def obtenir_coordonnees(adresse, ville):
-    """Récupère les coordonnées GPS via l'API data.gouv.fr"""
     query = f"{adresse} {ville}"
-    url = f"https://api-adresse.data.gouv.fr/search/?q={query}&type=housenumber&limit=1"
+    url = f"https://api-adresse.data.gouv.fr/search/?q={query}&limit=1"
     try:
         response = requests.get(url, timeout=5).json()
-        if response.get('features'):
+        if response['features']:
             lon, lat = response['features'][0]['geometry']['coordinates']
             return lat, lon
     except Exception as e:
-        print(f"Erreur géocodage pour {query}: {e}")
+        print(f"Erreur géocodage : {e}")
     return 46.5, 2.5
 
 def generer_carte_un_bien(bien_principal, db_connection):
-    lat_principal, lon_principal = obtenir_coordonnees(bien_principal['adresse'], bien_principal['ville'])
-    
-    m = folium.Map(location=[lat_principal, lon_principal], zoom_start=13, tiles="OpenStreetMap")
+    lat_principal, lon_principal = obtenir_coordonnees(bien_principal['adresse'], bien_principal['ville'])    
+    m = folium.Map(location=[lat_principal, lon_principal], zoom_start=11, tiles="OpenStreetMap")
 
     with db_connection.cursor() as cur:
         cur.execute("SELECT * FROM bien WHERE id_agence = %s AND statut = 'Disponible'", (bien_principal['id_agence'],))
         tous_les_biens = cur.fetchall()
         
     for b in tous_les_biens:
-        est_le_bien_principal = (b['id_bien'] == bien_principal['id_bien'])
-        
+        est_le_bien_principal = (b['id_bien'] == bien_principal['id_bien'])        
         lat, lon = obtenir_coordonnees(b['adresse'], b['ville'])
         
         if est_le_bien_principal:
