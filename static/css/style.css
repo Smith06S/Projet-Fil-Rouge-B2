@@ -1030,6 +1030,14 @@ body {
     background-color: var(--orange-clair);
 }
 
+.ajout-commercial {
+    margin-top: -6.5rem;
+    margin-bottom: 1.8rem;
+    font-size: 1.7rem;
+    width: 108%;
+    margin-left: -0.8rem;
+}
+
 .btn-annuler {
     display: inline-block;
     background-color: var(--gris-fonce);
