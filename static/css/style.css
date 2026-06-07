@@ -544,6 +544,7 @@ body {
     text-align: center;
     margin-bottom: 2rem;
     color: var(--gris-fonce);
+    margin-top: -1rem;
 }
 
 .card-actions {
