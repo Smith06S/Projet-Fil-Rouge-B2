@@ -905,6 +905,13 @@ body {
     margin-bottom: 2rem;
 }
 
+.geolocalisation-info h1 {
+    margin-top: -5rem;
+    text-align: center;
+    width: 101%;
+    font-size: 1.7rem;
+}
+
 .retour-carte-section {
     text-align: center;
     margin-top: 1rem;
