@@ -1016,8 +1016,8 @@ body {
 .moderation-section button {
     width: 100%;
     padding: 1rem;
-    background-color: var(--gris-fonce);
-    color: var(--orange-clair);
+    background-color: var(--orange-grise-pastel);
+    color: var(--gris-fonce);
     border: none;
     border-radius: var(--radius);
     font-weight: bold;
@@ -1027,7 +1027,7 @@ body {
 }
 
 .moderation-section button:hover {
-    background-color: #000;
+    background-color: var(--orange-clair);
 }
 
 .card {
