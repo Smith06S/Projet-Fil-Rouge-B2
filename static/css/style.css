@@ -547,6 +547,27 @@ body {
     margin-top: -1rem;
 }
 
+.search-section {
+    margin-top: -5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.search-form {
+    display: inline-block;
+    background-color: var(--marron-grise);
+    padding: 1.5rem;
+    border-radius: 1.7rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    color: var(--orange-clair);
+}
+
+.search-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
 .card-actions {
     display: flex;
     flex-direction: column;
