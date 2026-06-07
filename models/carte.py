@@ -3,6 +3,7 @@ import requests
 from flask import url_for
 
 def obtenir_coordonnees(adresse, ville):
+    """Récupère les coordonnées GPS via l'API data.gouv.fr"""
     query = f"{adresse} {ville}"
     url = f"https://api-adresse.data.gouv.fr/search/?q={query}&limit=1"
     try:
@@ -11,23 +12,22 @@ def obtenir_coordonnees(adresse, ville):
             lon, lat = response['features'][0]['geometry']['coordinates']
             return lat, lon
     except Exception as e:
-        print(f"Erreur géocodage : {e}")
+        print(f"Erreur géocodage pour {query}: {e}")
     return 46.5, 2.5
 
 def generer_carte_un_bien(bien_principal, db_connection):
-    toutes_coordonnees = []
-
-    m = folium.Map(tiles="OpenStreetMap")
+    lat_principal, lon_principal = obtenir_coordonnees(bien_principal['adresse'], bien_principal['ville'])
+    
+    m = folium.Map(location=[lat_principal, lon_principal], zoom_start=15, tiles="OpenStreetMap")
 
     with db_connection.cursor() as cur:
         cur.execute("SELECT * FROM bien WHERE id_agence = %s AND statut = 'Disponible'", (bien_principal['id_agence'],))
         tous_les_biens = cur.fetchall()
         
     for b in tous_les_biens:
-        est_le_bien_principal = (b['id_bien'] == bien_principal['id_bien'])        
-        lat, lon = obtenir_coordonnees(b['adresse'], b['ville'])
+        est_le_bien_principal = (b['id_bien'] == bien_principal['id_bien'])
         
-        toutes_coordonnees.append([lat, lon])
+        lat, lon = obtenir_coordonnees(b['adresse'], b['ville'])
         
         if est_le_bien_principal:
             couleur_pin = "red"
@@ -53,8 +53,5 @@ def generer_carte_un_bien(bien_principal, db_connection):
             popup=folium.Popup(popup_content, max_width=300),
             icon=folium.Icon(color=couleur_pin, icon=icone_style, prefix="fa")
         ).add_to(m)
-        
-    if toutes_coordonnees:
-        m.fit_bounds(toutes_coordonnees)
         
     return m._repr_html_()
