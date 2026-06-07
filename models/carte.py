@@ -35,15 +35,16 @@ def generer_carte_un_bien(bien_principal, db_connection):
             
         lien_detail = url_for('bien.detail_bien', id_bien=b['id_bien'])
         popup_content = f"""
-        <div style="font-family: sans-serif; min-width: 160px; text-align: center;">
-            <h4 style="margin: 0 0 5px 0; color: #2c3e50;">{b['type_bien']}</h4>
-            <p style="margin: 0 0 10px 0; font-weight: bold; color: green;">{b['prix']} €</p>
-            <p style="margin: 0 0 10px 0; font-size: 0.85em; color: #7f8c8d;">{b['adresse']}, {b['ville']}</p>
-            <a href="{lien_detail}" target="_top" style="display: block; background: #007BFF; color: white; padding: 6px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
-                Voir ce bien
-            </a>
-        </div>
-        """
+            <div style="font-family: 'Segoe UI', sans-serif; min-width: 160px; text-align: center; color: #21221F;">
+                <h4 style="margin: 0 0 5px 0; color: #534E47;">{b['type_bien']}</h4>
+                <p style="margin: 0 0 10px 0; font-weight: bold; color: #918575;">{b['prix']} €</p>
+                <a href="{lien_detail}" target="_top" 
+                style="display: block; background: #21221F; color: #DBD7D1; padding: 8px; 
+                        text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.9em;">
+                    Voir ce bien
+                </a>
+            </div>
+            """
         
         folium.Marker(
             location=[lat, lon],
