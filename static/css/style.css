@@ -1462,13 +1462,25 @@ body {
         background-color: #333;
     }
 
+    .info-message-section {
+        margin-bottom: 2rem;
+        margin-top: 2rem;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .agence-selection-section {
+        margin-top: -5.4rem;
+        margin-bottom: 2.6rem;
+    }
+
     .banner-container {
         margin-left: -2.4rem;
         width: 105%;
         max-height: 30rem;
         overflow: hidden;
         border-radius: 3rem;
-        margin-top: -2rem;
+        margin-top: -0.3rem;
     }
 
     .banner-image {
@@ -1493,6 +1505,16 @@ body {
         font-size: 1.4rem;
     }
 
+    .popular-section {
+        border-top: none;
+    }
+
+    .popular-section h2 {
+        margin-bottom: 3.5rem;
+        font-size: 1.9rem;
+        margin-top: 1rem;
+    }
+
     .container {
         max-width: 90rem;
         padding: 2.5rem 3.75rem;
@@ -1506,11 +1528,57 @@ body {
         margin: 2.5rem 0;
     }
 
-    #agence-info-hr {
-        display: block;
-        border: none;
-        border-top: 0.0625rem solid var(--gris-fonce);
-        margin: 2.5rem 0;
+    .popular-section{
+        margin-left: -3.2rem;
+    }
+
+    .agence-info-section {
+        margin-left: -3.2rem;
+        width: 103%;
+    }
+
+    .agence-info-section h2 {
+        font-size: 1.9rem;
+    }
+
+    .agence-info-section h3 {
+        font-size: 1.4rem;
+    }
+
+    .agence-image {
+        height: 25rem;
+    }
+
+    .agence-info-content {
+        font-size: 1.1rem;
+    }
+
+    .contact-section h2 {
+        font-size: 1.9rem;
+    }
+
+    .contact-section p {
+        font-size: 1.2rem;
+    }
+
+    .btn-contact {
+        font-size: 1.1rem;
+    }
+
+    .footer-logo {
+        margin-left: 5.9rem;
+    }
+
+    .site-footer {
+        font-size: 1.2rem;
+    }
+
+    .btn-footer {
+        font-size: 1.1rem;
+    }
+
+    .footer-bottom {
+        font-size: 1rem;
     }
 
     .grid {
