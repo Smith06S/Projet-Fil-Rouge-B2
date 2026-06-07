@@ -46,7 +46,7 @@
                     </div>
                         <a href="{{ url_for('bien.detail_bien', id_bien=item.id_bien) }}" class="btn-card">Consulter</a><br><br>
                         <form method="POST" class="btn-card" action="{{ url_for('bien.retirer_favoris', id_bien=item.id_bien) }}">
-                            <button type="submit">Retirer</button>
+                            <button type="submit" class="form-card-btn">Retirer</button>
                         </form>
                 </article>
             {% else %}
