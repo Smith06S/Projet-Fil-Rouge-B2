@@ -678,7 +678,7 @@ body {
 .connection-btn {
     width: 100%;
     padding: 1rem;
-    background-color: var(--orange-clair);
+    background-color: var(--orange-grise-pastel);
     border: none;
     border-radius: var(--radius);
     color: var(--gris-fonce);
