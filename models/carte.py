@@ -16,7 +16,7 @@ def obtenir_coordonnees(adresse, ville):
 
 def generer_carte_un_bien(bien_principal, db_connection):
     lat_principal, lon_principal = obtenir_coordonnees(bien_principal['adresse'], bien_principal['ville'])    
-    m = folium.Map(location=[lat_principal, lon_principal], zoom_start=12, tiles="OpenStreetMap")
+    m = folium.Map(location=[lat_principal, lon_principal], zoom_start=11, tiles="OpenStreetMap")
 
     with db_connection.cursor() as cur:
         cur.execute("SELECT * FROM bien WHERE id_agence = %s AND statut = 'Disponible'", (bien_principal['id_agence'],))
