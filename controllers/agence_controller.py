@@ -1,4 +1,4 @@
-﻿from flask import Blueprint, render_template, session, redirect, url_for, request
+﻿from flask import Blueprint, render_template, session, redirect, url_for, flash, request
 from database import Database
 from models.agence import AgenceRepository
 from models.bien import BienRepository
@@ -100,7 +100,8 @@ def accueil():
 @agence_bp.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
-        pass
+        flash("Votre message a bien été envoyé !", "success")
+        return redirect(url_for('agence.contact'))
     return render_template('contact.html')
 
 @agence_bp.route('/agence/<int:id_agence>')

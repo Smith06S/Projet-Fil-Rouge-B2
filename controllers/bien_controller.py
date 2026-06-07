@@ -181,7 +181,6 @@ def ajouter_favoris(id_bien):
     repo.add_favoris(session.get('id_client'), id_bien)
     conn.close()
     flash("Bien ajouté à vos favoris !", "success")
-    # CORRECTION : Redirection vers 'bien.detail_bien'
     return redirect(url_for('bien.detail_bien', id_bien=id_bien))
 
 @bien_bp.route('/bien/<int:id_bien>/remove_favoris', methods=['POST'])
