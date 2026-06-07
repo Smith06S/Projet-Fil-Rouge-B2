@@ -8,19 +8,25 @@
 
     <hr>
 
+    <div class="card">
+        <h3>Gestion des équipes</h3>
+        <p>Besoin d'intégrer un nouveau membre dans l'une des 12 agences territoriales ?</p>
+        <a href="{{ url_for('dashboard.ajouter_commercial') }}" class="btn">Créer et assigner un nouveau compte Commercial</a>
+    </div>
+
     <h2>Utilisateurs enregistrés dans le système</h2>
     <p>L'audit ci-dessous affiche l'ensemble des rôles présents en base de données.</p>
 
-    <div class="analyse-table">
+    <div class="utilisateur-table">
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nom Complet</th>
-                    <th>Email</th>
+                    <th>Adresse Email</th>
                     <th>Téléphone</th>
-                    <th>Rôle</th>
-                    <th>Actions</th>
+                    <th>Habilitation / Rôle</th>
+                    <th>Actions de modération</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,23 +37,21 @@
                     <td><code>{{ u.email }}</code></td>
                     <td>{{ u.telephone or 'Non renseigné' }}</td>
                     <td>
-                        <span>
-                            {{ u.role|upper }}
-                        </span>
+                        <span>{{ u.role|upper }}</span>
                     </td>
                     <td>
                         {% if u.id_utilisateur != session.get('user_id') %}
-                            <form method="POST" action="/utilisateur/{{ u.id_utilisateur }}/supprimer" onsubmit="return confirm('❗ ATTENTION : Êtes-vous sûr de vouloir supprimer définitivement {{ u.prenom }} {{ u.nom }} ?');">
+                            <form method="POST" action="/utilisateur/{{ u.id_utilisateur }}/supprimer" onsubmit="return confirm('ATTENTION : Êtes-vous sûr de vouloir supprimer définitivement {{ u.prenom }} {{ u.nom }} ? Cette action purgera son profil et toutes ses données associées (favoris, biens ou discussions)');">
                                 <button type="submit" class="btn-supprimer">Supprimer le compte</button>
                             </form>
                         {% else %}
-                            <em>Votre compte</em>
+                            <em>Votre compte actuel</em>
                         {% endif %}
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="6">Aucun utilisateur enregistré.</td>
+                    <td colspan="6">Aucun utilisateur n'est actuellement enregistré dans le système.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -55,7 +59,7 @@
     </div>
 
     <div>
-        <a href="{{ url_for('dashboard.voir_dashboard') }}" class="btn-link">← Retourner au Dashboard</a>
+        <a href="{{ url_for('dashboard.voir_dashboard') }}" class="btn-link">Retourner au Dashboard Analytique</a>
     </div>
 </section>
 {% endblock %}

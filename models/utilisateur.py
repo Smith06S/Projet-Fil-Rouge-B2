@@ -82,6 +82,7 @@ class UtilisateurRepository:
                 WHERE id_utilisateur = %s
             """, (nom, prenom, email, telephone, id_utilisateur))
         self.db.commit()
+        
     def get_all_users(self):
         with self.db.cursor() as cur:
             cur.execute("SELECT id_utilisateur, nom, prenom, email, telephone, role FROM utilisateur")
