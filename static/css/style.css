@@ -1037,6 +1037,22 @@ body {
     background-color: #333;
 }
 
+.btn-moderation {
+    display: inline-block;
+    background-color: var(--gris-fonce);
+    color: var(--orange-clair);
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1.9rem;
+    transition: background-color 0.3s;
+}
+
+.btn-moderation:hover {
+    background-color: #333;
+}
+
 .rapport-activite-section h1 {
     font-size: 1.7rem;
     text-align: center;
