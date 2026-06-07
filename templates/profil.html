@@ -2,47 +2,63 @@
 {% block title %}YMMO - Espace Personnel{% endblock %}
 
 {% block content %}
-<h1>Votre Espace Personnel</h1>
-<ul>
-    <li><strong>Nom complet :</strong> {{ utilisateur.prenom }} {{ utilisateur.nom }}</li>
-    <li><strong>Adresse Email :</strong> {{ utilisateur.email }}</li>
-    <li><strong>Téléphone :</strong> {{ utilisateur.telephone }}</li>
-    <li><strong>Habilitation :</strong> [{{ utilisateur.role|upper }}]</li>
-</ul>
-
-<hr>
-
-<!-- SECTION PRIVILÈGE ADMIN : MODÉRATION DES COMPTES PAR EMAIL -->
-{% if session.get('role') == 'admin' %}
-    <div style="background: #fdeaea; border: 1px solid #f5c6cb; padding: 20px; margin-top: 20px; margin-bottom: 20px;">
-        <h2 style="color: #721c24; margin-top: 0;">🛡️ Zone Administration : Modération des comptes</h2>
-        <p>Saisissez l'adresse de messagerie d'un utilisateur pour révoquer son accès et effacer son profil en cascade.</p>
-        
-        <form method="POST" action="/utilisateur/supprimer" onsubmit="return confirm('Confirmer la purge définitive de ce compte utilisateur ?');" style="max-width: 400px;">
-            <label><strong>Email de l'utilisateur à détruire :</strong></label><br>
-            <input type="email" name="email" placeholder="lola@gmail.com" required style="width: 100%; padding: 8px; margin: 10px 0;"><br>
-            <button type="submit" style="background: #d9534f; color: white; border: none; padding: 10px; font-weight: bold; cursor: pointer; width: 100%;">🔥 Supprimer définitivement l'utilisateur</button>
-        </form>
+<section class="profil-info-section">
+    <h1>Votre Espace Personnel</h1>
+    <div class="profil-info">
+        <strong>Nom complet :</strong> {{ utilisateur.prenom }} {{ utilisateur.nom }}
+        <strong>Adresse Email :</strong> {{ utilisateur.email }}
+        <strong>Téléphone :</strong> {{ utilisateur.telephone }}
+        <strong>Habilitation :</strong> {{ utilisateur.role|upper }}
     </div>
+</section>
+
+
+{% if session.get('role') == 'admin' %}
     <hr>
+
+    <section class="moderation-section">
+        <h2>Zone Administration : Modération des comptes</h2>
+        <p>Saisissez l'adresse de messagerie d'un utilisateur pour révoquer son accès et effacer son profil.</p>
+        
+        <form method="POST" action="/utilisateur/supprimer" onsubmit="return confirm('Confirmer la purge définitive de ce compte utilisateur ?');">
+            <label><strong>Email de l'utilisateur à détruire :</strong></label>
+            <input type="email" name="email" placeholder="lola@gmail.com" required>
+            <button type="submit">Supprimer définitivement l'utilisateur</button>
+        </form>
+    </section>
 {% endif %}
 
-<!-- SECTION CLIENTS : FAVORIS -->
 {% if session.get('role') == 'client' %}
-    <h2>⭐ Vos Favoris</h2>
-    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-        {% for item in favoris %}
-            <div style="border: 1px solid #f39c12; padding: 15px; width: 250px;">
-                <h4>{{ item.type_bien }} - {{ item.ville }}</h4>
-                <p>{{ item.prix }} €</p>
-                <a href="{{ url_for('bien.detail_bien', id_bien=item.id_bien) }}">Consulter</a><br><br>
-                <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=item.id_bien) }}">
-                    <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 5px; cursor: pointer;">✕ Retirer</button>
-                </form>
-            </div>
-        {% else %}
-            <p>Aucun bien enregistré dans vos favoris.</p>
-        {% endfor %}
+    <hr>
+
+    <section class="catalogue-section">
+        <h2>Vos Favoris</h2>
+        <div class="grid">
+            {% for item in favoris %}
+                <article class="bien-card">
+                    <div>
+                        <img class="bien-image" src="/{{ bien.images[0] if bien.images else 'static/images/default_bien.jpg' }}"
+                            alt="Photo du {{ bien.type_bien }} à {{ bien.ville }}"/>
+                        <h4>{{ bien.type_bien|capitalize }}</h4>
+                        <p><strong>Ville :</strong> {{ bien.ville }}</p>
+                        <p><strong>Prix :</strong> {{ bien.prix }} €</p>
+                        <p><em>{{ bien.surface }} m² — {{ bien.nbr_pieces }} pièces</em></p>
+                    </div>
+                    <div class="card-actions">
+                        <a href="{{ url_for('bien.detail_bien', id_bien=item.id_bien) }}" class="btn-card">Consulter</a><br><br>
+                        <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=item.id_bien) }}">
+                            <button type="submit" class="btn-card">Retirer</button>
+                        </form>
+                    </div>
+                </article>
+            {% else %}
+                <p>Aucun bien enregistré dans vos favoris.</p>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <div>
+        
     </div>
 {% endif %}
 {% endblock %}
