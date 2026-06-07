@@ -14,22 +14,6 @@
     </div>
 </section>
 
-
-{% if session.get('role') == 'admin' %}
-    <hr>
-
-    <section class="moderation-section">
-        <h2>Zone Administration</h2>
-        <p>Saisissez l'adresse de messagerie d'un utilisateur pour révoquer son accès et effacer son profil.</p>
-        
-        <form method="POST" action="/utilisateur/supprimer" onsubmit="return confirm('Confirmer la purge définitive de ce compte utilisateur ?');">
-            <label for="admin-email"><strong>Email de l'utilisateur à détruire :</strong></label>
-            <input type="email" id="admin-email" name="email" placeholder="lola@gmail.com" required>
-            <button type="submit">Supprimer définitivement l'utilisateur</button>
-        </form>
-    </section>
-{% endif %}
-
 {% if session.get('role') == 'client' %}
     <hr>
 
