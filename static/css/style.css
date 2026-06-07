@@ -1054,6 +1054,62 @@ body {
     background-color: #333;
 }
 
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background-color: var(--marron-grise);
+    padding: 1.5rem;
+    border-radius: 1.7rem;
+    text-align: center;
+    color: var(--orange-clair);
+    box-shadow: var(--shadow);
+}
+
+.stat-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--orange-grise-pastel);
+    text-transform: uppercase;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--orange-clair);
+}
+
+.analyse-prediction-section {
+    margin: 2rem 0;
+    overflow-x: auto;
+}
+
+.analyse-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--orange-clair);
+    color: var(--gris-fonce);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.analyse-table th {
+    background-color: var(--marron-grise);
+    color: var(--orange-clair);
+    padding: 1rem;
+    text-align: left;
+}
+
+.analyse-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--orange-grise);
+}
+
 .card {
     background: var(--orange-clair);
     border-radius: var(--radius);
