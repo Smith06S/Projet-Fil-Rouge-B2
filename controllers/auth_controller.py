@@ -113,7 +113,7 @@ def liste_utilisateurs():
     repo = UtilisateurRepository(conn)
     utilisateurs = repo.get_all_users() 
     conn.close()
-    return render_template('utilisateurs.html', utilisateurs=utilisateurs)
+    return render_template('utilisateur.html', utilisateurs=utilisateurs)
 
 
 @auth_bp.route('/profil/modifier', methods=['GET', 'POST'])
