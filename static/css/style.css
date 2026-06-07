@@ -1475,7 +1475,7 @@ body {
     }
 
     .banner-container {
-        margin-left: -2.4rem;
+        margin-left: -1.4rem;
         width: 105%;
         max-height: 30rem;
         overflow: hidden;
@@ -1538,7 +1538,9 @@ body {
     }
 
     .agence-info-section h2 {
+        margin-bottom: 2.2rem;
         font-size: 1.9rem;
+        margin-top: -0.8rem;
     }
 
     .agence-info-section h3 {
@@ -1546,7 +1548,9 @@ body {
     }
 
     .agence-image {
-        height: 25rem;
+        height: 17rem;
+        width: 60%;
+        margin-left: 9.9rem;
     }
 
     .agence-info-content {
