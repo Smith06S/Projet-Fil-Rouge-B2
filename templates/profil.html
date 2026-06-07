@@ -44,12 +44,10 @@
                         <p><strong>Prix :</strong> {{ item.prix }} €</p>
                         <p><em>{{ item.surface }} m² — {{ item.nbr_pieces }} pièces</em></p>
                     </div>
-                    <div class="card-actions">
                         <a href="{{ url_for('bien.detail_bien', id_bien=item.id_bien) }}" class="btn-card">Consulter</a><br><br>
                         <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=item.id_bien) }}">
                             <button type="submit" class="btn-card">Retirer</button>
                         </form>
-                    </div>
                 </article>
             {% else %}
                 <p>Aucun bien enregistré dans vos favoris.</p>
