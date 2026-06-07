@@ -654,19 +654,19 @@ body {
     gap: 1.5rem;
 }
 
-.form-group {
+.connexion-form-group {
     display: flex;
     flex-direction: column;
     text-align: left;
 }
 
-.form-group label {
+.connexion-form-group label {
     margin-bottom: 0.5rem;
     font-weight: 600;
     font-size: 0.95rem;
 }
 
-.form-group input {
+.connexion-form-group input {
     padding: 0.8rem;
     border-radius: var(--radius);
     border: 1px solid var(--orange-grise);
