@@ -631,6 +631,61 @@ body {
     margin-bottom: 1rem;
 }
 
+.connexion-section {
+    max-width: 450px;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+.connexion-form {
+    background-color: var(--marron-grise);
+    padding: 2.5rem;
+    border-radius: 1.7rem;
+    color: var(--orange-clair);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.form-group input {
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--orange-grise);
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
+    font-size: 1rem;
+}
+
+.connection-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--orange-clair);
+    border: none;
+    border-radius: var(--radius);
+    color: var(--gris-fonce);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.connection-btn:hover {
+    background-color: var(--orange-grise-pastel);
+}
+
 .card {
     background: var(--orange-clair);
     border-radius: var(--radius);
