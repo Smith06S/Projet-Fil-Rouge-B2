@@ -266,6 +266,7 @@ body {
     padding: 0;
     font-size: 0.9rem;
     font-weight: bold;
+    color: var(--gris-fonce);
 }
 
 #agence-info-hr {
@@ -923,6 +924,44 @@ body {
 .retour-carte-section {
     text-align: center;
     margin-top: 1rem;
+}
+
+.profil-info-section {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background-color: var(--marron-grise);
+    border-radius: 1.7rem;
+    color: var(--orange-clair);
+    box-shadow: var(--shadow);
+}
+
+.profil-info-section h1 {
+    text-align: center;
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+    color: var(--orange-clair);
+}
+
+.profil-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 1.1rem;
+}
+
+.profil-info p {
+    margin: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--orange-grise);
+}
+
+.profil-info strong {
+    color: var(--orange-grise-pastel);
+    display: block;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
 }
 
 .card {
