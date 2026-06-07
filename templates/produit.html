@@ -54,19 +54,20 @@
     </table>
 </section>
 
-<hr/>
+<hr />
 
 <section class="map-agence">
     <h3>Description détaillée de l'annonceur</h3>
     <p>{{ bien.description }}</p>
 
     <p>
-        <a class="btn-map" href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}">Voir la localisation exacte sur la
+        <a class="btn-map" href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}">Voir la localisation
+            exacte sur la
             carte</a>
     </p>
 </section>
 
-<hr/>
+<hr />
 
 <section class="galerie-section">
     <h3>Galerie Photos</h3>
@@ -91,9 +92,15 @@
 
     {% if session.get('user_id') %}
     {% if session.get('role') == 'client' %}
+    {% if bien.id_bien in session.get('favoris_ids', []) %}
+    <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=bien.id_bien) }}">
+        <button type="submit">Retirer des favoris</button>
+    </form>
+    {% else %}
     <form method="POST" action="{{ url_for('bien.ajouter_favoris', id_bien=bien.id_bien) }}">
         <button type="submit">Ajouter aux Favoris</button>
     </form>
+    {% endif %}
 
     <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}">Contacter le commercial dédié</a>
     {% else %}
