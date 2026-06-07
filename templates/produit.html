@@ -63,16 +63,28 @@
 
 <section class="galerie-section">
     <h3>Galerie Photos</h3>
-    <div class="carousel-container">
-        <div class="carousel-track">
-            {% if bien['photos'] %}
+    <div class="carousel">
+        {% if bien['photos'] %}
+            {% for photo_path in bien['photos'] %}
+                <input type="radio" name="slider" id="slide-{{ loop.index }}" {% if loop.first %}checked{% endif %}>
+            {% endfor %}
+            
+            <div class="carousel-inner">
                 {% for photo_path in bien['photos'] %}
-                    <img src="{{ url_for('static', filename=photo_path.replace('static/', '')) }}" alt="Photo du bien" class="carousel-img">
+                    <div class="slide">
+                        <img src="{{ url_for('static', filename=photo_path.replace('static/', '')) }}" alt="Photo {{ loop.index }}">
+                    </div>
                 {% endfor %}
-            {% else %}
-                <img src="{{ url_for('static', filename='images/default_bien.jpg') }}" alt="Aucune photo disponible" class="carousel-img">
-            {% endif %}
-        </div>
+            </div>
+
+            <div class="carousel-controls">
+                {% for photo_path in bien['photos'] %}
+                    <label for="slide-{{ loop.index }}" class="nav-dot"></label>
+                {% endfor %}
+            </div>
+        {% else %}
+            <img src="{{ url_for('static', filename='images/default_bien.jpg') }}" alt="Aucune photo" class="carousel-img-single">
+        {% endif %}
     </div>
 </section>
 
