@@ -1086,28 +1086,35 @@ body {
 
 .analyse-prediction-section {
     margin: 2rem 0;
-    overflow-x: auto;
+    width: 100%;
 }
 
 .analyse-table {
     width: 100%;
-    border-collapse: collapse;
-    background: var(--orange-clair);
-    color: var(--gris-fonce);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     border-radius: var(--radius);
-    overflow: hidden;
+    background: var(--orange-clair);
+    box-shadow: var(--shadow);
+}
+
+.analyse-table table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+}
+
+.analyse-table th, 
+.analyse-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--orange-grise);
+    text-align: left;
+    white-space: normal;
 }
 
 .analyse-table th {
     background-color: var(--marron-grise);
     color: var(--orange-clair);
-    padding: 1rem;
-    text-align: left;
-}
-
-.analyse-table td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--orange-grise);
 }
 
 .card {
