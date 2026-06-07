@@ -295,23 +295,6 @@ body {
     color: var(--orange-grise-pastel);
 }
 
-.btn-map {
-    display: inline-block;
-    background-color: var(--orange-clair);
-    color: var(--gris-fonce);
-    border-radius: var(--radius);
-    padding: 0.6rem 1rem;
-    text-align: center;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 1rem;
-    transition: background-color 0.3s;
-}
-
-.btn-map:hover {
-    background-color: var(--orange-grise-pastel);
-}
-
 .map-agence {
     text-align: center;
     display: flex;
@@ -526,6 +509,23 @@ body {
 .agence-detail-header p {
     color: var(--marron-grise);
     text-align: left;
+}
+
+.btn-map {
+    display: inline-block;
+    background-color: var(--gris-fonce);
+    color: var(--orange-clair);
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn-map:hover {
+    background-color: #333;
 }
 
 .catalogue-section {
