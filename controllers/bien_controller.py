@@ -25,7 +25,6 @@ def liste_biens():
     avec_balcon = request.args.get('avec_balcon') == 'on'
     avec_parking = request.args.get('avec_parking') == 'on'
     avec_ascenseur = request.args.get('avec_ascenseur') == 'on'
-    
 
     conn = db_manager.get_connection()
     repo = BienRepository(conn)
