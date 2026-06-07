@@ -99,7 +99,13 @@ class BienRepository:
                 query += " AND a_ascenseur = TRUE"
                 
             cur.execute(query, params)
-            return [Bien(**row) for row in cur.fetchall()]
+            biens = []
+            for row in cur.fetchall():
+                bien = Bien(**row)
+                cur.execute("SELECT image_url FROM photo_bien WHERE id_bien = %s", (bien.id_bien,))
+                bien.images = [p['image_url'] for p in cur.fetchall()]
+                biens.append(bien)
+            return biens
 
     def add_favoris(self, id_client, id_bien):
         with self.db.cursor() as cur:
