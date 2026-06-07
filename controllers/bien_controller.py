@@ -162,7 +162,6 @@ def supprimer_bien(id_bien):
         flash("Bien introuvable.", "error")
         return redirect(url_for('agence.accueil'))
               
-    # CORRECTION : Accès par dictionnaire avec les crochets []
     if session.get('role') == 'commercial' and session.get('id_agence') != bien_obj['id_agence']:
         conn.close()
         flash("Action non autorisée sur les biens d'une autre agence.", "error")
