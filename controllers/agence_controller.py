@@ -74,10 +74,14 @@ def accueil():
         for row in cur.fetchall():
             row_dict = dict(zip(columns, row))
             
-            # Suppression de toutes les colonnes calculées ou absentes du constructeur de Bien
             row_dict.pop('nb_favoris', None) 
             
-            top_biens.append(Bien(**row_dict))
+            bien = Bien(**row_dict)
+            
+            cur.execute("SELECT image_url FROM photo_bien WHERE id_bien = %s", (bien.id_bien,))
+            bien.images = [p['image_url'] for p in cur.fetchall()]
+            
+            top_biens.append(bien)
             
     conn.close()
     
@@ -92,6 +96,12 @@ def accueil():
         agence=agence_choisie,
         top_biens=top_biens
     )
+
+@agence_bp.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        pass
+    return render_template('contact.html')
 
 @agence_bp.route('/agence/<int:id_agence>')
 def agence_detail(id_agence):
@@ -108,9 +118,3 @@ def agence_detail(id_agence):
     conn.close()
 
     return render_template('agence_detail.html', agence=agence_obj, biens=biens)
-
-@agence_bp.route('/contact', methods=['GET', 'POST'])
-def contact():
-    if request.method == 'POST':
-        pass
-    return render_template('contact.html')

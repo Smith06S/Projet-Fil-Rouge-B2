@@ -37,7 +37,7 @@
                 <label><b>Type Chauffage :</b></label><br>
                 <select name="type_chauffage">
                     <option value="">Indifférent</option>
-                    <option value="Individuel électrique" {% if request.args.get('type_chauffage') == 'Individuel électrique' %}selected{% endif %}>Individuel électrique</option>
+                    <option value="Individuel Électrique" {% if request.args.get('type_chauffage') == 'Individuel Électrique' %}selected{% endif %}>Individuel électrique</option>
                     <option value="Collectif Gaz" {% if request.args.get('type_chauffage') == 'Collectif Gaz' %}selected{% endif %}>Collectif Gaz</option>
                     <option value="Pompe à chaleur" {% if request.args.get('type_chauffage') == 'Pompe à chaleur' %}selected{% endif %}>Pompe à chaleur</option>
                 </select>
