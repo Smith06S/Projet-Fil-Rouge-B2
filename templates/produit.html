@@ -2,13 +2,15 @@
 {% block title %}YMMO - {{ bien.type_bien }} à {{ bien.ville }}{% endblock %}
 
 {% block content %}
-<h1>Fiche Technique : {{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h1>
-<p><strong>Localisation :</strong> {{ bien.adresse }}, {{ bien.ville }}</p>
-<p><strong>Prix de commercialisation :</strong> {{ bien.prix }} €</p>
+<section class="bien-detail-titre-section">
+    <h1>Fiche Technique : {{ bien.type_bien|capitalize }} {{bien.ville}} - {{ bien.surface }} m²</h1>
+    <p><strong>Localisation :</strong> {{ bien.adresse }}, {{ bien.ville }}</p>
+    <p><strong>Prix de commercialisation :</strong> {{ bien.prix }} €</p>
+</section>
 
 <section class="bien-details-section">
     <h3>Caractéristiques détaillées de l'habitation</h3>
-    <table class="bien-details-table" border="1" cellpadding="10" cellspacing="0">
+    <table class="bien-details-table">
         <tr class="bien-details-ligne">
             <th>Nombre de pièces (Total)</th>
             <td>{{ bien.nbr_pieces }} pièces</td>
@@ -52,15 +54,19 @@
     </table>
 </section>
 
-<section class="description-section">
+<hr/>
+
+<section class="map-agence">
     <h3>Description détaillée de l'annonceur</h3>
     <p>{{ bien.description }}</p>
 
     <p>
-        <a href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}">Voir la localisation exacte sur la
+        <a class="btn-map" href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}">Voir la localisation exacte sur la
             carte</a>
     </p>
 </section>
+
+<hr/>
 
 <section class="galerie-section">
     <h3>Galerie Photos</h3>
