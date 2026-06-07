@@ -554,25 +554,65 @@ body {
 }
 
 .search-form {
-    display: inline-block;
     background-color: var(--marron-grise);
-    padding: 1.5rem;
+    padding: 2rem;
     border-radius: 1.7rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     color: var(--orange-clair);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.search-filters {
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.form-group {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    text-align: left;
 }
 
-.card-actions {
+.form-group label {
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--orange-grise);
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
+    font-size: 1rem;
+}
+
+.checkbox-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    margin-top: 1rem;
+    margin: 1.5rem 0;
+    text-align: left;
+}
+
+.filter-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--orange-clair);
+    border: none;
+    border-radius: var(--radius);
+    color: var(--gris-fonce);
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.filter-btn:hover {
+    background-color: var(--orange-grise-pastel);
 }
 
 .card {

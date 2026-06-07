@@ -7,17 +7,17 @@
     
     <form method="GET" action="{{ url_for('bien.liste_biens') }}" class="search-form">
         <div class="search-filters">
-            <div>
+            <div class="form-group">
                 <label><b>Ville :</b></label><br>
                 <input type="text" name="ville" value="{{ request.args.get('ville', '') }}" placeholder="Ex: Paris">
             </div> 
 
-            <div>
+            <div class="form-group">
                 <label><b>Budget Max (€) :</b></label><br>
                 <input type="number" name="prix_max" value="{{ request.args.get('prix_max', '') }}">
             </div> 
 
-            <div>
+            <div class="form-group">
                 <label><b>Type de bien :</b></label><br>
                 <select name="type_bien">
                     <option value="">Tous types</option>
@@ -28,7 +28,7 @@
                 </select>
             </div>
 
-            <div>
+            <div class="form-group">
                 <label><b>Chambres min :</b></label><br>
                 <input type="number" name="nbr_chambres_min" value="{{ request.args.get('nbr_chambres_min', '') }}">
             </div>
@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <div>
+        <div class="checkbox-group">
             <label><input type="checkbox" name="avec_balcon" {% if request.args.get('avec_balcon') == 'on' %}checked{% endif %}> Balcon / Terrasse</label>
             <label><input type="checkbox" name="avec_parking" {% if request.args.get('avec_parking') == 'on' %}checked{% endif %}> Parking / Garage</label>
             <label><input type="checkbox" name="avec_ascenseur" {% if request.args.get('avec_ascenseur') == 'on' %}checked{% endif %}> Ascenseur</label>
