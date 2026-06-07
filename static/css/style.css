@@ -1632,6 +1632,18 @@ body {
         margin-bottom: 2rem;
     }
 
+    .creation-bien-section h3 {
+        font-size: 1.7rem;
+    }
+
+    .creation-bien-btn {
+        font-size: 1.1rem;
+    }
+
+    .resultats-recherche-section {
+        font-size: 1.7rem;
+    }
+
     .connexion-section {
         margin: 4rem auto;
     }
