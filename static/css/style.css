@@ -967,8 +967,8 @@ body {
 
 .btn-modifier {
     display: inline-block;
-    background-color: var(--gris-fonce);
-    color: var(--orange-clair);
+    background-color: var(--orange-clair);
+    color: var(--gris-fonce);
     border-radius: var(--radius);
     padding: 0.6rem 1rem;
     text-align: center;
@@ -979,7 +979,7 @@ body {
 }
 
 .btn-modifier:hover {
-    background-color: #333;
+    background-color: var(--orange-grise-pastel);
 }
 
 .moderation-section {
