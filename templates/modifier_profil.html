@@ -22,8 +22,8 @@
             <label>Numéro de téléphone :</label>
             <input type="text" name="phone" value="{{ utilisateur.telephone or '' }}">
         </div>
-        <button type="submit">Enregistrer les modifications</button>
+        <button type="submit"  class="connection-btn">Enregistrer les modifications</button>
     </form>
-    <a href="{{ url_for('auth.voir_profil') }}"  class="connection-btn">Retour à mon espace</a>
+    <a href="{{ url_for('auth.voir_profil') }}" class="btn-annuler">Retour à mon espace</a>
 </section>
 {% endblock %}
