@@ -8,12 +8,12 @@
     <form method="POST" action="{{ url_for('auth.connexion') }}" class="connexion-form">
         <div class="form-group">
             <label for="email">Adresse Email :</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" placeholder="example@domain.com" name="email" required>
         </div>
         
         <div class="form-group">
             <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" placeholder="Entrez votre mot de passe" name="password" required>
         </div>
         
         <button type="submit" class="connection-btn">Se connecter</button>
