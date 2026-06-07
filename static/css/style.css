@@ -609,6 +609,28 @@ body {
     background-color: var(--orange-grise-pastel);
 }
 
+.creation-bien-section {
+    text-align: center;
+}
+
+.creation-bien-section h3 {
+    font-size: 1.5rem;
+}
+
+.creation-bien-btn {
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    background-color: var(--gris-fonce);
+    color: var(--orange-clair);
+    border: none;
+    border-radius: var(--radius);
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
 .card {
     background: var(--orange-clair);
     border-radius: var(--radius);

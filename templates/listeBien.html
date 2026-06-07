@@ -66,17 +66,15 @@
         </div>
     </form>
 </section>
-
+   
+{% if session.get('role') == 'commercial' and session.get('id_agence') == id_agence %}
 <hr/>
 
 <section class="creation-bien-section">
-    {% if session.get('role') == 'commercial' and session.get('id_agence') == id_agence %}
-        <div>
-            <h3>Publier un nouveau bien</h3>
-            <a href="{{ url_for('bien.creation_bien') }}" class="btn">Créer / Publier un nouveau bien</a>
-        </div>
-    {% endif %}
+    <h3>Publier un nouveau bien</h3>
+    <a href="{{ url_for('bien.creation_bien') }}" class="creation-bien-btn">Publier un nouveau bien</a>
 </section>
+{% endif %}
 
 <hr/>
 
