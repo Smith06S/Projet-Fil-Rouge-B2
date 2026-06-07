@@ -1254,21 +1254,21 @@ body {
     max-width: 800px;
     margin: 2rem auto;
     padding: 2.5rem;
-    background-color: var(--orange-clair);
+    background-color: var(--marron-grise);
     border-radius: 1.7rem;
     box-shadow: var(--shadow);
 }
 
 .mise-en-vente-section h1 {
     text-align: center;
-    color: var(--gris-fonce);
+    color: var(--orange-clair);
     margin-bottom: 0.5rem;
     font-size: 1.7rem;
 }
 
 .mise-en-vente-section p {
     text-align: center;
-    color: var(--marron-grise);
+    color: var(--orange-grise-pastel);
     font-weight: bold;
     margin-bottom: 2rem;
 }
