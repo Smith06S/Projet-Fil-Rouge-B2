@@ -1146,7 +1146,7 @@ body {
     height: 70vh;
 }
 
-.messaging-info-section h1{
+.messaging-info-section h1 {
     text-align: center;
     font-size: 1.7rem;
     margin-top: -4.5rem;
@@ -1249,10 +1249,8 @@ body {
     border: 1px solid var(--orange-grise);
 }
 
-
 .mise-en-vente-section {
-    max-width: 800px;
-    margin: 2rem auto;
+    margin-top: -4rem;
     padding: 2.5rem;
     background-color: var(--marron-grise);
     border-radius: 1.7rem;
@@ -1264,6 +1262,7 @@ body {
     color: var(--orange-clair);
     margin-bottom: 0.5rem;
     font-size: 1.7rem;
+    margin-top: 0;
 }
 
 .mise-en-vente-section p {
@@ -1293,8 +1292,8 @@ body {
     margin-bottom: 0.4rem;
 }
 
-.form-field input, 
-.form-field select, 
+.form-field input,
+.form-field select,
 .form-field textarea {
     width: 100%;
     padding: 0.8rem;
