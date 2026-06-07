@@ -724,7 +724,7 @@ body {
 }
 
 .connection-btn:hover {
-    background-color: var(--orange-grise-pastel);
+    background-color: var(--orange-clair);
 }
 
 .bien-detail-titre-section h1 {
@@ -828,7 +828,7 @@ body {
 
 .formulaire-contact-section {
     max-width: 600px;
-    margin: 2rem auto;
+    margin-top: -4rem;
     padding: 2.5rem;
     background-color: var(--marron-grise);
     border-radius: 1.7rem;
@@ -867,7 +867,7 @@ body {
 .formulaire-contact-btn {
     width: 100%;
     padding: 1rem;
-    background-color: var(--orange-clair);
+    background-color: var(--orange-grise-pastel);
     border: none;
     border-radius: var(--radius);
     color: var(--gris-fonce);
@@ -877,7 +877,7 @@ body {
 }
 
 .formulaire-contact-btn:hover {
-    background-color: var(--orange-grise-pastel);
+    background-color: var(--orange-clair);
 }
 
 .card {
