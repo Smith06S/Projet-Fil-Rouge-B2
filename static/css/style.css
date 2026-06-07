@@ -508,15 +508,19 @@ body {
 .agence-detail-header {
     text-align: center;
     color: var(--gris-fonce);
-    margin-top: -7.5rem;
+    margin-top: -6.5rem;
     text-align: center;
 }
 
 .agence-detail-header h1 {
     margin-bottom: 1.5rem;
-    width: 130%;
-    margin-left: -2.8rem;
+    width: 125%;
+    margin-left: -2.6rem;
     font-size: 1.8rem;
+}
+
+.agence-detail-header strong {
+    color: var(--gris-fonce);
 }
 
 .agence-detail-header p {
