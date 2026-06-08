@@ -1800,7 +1800,11 @@ body {
     .mise-en-vente-section {
         margin-top: 0;
     }
-    
+
+    .error-container {
+        margin-top: 0;
+    }
+
     .grid {
         grid-template-columns: repeat(3, 1fr);
     }
