@@ -25,7 +25,7 @@
                     <div>
                         <img class="bien-image" src="{{ item.images[0] if item.images else 'static/images/default_bien.jpg' }}"
                             alt="Photo du {{ item.type_bien }} à {{ item.ville }}"/>
-                        <h4>{{ item.type_bien|capitalize }}</h4>
+                        <h3>{{ item.type_bien|capitalize }}</h3>
                         <p><strong>Ville :</strong> {{ item.ville }}</p>
                         <p><strong>Prix :</strong> {{ item.prix }} €</p>
                         <p><em>{{ item.surface }} m² — {{ item.nbr_pieces }} pièces</em></p>

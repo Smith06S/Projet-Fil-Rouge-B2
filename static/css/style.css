@@ -231,7 +231,7 @@ body {
     display: block;
 }
 
-.bien-card h4 {
+.bien-card h3 {
     margin: 0 0 0.5rem 0;
     color: var(--orange-clair);
     border-bottom: 0.0625rem solid var(--orange-grise);

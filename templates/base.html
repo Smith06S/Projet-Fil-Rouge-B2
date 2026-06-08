@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}YMMO{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <meta name="description" content="{% block title %}" />
 </head>
 
 <body>
     <nav class="navbar">
         <div class="navbar-brand">
-            <a href="{{ url_for('agence.selection_agence') }}">
+            <a href="{{ url_for('agence.selection_agence') }}" aria-label="logo YMMO">
                 <svg class="nav-logo-svg" width="200" height="40" viewBox="0 0 200 40" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <g fill="var(--gris-fonce)">
