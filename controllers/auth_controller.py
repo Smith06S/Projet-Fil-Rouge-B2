@@ -77,7 +77,7 @@ def voir_profil():
     conn.close()
     return render_template('profil.html', utilisateur=utilisateur, favoris=favoris)
 
-@auth_bp.route('/utilisateur/supprimer', methods=['POST'])
+@auth_bp.route('/utilisateur/<int:id_utilisateur>/supprimer', methods=['POST'])
 @role_required(['admin'])
 def supprimer_utilisateur():
     email_a_supprimer = request.form.get('email')
