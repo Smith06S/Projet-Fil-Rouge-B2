@@ -1781,6 +1781,12 @@ body {
         font-size: 1.1rem;
     }
 
+    .formulaire-contact-section {
+        max-width: 40rem;
+        margin-top: 0;
+        margin-left: 22rem;
+    }
+
     .grid {
         grid-template-columns: repeat(3, 1fr);
     }
