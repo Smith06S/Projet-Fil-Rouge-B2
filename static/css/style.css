@@ -1203,6 +1203,11 @@ body {
     text-decoration: none;
 }
 
+#message-label {
+    line-height: 0;
+    color: var(--orange-clair)
+}
+
 .btn-supprimer {
     background: none;
     border: 0.0625rem solid var(--gris-fonce);
