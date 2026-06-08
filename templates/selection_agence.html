@@ -10,28 +10,32 @@
 </head>
 
 <body>
-    <section class="agence-selection-section">
-        <h1>Bienvenue sur YMMO</h1>
-        <p>Sélectionner l'agence de votre choix :</p>
-    </section>
+    <header>
+        <section class="agence-selection-section">
+            <h1>Bienvenue sur YMMO</h1>
+            <p>Sélectionner l'agence de votre choix :</p>
+        </section>
+    </header>
 
-    <section class="grid">
-        {% for a in agences %}
-        <article class="selection-card">
-            <div>
-                <img src="{{ a.image_url }}" alt="Photo de {{ a.nom }}" class="selection-image" />
-                <h2>{{ a.nom }}</h2>
-                <p><strong>Ville :</strong> {{ a.ville }}</p>
-                <p><strong>Adresse :</strong> {{ a.adresse }}</p>
-            </div>
-            <a href="{{ url_for('agence.choisir_agence', id_agence=a.id_agence) }}" class="btn-selection-card">
-                Entrer dans cette agence
-            </a>
-        </article>
-        {% else %}
-        <p>Aucune agence n'est enregistrée pour le moment.</p>
-        {% endfor %}
-    </section>
+    <main>
+        <section class="grid">
+            {% for a in agences %}
+            <article class="selection-card">
+                <div>
+                    <img src="{{ a.image_url }}" alt="Photo de {{ a.nom }}" class="selection-image" />
+                    <h2>{{ a.nom }}</h2>
+                    <p><strong>Ville :</strong> {{ a.ville }}</p>
+                    <p><strong>Adresse :</strong> {{ a.adresse }}</p>
+                </div>
+                <a href="{{ url_for('agence.choisir_agence', id_agence=a.id_agence) }}" class="btn-selection-card">
+                    Entrer dans cette agence
+                </a>
+            </article>
+            {% else %}
+            <p>Aucune agence n'est enregistrée pour le moment.</p>
+            {% endfor %}
+        </section>
+    </main>
 </body>
 
 </html>
