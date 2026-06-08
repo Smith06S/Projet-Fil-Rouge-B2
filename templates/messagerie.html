@@ -40,8 +40,7 @@
             </div>
 
             <form method="POST" action="{{ url_for('chat.envoyer_message', id_discussion=active_discussion.id_discussion) }}">
-                <label for="contenu_message" class="sr-only" id="message-label">Message :</label>
-                <input type="text" name="contenu_message" placeholder="Votre message..." required>
+                <input type="text" name="contenu_message" placeholder="Votre message..." aria-label="Votre message" required>
                 <button type="submit" class="btn">Envoyer</button>
             </form>
         {% else %}
