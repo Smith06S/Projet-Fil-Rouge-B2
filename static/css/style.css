@@ -470,7 +470,7 @@ body {
     display: block;
 }
 
-.selection-card h4 {
+.selection-card h2 {
     font-size: 1.4rem;
     margin: 0 0 1rem 0;
     color: var(--orange-clair);

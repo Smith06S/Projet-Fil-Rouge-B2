@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YMMO - Sélection de votre agence</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <meta name="description" content="Page de sélection pour choisir votre agence YMMO locale." />
 </head>
 
 <body>
@@ -19,7 +20,7 @@
         <article class="selection-card">
             <div>
                 <img src="{{ a.image_url }}" alt="Photo de {{ a.nom }}" class="selection-image" />
-                <h4>{{ a.nom }}</h4>
+                <h2>{{ a.nom }}</h2>
                 <p><strong>Ville :</strong> {{ a.ville }}</p>
                 <p><strong>Adresse :</strong> {{ a.adresse }}</p>
             </div>
