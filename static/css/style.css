@@ -1180,7 +1180,7 @@ body {
 }
 
 .discussion-item {
-    background: var(--orange-grise);
+    background: var(--orange-grise-pastel);
     padding: 1rem;
     border-radius: var(--radius);
     display: flex;
@@ -1190,12 +1190,17 @@ body {
 }
 
 .discussion-item:hover {
-    background: var(--orange-grise-pastel);
+    background: var(--orange-clair);
     color: var(--gris-fonce);
 }
 
 .discussion-active {
     border: 0.125rem solid var(--orange-clair);
+}
+
+.discussion-active a {
+    color: var(--gris-fonce);
+    text-decoration: none;
 }
 
 .btn-supprimer {
@@ -1672,7 +1677,7 @@ body {
         width: 20%;
     }
 
-    .discussions-sidebar h3 {
+    .discussions-sidebar h2 {
         font-size: 1.5rem;
         margin-top: 0;
         text-align: center;

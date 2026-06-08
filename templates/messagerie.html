@@ -9,7 +9,7 @@
 
 <section class="messaging-section">
     <div class="discussions-sidebar">
-        <h3>Fils de discussion</h3>
+        <h2>Fils de discussion</h2>
         {% for d in discussions %}
             <div class="discussion-item {% if active_discussion and active_discussion.id_discussion == d.id_discussion %}discussion-active{% endif %}">
                 <a href="?discussion_id={{ d.id_discussion }}">
