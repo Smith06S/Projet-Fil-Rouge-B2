@@ -1657,6 +1657,26 @@ body {
         font-size: 1.9rem;
     }
 
+    .messaging-info-section h1 {
+        font-size: 1.9rem;
+        margin-top: 0;
+    }
+
+    .messaging-section {
+        flex-direction: row;
+        max-width: 100rem;
+        height: 77vh;
+    }
+
+    .discussions-sidebar {
+        width: 20%;
+    }
+
+    .chat-area {
+        height: 70vh;
+        width: 70%;
+    }
+
     .grid {
         grid-template-columns: repeat(3, 1fr);
     }
