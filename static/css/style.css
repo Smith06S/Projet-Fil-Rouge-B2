@@ -1735,6 +1735,52 @@ body {
         font-size: 1.1rem;
     }
 
+    .bien-detail-titre-section h1 {
+        margin-top: 0;
+        font-size: 1.9rem;
+    }
+
+    .bien-detail-titre-section p {
+        font-size: 1.1rem;
+    }
+
+    .bien-details-section {
+        font-size: 1.1rem;
+    }
+
+    .bien-details-section h3 {
+        margin-top: 0;
+    }
+
+    .map-agence h3 {
+        font-size: 1.7rem;
+    }
+
+    .map-agence p {
+        font-size: 1.1rem;
+    }
+
+    .galerie-section h3 {
+        font-size: 1.7rem;
+        text-align: center;
+    }
+
+    .actions-section {
+        font-size: 1.7rem;
+    }
+
+    .actions-section em {
+        font-size: 1.1rem;
+    }
+
+    .actions-section p {
+        font-size: 1.1rem;
+    }
+
+    .actions-section form button {
+        font-size: 1.1rem;
+    }
+
     .grid {
         grid-template-columns: repeat(3, 1fr);
     }
