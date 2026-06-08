@@ -81,11 +81,10 @@ def voir_profil():
 @role_required(['admin'])
 def supprimer_utilisateur():
     email_a_supprimer = request.form.get('email')
-    id_agence = session.get('selected_agence_id')
     
     if email_a_supprimer == session.get('email'):
         flash("Action impossible : Vous ne pouvez pas vous révoquer vous-même.", "error")
-        return redirect(url_for('auth.voir_profil', id_agence=id_agence))
+        return redirect(url_for('auth.voir_profil'))
              
     conn = db_manager.get_connection()
     try:
@@ -99,7 +98,7 @@ def supprimer_utilisateur():
     finally:
         conn.close()
              
-    return redirect(url_for('auth.voir_profil', id_agence=id_agence))
+    return redirect(url_for('auth.voir_profil'))
 
 @auth_bp.route('/deconnexion')
 def deconnexion():
