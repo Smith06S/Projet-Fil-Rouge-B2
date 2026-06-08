@@ -1797,6 +1797,10 @@ body {
         font-size: 1.1rem;
     }
 
+    .mise-en-vente-section {
+        margin-top: 0;
+    }
+    
     .grid {
         grid-template-columns: repeat(3, 1fr);
     }
