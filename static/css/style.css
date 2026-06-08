@@ -1093,14 +1093,14 @@ body {
     box-shadow: var(--shadow);
 }
 
-.stat-card h3 {
+.stat-card h2 {
     margin: 0 0 0.5rem 0;
     font-size: 1.1rem;
     color: var(--orange-grise-pastel);
     text-transform: uppercase;
 }
 
-.stat-card p {
+.stat-card h3 {
     margin: 0;
     font-size: 1.8rem;
     font-weight: bold;
