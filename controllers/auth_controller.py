@@ -84,7 +84,7 @@ def supprimer_utilisateur():
     
     if email_a_supprimer == session.get('email'):
         flash("Action impossible : Vous ne pouvez pas vous révoquer vous-même.", "error")
-        return redirect(url_for('auth.voir_profil'))
+        return render_template('utilisateur.html')
              
     conn = db_manager.get_connection()
     try:
@@ -97,8 +97,8 @@ def supprimer_utilisateur():
         flash(f"Erreur lors de la suppression : {e}", "error")
     finally:
         conn.close()
-             
-    return redirect(url_for('auth.voir_profil'))
+
+    return render_template('utilisateur.html')
 
 @auth_bp.route('/deconnexion')
 def deconnexion():
