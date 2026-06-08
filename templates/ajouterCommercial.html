@@ -8,35 +8,34 @@
 
     <form method="POST" action="{{ url_for('dashboard.ajouter_commercial') }}" class="connexion-form">
         <div class="connexion-form-group">
-            <label>Prénom :</label>
-            <input type="text"placeholder="Entrez le prénom" name="fname" required>
+            <label for="fname">Prénom :</label>
+            <input type="text" id="fname" placeholder="Entrez le prénom" name="fname" required>
         </div>
         <div class="connexion-form-group">
-            <label>Nom de famille :</label>
-            <input type="text" placeholder="Entrez le nom" name="lname" required>
+            <label for="lname">Nom de famille :</label>
+            <input type="text" id="lname" placeholder="Entrez le nom" name="lname" required>
         </div>
         <div class="connexion-form-group">
-            <label>Adresse Email professionnelle :</label>
-            <input type="email" placeholder="example@domain.com" name="email" required>
+            <label for="email">Adresse Email professionnelle :</label>
+            <input type="email" id="email" placeholder="example@domain.com" name="email" required>
         </div>
         <div class="connexion-form-group">
-            <label>Mot de passe provisoire :</label>
-            <input type="password" placeholder="Entrez un mot de passe" name="password" required>
+            <label for="password">Mot de passe provisoire :</label>
+            <input type="password" id="password" placeholder="Entrez un mot de passe" name="password" required>
         </div>
         <div class="connexion-form-group">
-            <label>Confirmez le mot de passe provisoire :</label>
-            <input type="password" placeholder="Confirmez le mot de passe" name="confirm_password"
-                required>
+            <label for="confirm_password">Confirmez le mot de passe provisoire :</label>
+            <input type="password" id="confirm_password" placeholder="Confirmez le mot de passe" name="confirm_password" required>
         </div>
         <div class="connexion-form-group">
-            <label>Numéro de téléphone :</label><br>
-            <input type="text" placeholder="06XXXXXXXX" name="phone" required>
+            <label for="phone">Numéro de téléphone :</label><br>
+            <input type="text" id="phone" placeholder="06XXXXXXXX" name="phone" required>
         </div>
 
         {% if session.get('role') == 'admin' %}
         <div class="form-group">
             <label for="id_agence">Affectation à une agence du réseau :</label><br>
-            <select>
+            <select id="id_agence" name="id_agence" required>
                 <option value="">Choisir une agence territoriale</option>
                 {% for agence in agences %}
                 <option value="{{ agence.id_agence }}">{{ agence.nom }} ({{ agence.ville }})</option>
@@ -54,4 +53,5 @@
     </form>
 
     <a href="{{ url_for('auth.voir_profil') }}" class="btn-annuler">Annuler et retourner à mon Profil</a>
-    {% endblock %}
+</section>
+{% endblock %}
