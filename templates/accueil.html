@@ -1,0 +1,66 @@
+{% extends 'base.html' %} 
+{% block title %}YMMO - Accueil de l'agence{% endblock%} 
+{% block description %}Page d'acceuil{% endblock %}
+{% block content %}
+<header class="banner-container">
+  <img src="{{ agence.image_url }}" alt="Bannière {{ agence.nom }}" class="banner-image" />
+  <div class="banner-text">
+    <h1>Bienvenue chez {{ agence.nom }}</h1>
+    <p>
+      <strong>Votre agence de référence :</strong> {{ agence.adresse }}, {{
+      agence.ville }}
+    </p>
+  </div>
+</header>
+
+<hr id="popular-section-hr" />
+
+<section class="popular-section">
+  <h2>Les 5 Biens les plus populaires</h2>
+  <div class="scroll-container">
+    {% for bien in top_biens %}
+    <article class="bien-card">
+      <div>
+        <img class="bien-image" src="{{ bien.images[0] if bien.images else 'static/images/default_bien.jpg' }}"
+          alt="Photo du {{ bien.type_bien }} à {{ bien.ville }}"/>
+        <h3>{{ bien.type_bien|capitalize }} - {{ bien.surface }} m²</h3>
+        <p><strong>Prix :</strong> {{ bien.prix }} €</p>
+        <p><em>{{ bien.ville }}</em></p>
+      </div>
+      <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" class="btn-card">Consulter l'annonce</a>
+    </article>
+    {% else %}
+    <p>Aucun bien de cette agence n'a encore été mis en favoris.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<hr id="agence-info-hr" />
+
+<section class="agence-info-section">
+  <h2>Où nous trouver ?</h2>
+  <div class="agence-info-content">
+    <h3>{{ agence.nom }}</h3>
+    <img src="{{ agence.image_url }}" alt="Logo de {{ agence.nom }}" class="agence-image" />
+    <p>
+      <strong>Adresse de l'antenne :</strong> {{ agence.adresse }}, {{
+      agence.ville }}
+    </p>
+    <p>Localisation : {{ agence.adresse }}, {{ agence.ville }}</p>
+
+    <a href="{{ url_for('agence.agence_detail', id_agence=agence.id_agence) }}" class="btn-link">
+      Voir la fiche détaillée de l'agence
+    </a>
+  </div>
+</section>
+
+<section class="contact-section">
+  <h2>Contactez-nous</h2>
+  <p>
+    Vous avez des questions ou souhaitez prendre rendez-vous ? N'hésitez pas à
+    nous contacter :
+  </p>
+  <a href="{{ url_for('agence.contact') }}" class="btn-contact">Formulaire de contact</a>
+</section>
+
+{% endblock %}

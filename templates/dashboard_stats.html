@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Rapports Analytiques{% endblock %}
+{% block description %}Page dashboard{% endblock %}
+
+{% block content %}
+<section class="rapport-activite-section">
+    <h1>Rapport d'Activité National & Analyses Marché</h1>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h2>Catalogue Actif</h2>
+            <h3>{{ biens_actifs }} offres</h3>
+        </div>
+        <div class="stat-card">
+            <h2>Volume Ventes</h2>
+            <h3>{{ total_ventes }} transactions</h3>
+        </div>
+        <div class="stat-card">
+            <h2>Chiffre d'Affaires</h2>
+            <h3>{{ ca_total }} €</h3>
+        </div>
+    </div>
+</section>
+
+<section class="analyse-prediction-section">
+    <h2>Analyses de tendances & Prédictions</h2>
+    <p class="info-defilement">
+        <i>Faites glisser le tableau vers la droite pour voir toutes les colonnes</i>
+    </p>
+    <div class="analyse-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Secteur</th>
+                    <th>Prix Moyen</th>
+                    <th>Popularité</th>
+                    <th>Évolution</th>
+                    <th>Ventes</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in statistiques %}
+                <tr>
+                    <td><strong>{{ s.zone_geographique }}</strong></td>
+                    <td>{{ s.prix_moyen_m2 }} €/m²</td>
+                    <td>{{ s.indice_popularite }}/10</td>
+                    <td>+ {{ s.precision_evolution_prix }}%</td>
+                    <td>{{ s.volume_vente_estime }}</td>
+                    <td>{{ s.date_analyse }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}

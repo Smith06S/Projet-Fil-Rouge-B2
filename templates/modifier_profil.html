@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Modifier mon Profil{% endblock %}
+{% block description %}Page modifier profil{% endblock %}
+
+{% block content %}
+<section class="connexion-section">
+    <h1>Modifier vos informations personnelles</h1>
+
+    <form method="POST" action="{{ url_for('auth.modifier_profil') }}" class="connexion-form">
+        <div class="connexion-form-group">
+            <label for="fname">Prénom :</label>
+            <input type="text" id="fname" name="fname" value="{{ utilisateur.prenom }}" required>
+        </div>
+        
+        <div class="connexion-form-group">
+            <label for="lname">Nom :</label>
+            <input type="text" id="lname" name="lname" value="{{ utilisateur.nom }}" required>
+        </div>
+        
+        <div class="connexion-form-group">
+            <label for="email">Adresse Email :</label>
+            <input type="email" id="email" name="email" value="{{ utilisateur.email }}" required>
+        </div>
+        
+        <div class="connexion-form-group">
+            <label for="phone">Numéro de téléphone :</label>
+            <input type="text" id="phone" name="phone" value="{{ utilisateur.telephone or '' }}">
+        </div>
+        
+        <button type="submit" class="connection-btn">Enregistrer les modifications</button>
+    </form>
+    
+    <a href="{{ url_for('auth.voir_profil') }}" class="btn-annuler">Retour à mon espace</a>
+</section>
+{% endblock %}

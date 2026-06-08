@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Publier une annonce immobilière{% endblock %}
+{% block description %}Page mise en vente{% endblock %}
+
+{% block content %}
+<section class="mise-en-vente-section">
+    <h1>Enregistrer un bien</h1>
+    <p>Catalogue agence ID : {{ session.get('id_agence') }}</p>
+
+    <form method="POST" action="{{ url_for('bien.creation_bien') }}" enctype="multipart/form-data">
+        
+        <div class="form-field">
+            <label for="ville">Ville d'implantation :</label>
+            <input type="text" id="ville" placeholder="Ex : Nice" name="ville" required>
+        </div>
+        
+        <div class="form-field">
+            <label for="adresse">Adresse Complète :</label>
+            <input type="text" id="adresse" placeholder="Entrez l'adresse" name="adresse" required>
+        </div>
+
+        <div class="form-field">
+            <label for="description">Description Commerciale :</label>
+            <textarea id="description" name="description" placeholder="Entrez une description" rows="4" required></textarea>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-field">
+                <label for="nbrPieces">Nombre de pièces :</label>
+                <input type="number" id="nbrPieces" value="1" name="nbrPieces" min="1" required>
+            </div>
+            <div class="form-field">
+                <label for="nbrChambres">Nombre de chambres :</label>
+                <input type="number" id="nbrChambres" name="nbrChambres" min="0" value="0" required>
+            </div>
+            <div class="form-field">
+                <label for="surface">Superficie (m²) :</label>
+                <input type="number" id="surface" value="9" step="0.01" name="surface" required>
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-field">
+                <label for="typeBien">Type de bien :</label>
+                <select id="typeBien" name="typeBien">
+                    <option value="Maison">Maison</option>
+                    <option value="Appartement">Appartement</option>
+                    <option value="Bureau">Bureau</option>
+                    <option value="Local">Local</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="etage">Étage (Si appartement) :</label>
+                <input type="text" id="etage" name="etage" value="Rez-de-chaussée">
+            </div>
+            <div class="form-field">
+                <label for="etat_logement">État du logement :</label>
+                <select id="etat_logement" name="etat_logement">
+                    <option value="Neuf">Neuf</option>
+                    <option value="Bon état">Bon état</option>
+                    <option value="À rafraîchir">À rafraîchir</option>
+                    <option value="À rénover">À rénover</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-field">
+                <label for="type_chauffage">Type de chauffage :</label>
+                <select id="type_chauffage" name="type_chauffage">
+                    <option value="Individuel Électrique">Individuel Électrique</option>
+                    <option value="Collectif Gaz">Collectif Gaz</option>
+                    <option value="Pompe à chaleur">Pompe à chaleur</option>
+                    <option value="Non renseigné">Autre / Non renseigné</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="annee_construction">Année de Construction :</label>
+                <input type="number" id="annee_construction" name="annee_construction" placeholder="Ex: 2012">
+            </div>
+            <div class="form-field">
+                <label for="prix">Prix Final Attendu (€) :</label>
+                <input type="number" id="prix" step="0.01" value="100" name="prix" required>
+            </div>
+        </div>
+
+        <div class="checkbox-container">
+            <label><input type="checkbox" name="a_balcon"> Balcon / Terrasse</label>
+            <label><input type="checkbox" name="a_parking"> Parking / Garage</label>
+            <label><input type="checkbox" name="a_ascenseur"> Ascenseur</label>
+        </div>
+
+        <div class="form-field">
+            <label for="photos"><b>Ajouter les photos du catalogue :</b></label>
+            <input type="file" id="photos" name="photos" accept="image/*" multiple>
+        </div>
+        
+        <button type="submit" class="submit-btn">Publier l'annonce</button>
+    </form>
+</section>
+{% endblock %}

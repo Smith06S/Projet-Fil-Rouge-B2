@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Messagerie Interne{% endblock %}
+{% block description %}Page messagerie{% endblock %}
+
+{% block content %}
+<section class="messaging-info-section">
+    <h1>Messagerie Privée & Suivi Clientèle</h1>
+</section>
+
+<section class="messaging-section">
+    <div class="discussions-sidebar">
+        <h2>Fils de discussion</h2>
+        {% for d in discussions %}
+            <div class="discussion-item {% if active_discussion and active_discussion.id_discussion == d.id_discussion %}discussion-active{% endif %}">
+                <a href="?discussion_id={{ d.id_discussion }}">
+                    <strong>{{ d.titre }}</strong><br>
+                    <small>{{ d.date_creation }}</small>
+                </a>
+                
+                {% if session.get('role') == 'commercial' %}
+                    <form method="POST" action="{{ url_for('chat.supprimer_discussion', id_discussion=d.id_discussion) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+                        <button type="submit" class="btn-supprimer">Supprimer la discussion</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>Aucune conversation active.</p>
+        {% endfor %}
+    </div>
+
+    <div class="chat-area">
+        {% if active_discussion %}
+            <div class="messages-history">
+                {% for m in messages %}
+                    <div class="message-bubble {% if m.id_expediteur == session.get('user_id') %}msg-me{% else %}msg-other{% endif %}">
+                        <small><strong>{{ m.prenom }}</strong></small>
+                        <p>{{ m.message }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <form method="POST" action="{{ url_for('chat.envoyer_message', id_discussion=active_discussion.id_discussion) }}">
+                <input type="text" name="contenu_message" placeholder="Votre message..." aria-label="Votre message" required>
+                <button type="submit" class="btn">Envoyer</button>
+            </form>
+        {% else %}
+            <p>Sélectionnez une discussion pour commencer.</p>
+        {% endif %}
+    </div>
+</section>
+
+{% if active_discussion %}
+<script>
+    function chargerNouveauxMessages() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const discussionId = urlParams.get('discussion_id');
+
+        if (!discussionId) return;
+
+        fetch(`/messagerie?discussion_id=${discussionId}`)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const nouvelHistorique = doc.querySelector('.messages-history').innerHTML;
+                
+                const zoneMessages = document.querySelector('.messages-history');
+                if (zoneMessages.innerHTML !== nouvelHistorique) {
+                    zoneMessages.innerHTML = nouvelHistorique;
+                    zoneMessages.scrollTop = zoneMessages.scrollHeight;
+                }
+            })
+            .catch(err => console.error("Erreur de rafraîchissement :", err));
+    }
+
+    setInterval(chargerNouveauxMessages, 3000);
+    
+    const zoneMessages = document.querySelector('.messages-history');
+    if(zoneMessages) zoneMessages.scrollTop = zoneMessages.scrollHeight;
+</script>
+{% endif %}
+
+{% endblock %}

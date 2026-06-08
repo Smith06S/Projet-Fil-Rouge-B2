@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Connexion{% endblock %}
+{% block description %}Page connection{% endblock %}
+
+{% block content %}
+<section class="connexion-section">
+    <h1>Connexion à la plateforme</h1>
+    
+    <form method="POST" action="{{ url_for('auth.connexion') }}" class="connexion-form">
+        <div class="connexion-form-group">
+            <label for="email">Adresse Email :</label>
+            <input type="email" id="email" placeholder="example@domain.com" name="email" required>
+        </div>
+        
+        <div class="connexion-form-group">
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" placeholder="Entrez votre mot de passe" name="password" required>
+        </div>
+        
+        <button type="submit" class="connection-btn">Se connecter</button>
+    </form>
+</section>
+{% endblock %}

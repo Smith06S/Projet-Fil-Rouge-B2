@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - {{ bien.type_bien }} à {{ bien.ville }}{% endblock %}
+{% block description %}Page produit{% endblock %}
+
+{% block content %}
+<section class="bien-detail-titre-section">
+    <h1>Fiche Technique : {{ bien.type_bien|capitalize }} {{bien.ville}} - {{ bien.surface }} m²</h1>
+    <p><strong>Localisation :</strong> {{ bien.adresse }}, {{ bien.ville }}</p>
+    <p><strong>Prix de commercialisation :</strong> {{ bien.prix }} €</p>
+</section>
+
+<section class="bien-details-section">
+    <h2>Caractéristiques détaillées de l'habitation</h2>
+    <table class="bien-details-table">
+        <tr class="bien-details-ligne">
+            <th>Nombre de pièces (Total)</th>
+            <td>{{ bien.nbr_pieces }} pièces</td>
+        </tr>
+        <tr class="bien-details-ligne">
+            <th>Nombre de chambres</th>
+            <td>{{ bien.nbr_chambres }} chambre(s)</td>
+        </tr>
+        <tr class="bien-details-ligne">
+            <th>Étage</th>
+            <td>{{ bien.etage }}</td>
+        </tr>
+        <tr class="bien-details-ligne">
+            <th>État général</th>
+            <td><strong>{{ bien.etat_logement }}</strong></td>
+        </tr>
+        <tr class="bien-details-ligne">
+            <th>Type de chauffage</th>
+            <td>{{ bien.type_chauffage }}</td>
+        </tr>
+        <tr class="bien-details-ligne">
+            <th>Année de construction</th>
+            <td>{{ bien.annee_construction or 'Non spécifiée' }}</td>
+        </tr>
+        <tr class="bien-details-ligne">
+            <th>Ascenseur</th>
+            <td>{% if bien.a_ascenseur %} Oui {% else %} Non {% endif %}</td>
+        </tr>
+        <tr class="bien-details-ligne">
+            <th>Balcon / Terrasse</th>
+            <td>{% if bien.a_balcon %} Oui {% else %} Non {% endif %}</td>
+        </tr>
+        <tr class="bien-details-ligne">
+            <th>Stationnement / Parking</th>
+            <td>{% if bien.a_parking %} Oui {% else %} Non {% endif %}</td>
+        </tr>
+        <tr class="bien-details-ligne">
+            <th>Statut de l'offre</th>
+            <td><span>{{ bien.statut }}</span></td>
+        </tr>
+    </table>
+</section>
+
+<hr />
+
+<section class="map-agence">
+    <h3>Description détaillée de l'annonceur</h3>
+    <p>{{ bien.description }}</p>
+
+    <p>
+        <a class="btn-map" href="{{ url_for('bien.voir_carte_bien', id_bien=bien.id_bien) }}">Voir la localisation
+            exacte sur la
+            carte</a>
+    </p>
+</section>
+
+<hr />
+
+<section class="galerie-section">
+    <h3>Galerie Photos</h3>
+    <div class="carousel-wrapper">
+        <button class="scroll-btn prev" onclick="scrollCarousel(-1)">&#10094;</button>
+        <div class="carousel-container" id="carousel">
+            {% if bien['photos'] %}
+            {% for photo_path in bien['photos'] %}
+            <img src="{{ url_for('static', filename=photo_path.replace('static/', '')) }}" alt="Photo {{ loop.index }}">
+            {% endfor %}
+            {% else %}
+            <img src="{{ url_for('static', filename='images/default_bien.jpg') }}" alt="Aucune photo">
+            {% endif %}
+        </div>
+        <button class="scroll-btn next" onclick="scrollCarousel(1)">&#10095;</button>
+    </div>
+</section>
+
+<hr>
+<section class="actions-section">
+    <h3>Actions & Prise de contact</h3>
+
+    {% if session.get('user_id') %}
+    {% if session.get('role') == 'client' %}
+    {% set favoris_ids = favoris | map(attribute='id_bien') | list %}
+
+    {% if bien.id_bien in favoris_ids %}
+    <form method="POST" action="{{ url_for('bien.retirer_favoris', id_bien=bien.id_bien) }}">
+        <button type="submit">Retirer des favoris</button>
+    </form>
+    {% else %}
+    <form method="POST" action="{{ url_for('bien.ajouter_favoris', id_bien=bien.id_bien) }}">
+        <button type="submit">Ajouter aux Favoris</button>
+    </form>
+    {% endif %}
+
+    <a href="{{ url_for('chat.initier_tchat', id_bien=bien.id_bien) }}">Contacter le commercial dédié</a>
+    {% else %}
+    <p><em>Les comptes professionnels (Commerciaux / Admin) ne peuvent pas initier de tchat acheteur.</em></p>
+    {% endif %}
+    {% else %}
+    <p><strong>Intéressé par ce bien ?</strong> Vous devez être connecté pour interagir.</p>
+    <a href="{{ url_for('auth.connexion') }}">Se connecter</a> ou <a href="{{ url_for('auth.inscription') }}">Créer un
+        compte client</a>
+    {% endif %}
+</section>
+
+<script>
+    function scrollCarousel(direction) {
+        const container = document.getElementById('carousel');
+        const scrollAmount = container.clientWidth;
+        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+</script>
+{% endblock %}

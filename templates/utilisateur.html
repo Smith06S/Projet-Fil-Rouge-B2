@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Panneau d'Administration des Utilisateurs{% endblock %}
+{% block description %}Page utilisateur{% endblock %}
+
+{% block content %}
+<section class="moderation-section">
+    <h1>Administration</h1>
+    <p>Zone Restreinte — Accès réservé exclusivement aux administrateurs système.</p>
+
+    <hr>
+
+    <h2>Utilisateurs enregistrés dans le système</h2>
+    <p>L'audit ci-dessous affiche l'ensemble des rôles présents en base de données.</p>
+
+    <div class="analyse-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom Complet</th>
+                    <th>Adresse Email</th>
+                    <th>Téléphone</th>
+                    <th>Habilitation / Rôle</th>
+                    <th>Actions de modération</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in utilisateurs %}
+                <tr>
+                    <td>#{{ u.id_utilisateur }}</td>
+                    <td><strong>{{ u.nom }} {{ u.prenom }}</strong></td>
+                    <td><code>{{ u.email }}</code></td>
+                    <td>{{ u.telephone or 'Non renseigné' }}</td>
+                    <td>
+                        <span>{{ u.role|upper }}</span>
+                    </td>
+                    <td>
+                        {% if u.id_utilisateur != session.get('user_id') %}
+                            <form method="POST" action="/utilisateur/{{ u.id_utilisateur }}/supprimer" onsubmit="return confirm('ATTENTION : Êtes-vous sûr de vouloir supprimer définitivement {{ u.prenom }} {{ u.nom }} ? Cette action purgera son profil et toutes ses données associées (favoris, biens ou discussions)');">
+                                <button type="submit" class="btn-supprimer">Supprimer le compte</button>
+                            </form>
+                        {% else %}
+                            <em>Votre compte actuel</em>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">Aucun utilisateur n'est actuellement enregistré dans le système.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <a href="{{ url_for('dashboard.voir_dashboard') }}" class="btn-moderation">Retourner au Dashboard Analytique</a>
+    </div>
+</section>
+{% endblock %}

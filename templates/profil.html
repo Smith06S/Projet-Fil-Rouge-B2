@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Espace Personnel{% endblock %}
+{% block description %}Page profil{% endblock %}
+
+{% block content %}
+<section class="profil-info-section">
+    <h1>Votre Espace Personnel</h1>
+    <div class="profil-info">
+        <p><strong>Nom complet :</strong> {{ utilisateur.prenom }} {{ utilisateur.nom }}</p>
+        <p><strong>Adresse Email :</strong> {{ utilisateur.email }}</p>
+        <p><strong>Téléphone :</strong> {{ utilisateur.telephone }}</p>
+        <p><strong>Habilitation :</strong> {{ utilisateur.role|upper }}</p>
+
+        <a href="{{ url_for('auth.modifier_profil') }}" class="btn-modifier">Modifier mon profil</a>
+    </div>
+</section>
+
+{% if session.get('role') == 'client' %}
+    <hr>
+
+    <section class="catalogue-section">
+        <h2>Vos Favoris</h2>
+        <div class="grid">
+            {% for item in favoris %}
+                <article class="bien-card">
+                    <div>
+                        <img class="bien-image" src="{{ item.images[0] if item.images else 'static/images/default_bien.jpg' }}"
+                            alt="Photo du {{ item.type_bien }} à {{ item.ville }}"/>
+                        <h3>{{ item.type_bien|capitalize }}</h3>
+                        <p><strong>Ville :</strong> {{ item.ville }}</p>
+                        <p><strong>Prix :</strong> {{ item.prix }} €</p>
+                        <p><em>{{ item.surface }} m² — {{ item.nbr_pieces }} pièces</em></p>
+                    </div>
+                        <a href="{{ url_for('bien.detail_bien', id_bien=item.id_bien) }}" class="btn-card">Consulter</a><br><br>
+                        <form method="POST" class="btn-card" action="{{ url_for('bien.retirer_favoris', id_bien=item.id_bien) }}">
+                            <button type="submit" class="form-card-btn">Retirer</button>
+                        </form>
+                </article>
+            {% else %}
+                <p>Aucun bien enregistré dans vos favoris.</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}
+{% endblock %}

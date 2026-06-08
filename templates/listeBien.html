@@ -1,0 +1,109 @@
+{% extends 'base.html' %} 
+{% block title %}YMMO - Recherche Globale de Biens{% endblock %}
+{% block description %}Page biens{% endblock %}
+
+{% block content %} 
+<section class="search-section">
+    <h1>Filtres de Recherche</h1>
+    
+    <form method="GET" action="{{ url_for('bien.liste_biens') }}" class="search-form">
+        <div class="search-filters">
+            <div class="form-group">
+                <label for="ville"><b>Ville :</b></label><br>
+                <input type="text" id="ville" name="ville" value="{{ request.args.get('ville', '') }}" placeholder="Ex: Paris">
+            </div> 
+
+            <div class="form-group">
+                <label for="prix_max"><b>Budget Max (€) :</b></label><br>
+                <input type="number" id="prix_max" name="prix_max" value="{{ request.args.get('prix_max', '') }}">
+            </div> 
+
+            <div class="form-group">
+                <label for="type_bien"><b>Type de bien :</b></label><br>
+                <select id="type_bien" name="type_bien">
+                    <option value="">Tous types</option>
+                    <option value="Maison" {% if request.args.get('type_bien') == 'Maison' %}selected{% endif %}>Maison</option>
+                    <option value="Appartement" {% if request.args.get('type_bien') == 'Appartement' %}selected{% endif %}>Appartement</option>
+                    <option value="Bureau" {% if request.args.get('type_bien') == 'Bureau' %}selected{% endif %}>Bureau</option>
+                    <option value="Local" {% if request.args.get('type_bien') == 'Local' %}selected{% endif %}>Local</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="nbr_chambres_min"><b>Chambres min :</b></label><br>
+                <input type="number" id="nbr_chambres_min" name="nbr_chambres_min" value="{{ request.args.get('nbr_chambres_min', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label for="type_chauffage"><b>Type Chauffage :</b></label><br>
+                <select id="type_chauffage" name="type_chauffage">
+                    <option value="">Indifférent</option>
+                    <option value="Individuel Électrique" {% if request.args.get('type_chauffage') == 'Individuel Électrique' %}selected{% endif %}>Individuel électrique</option>
+                    <option value="Collectif Gaz" {% if request.args.get('type_chauffage') == 'Collectif Gaz' %}selected{% endif %}>Collectif Gaz</option>
+                    <option value="Pompe à chaleur" {% if request.args.get('type_chauffage') == 'Pompe à chaleur' %}selected{% endif %}>Pompe à chaleur</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="etat_logement"><b>État général :</b></label><br>
+                <select id="etat_logement" name="etat_logement">
+                    <option value="">Indifférent</option>
+                    <option value="Neuf" {% if request.args.get('etat_logement') == 'Neuf' %}selected{% endif %}>Neuf</option>
+                    <option value="Bon état" {% if request.args.get('etat_logement') == 'Bon état' %}selected{% endif %}>Bon état</option>
+                    <option value="À rafraîchir" {% if request.args.get('etat_logement') == 'À rafraîchir' %}selected{% endif %}>À rafraîchir</option>
+                    <option value="À rénover" {% if request.args.get('etat_logement') == 'À rénover' %}selected{% endif %}>À rénover</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="checkbox-group">
+            <label>
+                <input type="checkbox" name="avec_balcon" {% if request.args.get('avec_balcon') == 'on' %}checked{% endif %}> 
+                Balcon / Terrasse
+            </label>
+            <label>
+                <input type="checkbox" name="avec_parking" {% if request.args.get('avec_parking') == 'on' %}checked{% endif %}> 
+                Parking / Garage
+            </label>
+            <label>
+                <input type="checkbox" name="avec_ascenseur" {% if request.args.get('avec_ascenseur') == 'on' %}checked{% endif %}> 
+                Ascenseur
+            </label>
+        </div>
+        
+        <div>
+            <button type="submit" class="filter-btn">Filtrer les annonces</button>
+        </div>
+    </form>
+</section>
+   
+{% if session.get('role') == 'commercial' and session.get('id_agence') == id_agence %}
+<hr/>
+
+<section class="creation-bien-section">
+    <h3>Publier un nouveau bien</h3>
+    <a href="{{ url_for('bien.creation_bien') }}" class="creation-bien-btn">Publier un nouveau bien</a>
+</section>
+{% endif %}
+
+<hr/>
+
+<section class="resultats-recherche-section">
+    <h2>Résultats de la recherche</h2>
+    <div class="grid">
+        {% for b in biens %}
+            <article class="bien-card">
+                <div>
+                    <img class="bien-image" src="/{{ b.images[0] if b.images else 'static/images/default_bien.jpg' }}" alt="Photo du {{ b.type_bien }} à {{ b.ville }}"/>
+                    <h3>{{ b.type_bien }} à {{ b.ville }}</h3>
+                    <p><strong>Prix :</strong> {{ b.prix }} €</p>
+                    <p><strong>Surface :</strong> {{ b.surface }} m²</p>
+                </div>
+                <a href="{{ url_for('bien.detail_bien', id_bien=b.id_bien) }}" class="btn-card">Consulter la fiche</a>
+            </article>
+        {% else %}
+            <p>Aucun bien ne correspond à vos filtres.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

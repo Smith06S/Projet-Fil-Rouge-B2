@@ -1,0 +1,38 @@
+{% extends 'base.html' %} 
+{% block title %}YMMO - Plan de localisation{%endblock %} 
+{% block description %}Page carte{% endblock %}
+
+{% block content %}
+<section class="geolocalisation-info">
+  {% if from_agence %}
+  <h1>Géolocalisation de l'agence</h1>
+  <p><strong>Agence :</strong> {{ bien.ville }}</p>
+  <p>
+    <strong>Adresse de référence :</strong> {{ bien.adresse }}, {{ bien.ville }}
+  </p>
+  {% else %}
+  <h1>Géolocalisation du bien</h1>
+  <p><strong>Propriété :</strong> {{ bien.type_bien }} - {{ bien.prix }} €</p>
+  <p>
+    <strong>Adresse de référence :</strong> {{ bien.adresse }}, {{ bien.ville }}
+  </p>
+  {% endif %}
+</section>
+
+<section class="carte-section">
+  <div>
+    {{ carte_html|safe }}
+  </div>
+</section>
+
+<section class="retour-carte-section">
+  <p>
+    {% if from_agence %}
+    <a href="{{ url_for('agence.agence_detail', id_agence=id_agence) }}" class="btn-map">Retourner à la fiche de l'agence</a>
+    {% else %}
+    <a href="{{ url_for('bien.detail_bien', id_bien=bien.id_bien) }}" class="btn-map">Retourner à la fiche technique du bien</a>
+    {% endif %}
+  </p>
+</section>
+
+{% endblock %}

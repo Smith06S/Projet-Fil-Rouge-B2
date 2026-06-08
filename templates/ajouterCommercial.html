@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}YMMO - Ajouter un nouveau commercial{% endblock %}
+{% block description %}Page d'ajout d'un compte commercial{% endblock %}
+
+{% block content %}
+<section class="connexion-section">
+    <h1 class="ajout-commercial">Créer un compte Commercial</h1>
+
+    <form method="POST" action="{{ url_for('dashboard.ajouter_commercial') }}" class="connexion-form">
+        <div class="connexion-form-group">
+            <label for="fname">Prénom :</label>
+            <input type="text" id="fname" placeholder="Entrez le prénom" name="fname" required>
+        </div>
+        <div class="connexion-form-group">
+            <label for="lname">Nom de famille :</label>
+            <input type="text" id="lname" placeholder="Entrez le nom" name="lname" required>
+        </div>
+        <div class="connexion-form-group">
+            <label for="email">Adresse Email professionnelle :</label>
+            <input type="email" id="email" placeholder="example@domain.com" name="email" required>
+        </div>
+        <div class="connexion-form-group">
+            <label for="password">Mot de passe provisoire :</label>
+            <input type="password" id="password" placeholder="Entrez un mot de passe" name="password" required>
+        </div>
+        <div class="connexion-form-group">
+            <label for="confirm_password">Confirmez le mot de passe provisoire :</label>
+            <input type="password" id="confirm_password" placeholder="Confirmez le mot de passe" name="confirm_password" required>
+        </div>
+        <div class="connexion-form-group">
+            <label for="phone">Numéro de téléphone :</label><br>
+            <input type="text" id="phone" placeholder="06XXXXXXXX" name="phone" required>
+        </div>
+
+        {% if session.get('role') == 'admin' %}
+        <div class="form-group">
+            <label for="id_agence">Affectation à une agence du réseau :</label><br>
+            <select id="id_agence" name="id_agence" required>
+                <option value="">Choisir une agence territoriale</option>
+                {% for agence in agences %}
+                <option value="{{ agence.id_agence }}">{{ agence.nom }} ({{ agence.ville }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% else %}
+        <div class="connexion-form-group">
+            <input type="hidden" name="id_agence" value="{{ id_agence }}">
+            <p><strong>Agence assignée par défaut :</strong> Identifiant d'agence {{ id_agence }}</p>
+        </div>
+        {% endif %}
+
+        <button type="submit" class="connection-btn">Valider le compte</button>
+    </form>
+
+    <a href="{{ url_for('auth.voir_profil') }}" class="btn-annuler">Annuler et retourner à mon Profil</a>
+</section>
+{% endblock %}

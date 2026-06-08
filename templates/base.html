@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}YMMO{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <meta name="description" content="{% block description %}Page{% endblock %}" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="{{ url_for('agence.selection_agence') }}" aria-label="logo YMMO">
+                <svg class="nav-logo-svg" width="200" height="40" viewBox="0 0 200 40" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g fill="var(--gris-fonce)">
+                        <path
+                            d="M18.78.563 3.29 39.406h6.34L25.12.562h-6.34Zm-8.507 9.952c.32.722.481 1.525.481 2.247 0 2.568-1.524 4.655-3.691 5.457L0 .563h6.26l4.013 9.952Z" />
+                        <path
+                            d="M28.078 12.36C28.077 5.539 33.615 0 40.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z" />
+                        <path
+                            d="M46.078 12.36C46.077 5.539 51.615 0 58.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z" />
+                        <path
+                            d="M72.078 12.36C72.077 5.539 77.615 0 84.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z" />
+                        <path
+                            d="M90.078 12.36C90.077 5.539 95.615 0 102.437 0c6.741 0 12.36 5.618 12.36 12.36v11.797h-5.86V12.36c0-3.612-2.889-6.501-6.5-6.501-3.612 0-6.501 2.889-6.501 6.5v11.798h-5.859V12.36Z" />
+                        <path
+                            d="M130.563 0c-6.822 0-12.36 5.538-12.36 12.36 0 6.821 5.538 12.36 12.36 12.36 6.822 0 12.36-5.539 12.36-12.36C142.923 5.538 137.385 0 130.563 0Zm0 18.78c-3.611 0-6.5-2.89-6.5-6.5 0-3.612 2.889-6.502 6.5-6.502 3.612 0 6.501 2.89 6.501 6.501 0 3.612-2.89 6.501-6.5 6.501Z" />
+                    </g>
+                </svg>
+            </a>
+            <button class="menu-toggle" id="mobile-menu-btn" aria-label="Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+
+        <div class="navbar-links" id="nav-links">
+            <a href="{{ url_for('agence.accueil') }}" class="{% if request.endpoint == 'accueil' %}active{% endif %}">
+                <span class="nav-text">Accueil</span>
+            </a>
+            <a href="{{ url_for('agence.agence_detail', id_agence=session.get('selected_agence_id')) }}"
+                class="{% if request.endpoint == 'agence' %}active{% endif %}">
+                <span class="nav-text">Notre agence</span>
+            </a>
+            <a href="{{ url_for('bien.liste_biens') }}" class="{% if request.endpoint == 'bien' %}active{% endif %}">
+                <span class="nav-text">Biens</span>
+            </a>
+
+            {% if session.get('user_id') %}
+            <a href="{{ url_for('auth.voir_profil') }}" class="{% if request.endpoint == 'profil' %}active{% endif %}">
+                <span class="nav-text">Profil</span>
+            </a>
+            {% if session.get('role') == 'commercial' %}
+            <a href="{{ url_for('chat.boite_reception') }}"
+                class="{% if request.endpoint == 'messagerie_boite' %}active{% endif %}">
+                <span class="nav-text">Messagerie</span>
+            </a>
+            <a href="{{ url_for('dashboard.voir_dashboard') }}"
+                class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+                <span class="nav-text">Dashboard</span>
+            </a>
+            {% elif session.get('role') == 'admin' %}
+            <a href="{{ url_for('dashboard.voir_dashboard') }}"
+                class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+                <span class="nav-text">Panneau Dashboard Admin</span>
+            </a>
+            <a href="{{ url_for('auth.liste_utilisateurs') }}"
+                class="{% if request.endpoint == 'auth.liste_utilisateurs' %}active{% endif %}">
+                <span class="nav-text">Gestion Utilisateurs</span>
+            </a>
+            {% else %}
+            <a href="{{ url_for('chat.boite_reception') }}"
+                class="{% if request.endpoint == 'messagerie_boite' %}active{% endif %}">
+                <span class="nav-text">Mes discussions</span>
+            </a>
+            {% endif %}
+            <span class="nav-status">Connecté ({{ session.get('role') }})</span>
+
+            <a href="{{ url_for('auth.deconnexion') }}" class="nav-auth">
+                <span class="nav-text">Déconnexion</span>
+            </a>
+            {% else %}
+            <a href="{{ url_for('auth.connexion') }}"
+                class="nav-auth {% if request.endpoint == 'connexion' %}active{% endif %}">
+                <span class="nav-text">Connexion</span>
+            </a>
+            <a href="{{ url_for('auth.inscription') }}"
+                class="nav-auth {% if request.endpoint == 'inscription' %}active{% endif %}">
+                <span class="nav-text">Inscription</span>
+            </a>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <section class="info-message-section">
+        {% for category, message in messages %}
+        <p>
+            <strong>{{ category|upper }} :</strong> {{ message }}
+        </p>
+        {% endfor %}
+    </section>
+    {% endif %}
+    {% endwith %}
+
+    <main class="container">{% block content %}{% endblock %}</main>
+
+    <hr class="footer-separator" />
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <img src="{{ url_for('static', filename='images/logoYmmo.svg') }}" alt="Logo Ymmo" class="footer-logo">
+                <p>Votre partenaire immobilier de confiance.</p>
+            </div>
+
+            <div class="footer-links">
+                <a href="{{ url_for('agence.selection_agence') }}" class="btn-footer">Liste des Agences</a>
+                <a href="{{ url_for('agence.contact') }}" class="btn-footer">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; {{ current_year }} YMMO - Tous droits réservés.
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById("mobile-menu-btn");
+        const navLinks = document.getElementById("nav-links");
+
+        menuBtn.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+        });
+    </script>
+</body>
+
+</html>
