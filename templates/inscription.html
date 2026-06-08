@@ -1,39 +1,40 @@
 {% extends 'base.html' %}
-{% block title %}YMMO - Créer un compte client{% endblock %}
+{% block title %}YMMO - Créer un compte Client{% endblock %}
 {% block description %}Page inscription{% endblock %}
 
 {% block content %}
 <section class="connexion-section">
     <h1>Création de compte Client</h1>
     <form method="POST" action="{{ url_for('auth.inscription') }}" class="connexion-form">
+        
         <div class="connexion-form-group">
-            <label>Prénom :</label>
-            <input type="text" placeholder="Entrez votre prénom" name="fname" required>
+            <label for="fname">Prénom :</label>
+            <input type="text" id="fname" placeholder="Entrez votre prénom" name="fname" required>
         </div>
 
         <div class="connexion-form-group">
-            <label>Nom :</label>
-            <input type="text" placeholder="Entrez votre nom" name="lname" required>
+            <label for="lname">Nom :</label>
+            <input type="text" id="lname" placeholder="Entrez votre nom" name="lname" required>
         </div>
             
         <div class="connexion-form-group">
-            <label>Adresse Email :</label>
-            <input type="email" placeholder="example@domain.com" name="email" required>
+            <label for="email">Adresse Email :</label>
+            <input type="email" id="email" placeholder="example@domain.com" name="email" required>
         </div>
 
         <div class="connexion-form-group">
-            <label>Mot de passe :</label>
-            <input type="password" placeholder="Entrez votre mot de passe" name="password" required>
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" placeholder="Entrez votre mot de passe" name="password" required>
         </div>
 
         <div class="connexion-form-group">
-            <label>Confirmez votre mot de passe :</label>
-            <input type="password" placeholder="Confirmez votre mot de passe" name="confirm_password" required>
+            <label for="confirm_password">Confirmez votre mot de passe :</label>
+            <input type="password" id="confirm_password" placeholder="Confirmez votre mot de passe" name="confirm_password" required>
         </div>
 
         <div class="connexion-form-group">
-            <label>Téléphone :</label>
-            <input type="text" placeholder="06XXXXXXXX" name="phone" required>
+            <label for="phone">Téléphone :</label>
+            <input type="text" id="phone" placeholder="06XXXXXXXX" name="phone" required>
         </div>
 
         <button type="submit" class="connection-btn">Créer mon compte Client</button>
