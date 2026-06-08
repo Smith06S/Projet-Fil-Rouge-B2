@@ -7,84 +7,77 @@
     <h1>Modifier l'Annonce Immobilière</h1>
     <form method="POST" action="{{ url_for('bien.modifier_bien', id_bien=bien.id_bien) }}"
         enctype="multipart/form-data">
+        
         <div class="form-field">
-            <label>Ville d'implantation :</label>
-            <input type="text" name="ville" value="{{ bien.ville }}" required>
+            <label for="ville">Ville d'implantation :</label>
+            <input type="text" id="ville" name="ville" value="{{ bien.ville }}" required>
         </div>
         <div class="form-field">
-            <label>Adresse Complète :</label>
-            <input type="text" name="adresse" value="{{ bien.adresse }}" required>
+            <label for="adresse">Adresse Complète :</label>
+            <input type="text" id="adresse" name="adresse" value="{{ bien.adresse }}" required>
         </div>
         <div class="form-field">
-            <label>Description Commerciale :</label>
-            <textarea name="description" rows="4" required>{{ bien.description }}</textarea>
+            <label for="description">Description Commerciale :</label>
+            <textarea id="description" name="description" rows="4" required>{{ bien.description }}</textarea>
         </div>
 
         <div class="form-grid">
             <div class="form-field">
-                <label>Nombre de pièces :</label>
-                <input type="number" name="nbrPieces" value="{{ bien.nbr_pieces }}" min="1" required>
+                <label for="nbrPieces">Nombre de pièces :</label>
+                <input type="number" id="nbrPieces" name="nbrPieces" value="{{ bien.nbr_pieces }}" min="1" required>
             </div>
             <div class="form-field">
-                <label>Nombre de chambres :</label>
-                <input type="number" name="nbrChambres" value="{{ bien.nbr_chambres }}" min="0" required>
+                <label for="nbrChambres">Nombre de chambres :</label>
+                <input type="number" id="nbrChambres" name="nbrChambres" value="{{ bien.nbr_chambres }}" min="0" required>
             </div>
             <div class="form-field">
-                <label>Superficie (m²) :</label>
-                <input type="number" step="0.01" name="surface" value="{{ bien.surface }}" required>
+                <label for="surface">Superficie (m²) :</label>
+                <input type="number" id="surface" step="0.01" name="surface" value="{{ bien.surface }}" required>
             </div>
         </div>
 
         <div class="form-grid">
             <div class="form-field">
-                <label>Type de bien :</label>
-                <select name="typeBien">
+                <label for="typeBien">Type de bien :</label>
+                <select id="typeBien" name="typeBien">
                     <option value="Maison" {% if bien.type_bien=='Maison' %}selected{% endif %}>Maison</option>
-                    <option value="Appartement" {% if bien.type_bien=='Appartement' %}selected{% endif %}>Appartement
-                    </option>
+                    <option value="Appartement" {% if bien.type_bien=='Appartement' %}selected{% endif %}>Appartement</option>
                     <option value="Bureau" {% if bien.type_bien=='Bureau' %}selected{% endif %}>Bureau</option>
                     <option value="Local" {% if bien.type_bien=='Local' %}selected{% endif %}>Local</option>
                 </select>
             </div>
             <div class="form-field">
-                <label>Étage :</label>
-                <input type="text" name="etage" value="{{ bien.etage }}">
+                <label for="etage">Étage :</label>
+                <input type="text" id="etage" name="etage" value="{{ bien.etage }}">
             </div>
             <div class="form-field">
-                <label>État du logement :</label>
-                <select name="etat_logement">
+                <label for="etat_logement">État du logement :</label>
+                <select id="etat_logement" name="etat_logement">
                     <option value="Neuf" {% if bien.etat_logement=='Neuf' %}selected{% endif %}>Neuf</option>
-                    <option value="Bon état" {% if bien.etat_logement=='Bon état' %}selected{% endif %}>Bon état
-                    </option>
-                    <option value="À rafraîchir" {% if bien.etat_logement=='À rafraîchir' %}selected{% endif %}>À
-                        rafraîchir</option>
-                    <option value="À rénover" {% if bien.etat_logement=='À rénover' %}selected{% endif %}>À rénover
-                    </option>
+                    <option value="Bon état" {% if bien.etat_logement=='Bon état' %}selected{% endif %}>Bon état</option>
+                    <option value="À rafraîchir" {% if bien.etat_logement=='À rafraîchir' %}selected{% endif %}>À rafraîchir</option>
+                    <option value="À rénover" {% if bien.etat_logement=='À rénover' %}selected{% endif %}>À rénover</option>
                 </select>
             </div>
         </div>
 
         <div class="form-grid">
             <div class="form-field">
-                <label>Type de chauffage :</label>
-                <select name="type_chauffage">
-                    <option value="Individuel Électrique" {% if bien.type_chauffage=='Individuel Électrique'
-                        %}selected{% endif %}>Individuel Électrique</option>
-                    <option value="Collectif Gaz" {% if bien.type_chauffage=='Collectif Gaz' %}selected{% endif %}>
-                        Collectif Gaz</option>
-                    <option value="Pompe à chaleur" {% if bien.type_chauffage=='Pompe à chaleur' %}selected{% endif %}>
-                        Pompe à chaleur</option>
-                    <option value="Non renseigné" {% if bien.type_chauffage=='Non renseigné' %}selected{% endif %}>Autre
-                        / Non renseigné</option>
+                <label for="type_chauffage">Type de chauffage :</label>
+                <select id="type_chauffage" name="type_chauffage">
+                    <option value="Individuel Électrique" {% if bien.type_chauffage=='Individuel Électrique' %}selected{% endif %}>Individuel Électrique</option>
+                    <option value="Collectif Gaz" {% if bien.type_chauffage=='Collectif Gaz' %}selected{% endif %}>Collectif Gaz</option>
+                    <option value="Pompe à chaleur" {% if bien.type_chauffage=='Pompe à chaleur' %}selected{% endif %}>Pompe à chaleur</option>
+                    <option value="Non renseigné" {% if bien.type_chauffage=='Non renseigné' %}selected{% endif %}>Autre / Non renseigné</option>
                 </select>
             </div>
             <div class="form-field">
-                <label>Année Construction :</label>
-                <input type="number" name="annee_construction" value="{{ bien.annee_construction or '' }}">
+                <label for="annee_construction">Année Construction :</label>
+                <input type="number" id="annee_construction" name="annee_construction" value="{{ bien.annee_construction or '' }}">
             </div>
             <div class="form-field">
-                <label>Prix Final Attendu (€) :</label>
-                <input type="number" step="0.01" name="prix" value="{{ bien.prix }}" required>
+                <label for="prix">Prix Final Attendu (€) :</label>
+                <input type="number" id="prix" step="0.01" name="prix" value="{{ bien.prix }}" required>
             </div>
         </div>
 
