@@ -1704,6 +1704,11 @@ body {
         margin-bottom: 2.5rem;
     }
 
+    .analyse-prediction-section h2 {
+        font-size: 1.7rem;
+        margin: 3rem;
+    }
+
     .info-defilement {
         display: none;
     }
