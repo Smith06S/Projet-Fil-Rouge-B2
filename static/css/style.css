@@ -1384,8 +1384,6 @@ body {
 .error-container p {
     margin-bottom: 2rem;
     color: var(--orange-clair);
-    opacity: 0.8;
-    font-size: 1rem;
 }
 
 .btn-retour {
