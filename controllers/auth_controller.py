@@ -79,26 +79,23 @@ def voir_profil():
 
 @auth_bp.route('/utilisateur/<int:id_utilisateur>/supprimer', methods=['POST'])
 @role_required(['admin'])
-def supprimer_utilisateur():
-    email_a_supprimer = request.form.get('email')
-    
-    if email_a_supprimer == session.get('email'):
+def supprimer_utilisateur(id_utilisateur):
+    if id_utilisateur == session.get('user_id'):
         flash("Action impossible : Vous ne pouvez pas vous révoquer vous-même.", "error")
-        return redirect(url_for('auth.voir_profil'))
+        return redirect(url_for('auth.liste_utilisateurs'))
              
     conn = db_manager.get_connection()
+    repo = UtilisateurRepository(conn)
     try:
-        with conn.cursor() as cur:
-            cur.execute("DELETE FROM utilisateur WHERE email = %s", (email_a_supprimer,))
-        conn.commit()
-        flash(f"L'utilisateur {email_a_supprimer} a été supprimé avec succès.", "success")
+        repo.delete(id_utilisateur)
+        flash("L'utilisateur a été supprimé avec succès.", "success")
     except Exception as e:
         conn.rollback()
         flash(f"Erreur lors de la suppression : {e}", "error")
     finally:
         conn.close()
-             
-    return redirect(url_for('auth.voir_profil'))
+    
+    return redirect(url_for('auth.liste_utilisateurs'))
 
 @auth_bp.route('/deconnexion')
 def deconnexion():

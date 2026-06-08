@@ -87,3 +87,8 @@ class UtilisateurRepository:
         with self.db.cursor() as cur:
             cur.execute("SELECT id_utilisateur, nom, prenom, email, telephone, role FROM utilisateur")
             return cur.fetchall()
+        
+    def delete(self, id_utilisateur):
+        with self.db.cursor() as cur:
+            cur.execute("DELETE FROM utilisateur WHERE id_utilisateur = %s", (id_utilisateur,))
+        self.db.commit()
