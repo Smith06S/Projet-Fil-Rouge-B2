@@ -1619,10 +1619,6 @@ body {
         margin-top: 0;
     }
 
-    .catalogue-section h2 {
-        font-size: 1.9rem;
-    }
-
     .search-section {
         margin-top: -2rem;
     }
@@ -1650,6 +1646,15 @@ body {
 
     .connexion-section h1 {
         margin-top: -4.5rem;
+    }
+
+    .profil-info-section {
+        margin-top: 2rem;
+        margin-left: 29rem;
+    }
+
+    .catalogue-section h2 {
+        font-size: 1.9rem;
     }
 
     .grid {
