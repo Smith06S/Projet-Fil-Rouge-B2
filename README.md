@@ -47,10 +47,10 @@ Redémarrer le service de base de données depuis le panneau des Services Window
 
 ```bash
 # Connexion à la base système pour créer la structure vide
-& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres -h localhost -p 5432 -d postgres -c "CREATE DATABASE ymmo;"
+& "C:\Program Files\PostgreSQL\16\bin\psql.exe" -U postgres -h localhost -p 5432 -d postgres -c "CREATE DATABASE ymmo;"
 
 # Importation du fichier d'initialisation de données
-& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres -h localhost -p 5432 -d ymmo -f ymmo.sql
+& "C:\Program Files\PostgreSQL\16\bin\psql.exe" -U postgres -h localhost -p 5432 -d ymmo -f ymmo.sql
 ```
 
 Note : Rebasculer ensuite le fichier pg_hba.conf en scram-sha-256 et mettre à jour le mot de passe utilisateur vers ymmo123 pour valider la conformité avec la configuration du script database.py.
