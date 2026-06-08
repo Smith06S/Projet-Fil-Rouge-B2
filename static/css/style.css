@@ -1665,7 +1665,7 @@ body {
     .messaging-section {
         flex-direction: row;
         max-width: 100rem;
-        height: 77vh;
+        height: 75vh;
     }
 
     .discussions-sidebar {
