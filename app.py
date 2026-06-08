@@ -18,8 +18,9 @@ app.register_blueprint(dashboard_bp)
 def ymmo_global_redirect():
     return redirect(url_for('agence.accueil'))
 
+@app.route('/404')
 @app.errorhandler(404)
-def page_not_found(error):
+def page_not_found(error=None):
     return render_template('page404.html'), 404
 
 if __name__ == '__main__':
