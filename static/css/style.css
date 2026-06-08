@@ -853,7 +853,7 @@ body {
     box-shadow: var(--shadow);
 }
 
-.formulaire-contact-section h2 {
+.formulaire-contact-section h1 {
     text-align: center;
     margin-top: -1rem;
     margin-bottom: 2rem;
