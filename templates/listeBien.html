@@ -9,18 +9,18 @@
     <form method="GET" action="{{ url_for('bien.liste_biens') }}" class="search-form">
         <div class="search-filters">
             <div class="form-group">
-                <label><b>Ville :</b></label><br>
-                <input type="text" name="ville" value="{{ request.args.get('ville', '') }}" placeholder="Ex: Paris">
+                <label for="ville"><b>Ville :</b></label><br>
+                <input type="text" id="ville" name="ville" value="{{ request.args.get('ville', '') }}" placeholder="Ex: Paris">
             </div> 
 
             <div class="form-group">
-                <label><b>Budget Max (€) :</b></label><br>
-                <input type="number" name="prix_max" value="{{ request.args.get('prix_max', '') }}">
+                <label for="prix_max"><b>Budget Max (€) :</b></label><br>
+                <input type="number" id="prix_max" name="prix_max" value="{{ request.args.get('prix_max', '') }}">
             </div> 
 
             <div class="form-group">
-                <label><b>Type de bien :</b></label><br>
-                <select name="type_bien">
+                <label for="type_bien"><b>Type de bien :</b></label><br>
+                <select id="type_bien" name="type_bien">
                     <option value="">Tous types</option>
                     <option value="Maison" {% if request.args.get('type_bien') == 'Maison' %}selected{% endif %}>Maison</option>
                     <option value="Appartement" {% if request.args.get('type_bien') == 'Appartement' %}selected{% endif %}>Appartement</option>
@@ -30,13 +30,13 @@
             </div>
 
             <div class="form-group">
-                <label><b>Chambres min :</b></label><br>
-                <input type="number" name="nbr_chambres_min" value="{{ request.args.get('nbr_chambres_min', '') }}">
+                <label for="nbr_chambres_min"><b>Chambres min :</b></label><br>
+                <input type="number" id="nbr_chambres_min" name="nbr_chambres_min" value="{{ request.args.get('nbr_chambres_min', '') }}">
             </div>
 
             <div class="form-group">
-                <label><b>Type Chauffage :</b></label><br>
-                <select name="type_chauffage">
+                <label for="type_chauffage"><b>Type Chauffage :</b></label><br>
+                <select id="type_chauffage" name="type_chauffage">
                     <option value="">Indifférent</option>
                     <option value="Individuel Électrique" {% if request.args.get('type_chauffage') == 'Individuel Électrique' %}selected{% endif %}>Individuel électrique</option>
                     <option value="Collectif Gaz" {% if request.args.get('type_chauffage') == 'Collectif Gaz' %}selected{% endif %}>Collectif Gaz</option>
@@ -45,8 +45,8 @@
             </div>
 
             <div class="form-group">
-                <label><b>État général :</b></label><br>
-                <select name="etat_logement">
+                <label for="etat_logement"><b>État général :</b></label><br>
+                <select id="etat_logement" name="etat_logement">
                     <option value="">Indifférent</option>
                     <option value="Neuf" {% if request.args.get('etat_logement') == 'Neuf' %}selected{% endif %}>Neuf</option>
                     <option value="Bon état" {% if request.args.get('etat_logement') == 'Bon état' %}selected{% endif %}>Bon état</option>
@@ -57,9 +57,18 @@
         </div>
 
         <div class="checkbox-group">
-            <label><input type="checkbox" name="avec_balcon" {% if request.args.get('avec_balcon') == 'on' %}checked{% endif %}> Balcon / Terrasse</label>
-            <label><input type="checkbox" name="avec_parking" {% if request.args.get('avec_parking') == 'on' %}checked{% endif %}> Parking / Garage</label>
-            <label><input type="checkbox" name="avec_ascenseur" {% if request.args.get('avec_ascenseur') == 'on' %}checked{% endif %}> Ascenseur</label>
+            <label>
+                <input type="checkbox" name="avec_balcon" {% if request.args.get('avec_balcon') == 'on' %}checked{% endif %}> 
+                Balcon / Terrasse
+            </label>
+            <label>
+                <input type="checkbox" name="avec_parking" {% if request.args.get('avec_parking') == 'on' %}checked{% endif %}> 
+                Parking / Garage
+            </label>
+            <label>
+                <input type="checkbox" name="avec_ascenseur" {% if request.args.get('avec_ascenseur') == 'on' %}checked{% endif %}> 
+                Ascenseur
+            </label>
         </div>
         
         <div>
